@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  app:
+    # stdin_open: true
+    # tty: true
+    build:
+      context: .
+      target: dev
+    ports:
+      - 3000
+    command: "npm run start"
