@@ -1,19 +1,26 @@
-FROM node:15.8
+FROM node:15.8-alpine as base
 
 WORKDIR /usr/src/app
 
+RUN apk add sqlite
+
 COPY package*.json ./
 
-RUN npm install -g typescript
+ENV NODE_PATH=/app/node_modules
 
-RUN npm install
+RUN npm install -g typescript tslint ts-jest
 
-COPY tsconfig.json ./
+RUN npm install sqlite3 --save
+RUN npm install --save ts-jest
+
+FROM base as dev
+
+RUN npm install -g jest
+
+FROM base as prod
 
 COPY . .
 
+RUN npm install
+
 RUN tsc --project ./
-
-EXPOSE 3000
-
-CMD ["node build/app.js"]
