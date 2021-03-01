@@ -6,5 +6,9 @@ module.exports = {
       "tsconfig": "tsconfig.json"
     }
   },
-  coveragePathIgnorePatterns: ["/node_modules/"]
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/src/connection.ts",
+    "/dist/"
+  ]
 }

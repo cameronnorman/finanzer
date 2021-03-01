@@ -21,11 +21,45 @@ afterAll(async (done) => {
 
 describe('GET /transactions', () => {
   test('it returns a list of transactions', async (done) => {
+    let transactions: Transaction[] = await getRepository(Transaction).find({
+      order: {
+        id: 'ASC'
+      },
+    })
+
     supertest(server)
       .get('/transactions')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual([])
+        expect(response.body).toEqual(transactions)
+        done()
+      })
+  })
+});
+
+describe('POST /transactions', () => {
+  test('it creates a transaction', async (done) => {
+    let payload: any = {
+      description: "test transaction"
+    }
+
+    supertest(server)
+      .post('/transactions')
+      .send(payload)
+      .expect(200)
+      .then(async (response) => {
+        let lastTransactionQuery: Transaction[] = await getRepository(Transaction).find({
+          order: {
+            id: 'DESC'
+          },
+          take: 1
+        })
+        let lastTransaction: Transaction = lastTransactionQuery[0]
+
+        expect(response.body).toEqual({
+          id: lastTransaction.id,
+          description: lastTransaction.description
+        })
         done()
       })
   })
