@@ -18,6 +18,17 @@ afterAll(async (done) => {
   done()
 });
 
+describe('GET /check', () => {
+  test('it returns OK if the server is running', async (done) => {
+    supertest(server)
+      .get('/check')
+      .expect(200)
+      .then((response) => {
+        expect(response.text).toEqual("OK")
+        done()
+      })
+  })
+});
 
 describe('GET /transactions', () => {
   test('it returns a list of transactions', async (done) => {
