@@ -7,4 +7,19 @@ export class Transaction {
 
   @Column("varchar")
   description: string;
+
+  @Column("double")
+  amount: string;
+
+  @Column("boolean")
+  recurring: boolean;
+
+  @Column("varchar")
+  recurring_type: string;
+
+  @Column("integer")
+  day: number;
+
+  @Column("varchar")
+  currency: string;
 }

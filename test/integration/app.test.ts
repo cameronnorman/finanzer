@@ -40,7 +40,12 @@ describe('GET /transactions', () => {
 describe('POST /transactions', () => {
   test('it creates a transaction', async (done) => {
     let payload: any = {
-      description: "test transaction"
+      amount: 10,
+      description: "test transaction",
+      day: 2,
+      recurring: true,
+      recurring_type: true,
+      currency: "euros"
     }
 
     supertest(server)
@@ -58,7 +63,12 @@ describe('POST /transactions', () => {
 
         expect(response.body).toEqual({
           id: lastTransaction.id,
-          description: lastTransaction.description
+          description: "test transaction",
+          day: 2,
+          amount: 10,
+          recurring: true,
+          recurring_type: true,
+          currency: "euros"
         })
         done()
       })
