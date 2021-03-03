@@ -6,5 +6,8 @@ export class Profile {
   id: number;
 
   @Column("double")
-  balance: string;
+  balance: number;
+
+  @Column("varchar")
+  currency: string;
 }

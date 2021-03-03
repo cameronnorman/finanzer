@@ -5,6 +5,7 @@ import supertest from "supertest";
 import server from "../../src/app";
 import connection from "../../src/connection"
 import { Transaction } from "../../src/entity/Transaction";
+import { Profile } from "../../src/entity/Profile";
 import { getRepository, InsertResult } from "typeorm";
 
 beforeAll(async (done) => {
@@ -81,6 +82,76 @@ describe('POST /transactions', () => {
           recurring_type: true,
           currency: "euros"
         })
+        done()
+      })
+  })
+});
+
+describe('GET /profile/:id', () => {
+  test('when the profile exists, it returns the relevant profile', async (done) => {
+    let profileDetails = {
+      balance: 20.59,
+      currency: "euros"
+    }
+    let profileRepository = getRepository(Profile)
+    await profileRepository.save(profileDetails)
+    let lastProfileQuery: Profile[] = await getRepository(Profile).find({
+      order: {
+        id: 'DESC'
+      },
+      take: 1
+    })
+    let lastProfile: Profile = lastProfileQuery[0]
+
+    supertest(server)
+      .get(`/profile/${lastProfile.id}`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(lastProfile)
+        done()
+      })
+  })
+});
+
+describe('GET /profile/:id', () => {
+  test('when the profile does not exist, it returns a 404 not found', async (done) => {
+    supertest(server)
+      .get(`/profile/20`)
+      .expect(404)
+      .then((response) => {
+        expect(response.body).toEqual({})
+        done()
+      })
+  })
+});
+
+describe('PUT /profile/:id', () => {
+  test('when the profile exists, it updates the profile with the new data', async (done) => {
+    let profileDetails = {
+      balance: 20.59,
+      currency: "euros"
+    }
+    let profileRepository = getRepository(Profile)
+    await profileRepository.save(profileDetails)
+    let lastProfileQuery: Profile[] = await getRepository(Profile).find({
+      order: {
+        id: 'DESC'
+      },
+      take: 1
+    })
+    let lastProfile: Profile = lastProfileQuery[0]
+    let updatedProfileDetails = {
+      id: lastProfile.id,
+      balance: 60.39,
+      currency: "euros"
+    }
+
+    supertest(server)
+      .put(`/profile/${lastProfile.id}`)
+      .expect(200)
+      .send(updatedProfileDetails)
+      .then((response) => {
+        expect(response.body).toEqual(updatedProfileDetails)
         done()
       })
   })

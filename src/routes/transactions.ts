@@ -5,12 +5,12 @@ import { Transaction } from "../entity/Transaction";
 let router = express.Router()
 
 router.get("/transactions", (req: express.Request, res: express.Response) => {
-   const transactionRepository = getRepository(Transaction)
+  const transactionRepository = getRepository(Transaction)
 
-    transactionRepository.find({})
-     .then((transactions: Transaction[]) => {
-       res.status(200).json(transactions)
-     })
+  transactionRepository.find({})
+    .then((transactions: Transaction[]) => {
+      res.status(200).json(transactions)
+    })
 });
 
 router.post("/transactions", (req: express.Request, res: express.Response) => {
