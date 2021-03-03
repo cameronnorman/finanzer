@@ -1,10 +1,10 @@
+setup: build dependencies
+
 dependencies:
-	docker-compose run --rm app npm install --include=dev --prefix=/app
+	docker-compose run --rm app npm install --include=dev
 
 build:
 	docker-compose build app
-
-setup: build dependencies
 
 shell:
 	docker-compose run --rm app ash
