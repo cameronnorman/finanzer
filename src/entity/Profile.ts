@@ -1,13 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
 export class Profile {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column("double")
-  balance: number;
+  balance: number
 
   @Column("varchar")
-  currency: string;
+  currency: string
 }

@@ -1,25 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
 export class Transaction {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column("varchar")
-  description: string;
+  description: string
 
   @Column("double")
-  amount: string;
+  amount: string
 
   @Column("boolean")
-  recurring: boolean;
+  recurring: boolean
 
   @Column("varchar")
-  recurring_type: string;
+  recurringType: string
 
   @Column("integer")
-  day: number;
+  day: number
 
   @Column("varchar")
-  currency: string;
+  currency: string
 }

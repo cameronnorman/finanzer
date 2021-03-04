@@ -1,10 +1,11 @@
 import express from "express"
 
-let router = express.Router()
+const router = express.Router()
 
 // Health check for server
-router.get("/check", (req: express.Request, res: express.Response) => {
-  res.send("OK");
-});
+router.get("/check", (req: express.Request, res: express.Response, next) => {
+  res.send("OK")
+  next()
+})
 
 export default router

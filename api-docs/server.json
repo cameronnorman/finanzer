@@ -1,0 +1,295 @@
+{
+  "definitions": {},
+  "info": {
+    "title": "finanzer",
+    "version": "1.0.0",
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/transactions": {
+      "get": {
+        "summary": "/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "recurring": {
+                    "type": "boolean"
+                  },
+                  "recurringType": {
+                    "type": "string"
+                  },
+                  "day": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "description",
+                  "amount",
+                  "recurring",
+                  "recurringType",
+                  "day",
+                  "currency"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "description": {
+                  "type": "string",
+                  "example": "test transaction"
+                },
+                "day": {
+                  "type": "number",
+                  "example": 2
+                },
+                "recurring": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "recurringType": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                },
+                "id": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "description": {
+                  "type": "string",
+                  "example": "test transaction"
+                },
+                "day": {
+                  "type": "number",
+                  "example": 2
+                },
+                "recurring": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "recurringType": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                },
+                "id": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "summary": "/profile/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 9
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 20.59
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "summary": "/profile/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 12
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 10
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 60.39
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 10
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 60.39
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/check": {
+      "get": {
+        "summary": "/check",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "host": "127.0.0.1:3000"
+}

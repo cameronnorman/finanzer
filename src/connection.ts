@@ -86,6 +86,6 @@ const connection = {
       await repository.query(`DELETE FROM ${entity.tableName}`);
     });
   },
-};
+}
 
 export default connection;

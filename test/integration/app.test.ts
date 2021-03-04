@@ -56,7 +56,7 @@ describe('POST /transactions', () => {
       description: "test transaction",
       day: 2,
       recurring: true,
-      recurring_type: true,
+      recurringType: true,
       currency: "euros"
     }
 
@@ -79,7 +79,7 @@ describe('POST /transactions', () => {
           day: 2,
           amount: 10,
           recurring: true,
-          recurring_type: true,
+          recurringType: true,
           currency: "euros"
         })
         done()
