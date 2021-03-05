@@ -1,0 +1,25 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: CICD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        id: checkout-code
+        uses: actions/checkout@v2
+      - name: Run tests
+        id: run-tests
+        run: make spec
+      - name: Push to Docker Repository
+        id: build-and-deploy
+        run: make prod_deploy
+        env:
+          DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+          DOCKER_REPO_USERNAME: ${{ secrets.DOCKER_REPO_USERNAME }}
+          DOCKER_REPO_PASSWORD: ${{ secrets.DOCKER_REPO_PASSWORD }}

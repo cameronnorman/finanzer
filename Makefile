@@ -24,7 +24,7 @@ prod_run:
 	#docker run --rm -it -p 3000 --env NODE_ENV=development --env PORT=3000 $(image)
 	docker-compose -f docker-compose-prod.yml up
 
-prod_build:
+prod_deploy:
 	docker build . --target=prod -t $(image)
 	docker login $(docker_repo) -u $(docker_repo_username) -p $(docker_repo_password)
 	docker tag $(image) $(docker_repo)/$(image)
