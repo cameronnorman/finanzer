@@ -142,11 +142,19 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>RepositoryNotFoundError: No repository for &quot;Transaction&quot; was found. Looks like this entity is not registered in current &quot;default&quot; connection?<br> &nbsp; &nbsp;at new RepositoryNotFoundError (/usr/src/app/src/error/RepositoryNotFoundError.ts:11:9)<br> &nbsp; &nbsp;at EntityManager.Object.&lt;anonymous&gt;.EntityManager.getRepository (/usr/src/app/src/entity-manager/EntityManager.ts:913:19)<br> &nbsp; &nbsp;at Connection.Object.&lt;anonymous&gt;.Connection.getRepository (/usr/src/app/src/connection/Connection.ts:346:29)<br> &nbsp; &nbsp;at Object.getRepository (/usr/src/app/src/index.ts:284:55)<br> &nbsp; &nbsp;at /usr/src/app/src/routes/transactions.ts:18:33<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/route.js:137:13)<br> &nbsp; &nbsp;at Route.dispatch (/usr/src/app/node_modules/express/lib/router/route.js:112:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:281:22</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       }
     },
@@ -192,11 +200,19 @@
               "type": "object",
               "properties": {}
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>ConnectionNotFoundError: Connection &quot;default&quot; was not found.<br> &nbsp; &nbsp;at new ConnectionNotFoundError (/usr/src/app/src/error/ConnectionNotFoundError.ts:8:9)<br> &nbsp; &nbsp;at ConnectionManager.Object.&lt;anonymous&gt;.ConnectionManager.get (/usr/src/app/src/connection/ConnectionManager.ts:40:19)<br> &nbsp; &nbsp;at Object.getRepository (/usr/src/app/src/index.ts:284:35)<br> &nbsp; &nbsp;at /usr/src/app/src/routes/profiles.ts:10:29<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/route.js:137:13)<br> &nbsp; &nbsp;at Route.dispatch (/usr/src/app/node_modules/express/lib/router/route.js:112:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:281:22<br> &nbsp; &nbsp;at param (/usr/src/app/node_modules/express/lib/router/index.js:354:14)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       },
       "put": {
@@ -210,7 +226,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 12
+            "example": 2
           },
           {
             "in": "body",

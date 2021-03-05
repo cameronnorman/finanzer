@@ -18,6 +18,7 @@ start:
 	docker-compose up
 
 spec:
+	rm -f test.sqlite
 	docker-compose run --rm app npm test
 
 prod_run:

@@ -8,8 +8,8 @@
       "build": "tsc",
       "prestart": "npm run build",
       "start": "node .",
-      "test": "NODE_ENV=test jest",
-      "testc": "NODE_ENV=test jest --coverage"
+      "test": "NODE_ENV=test jest --runInBand --maxConcurrency=1",
+      "testc": "NODE_ENV=test jest --runInBand --maxConcurrency=1 --coverage"
    },
    "dependencies": {
       "dotenv": "^8.2.0",

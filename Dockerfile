@@ -8,7 +8,7 @@ COPY package*.json ./
 
 ENV NODE_PATH=/app/node_modules
 
-RUN npm install -g typescript tslint ts-jest
+RUN npm install -g typescript tslint ts-jest typeorm
 
 RUN npm install sqlite3 --save
 

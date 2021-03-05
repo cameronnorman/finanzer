@@ -62,15 +62,19 @@ const testConfig: ConnectionOptions = {
 
 const connection = {
   async create(dbName: string = process.env.NODE_ENV) {
-    const dbEnvConfig: TypeOrmEnvConfig = {
-      development: developmentConfig,
-      test: testConfig
-    }
+    try {
+      return getConnection("default");
+    } catch (e) {
+      const dbEnvConfig: TypeOrmEnvConfig = {
+        development: developmentConfig,
+        test: testConfig
+      }
 
-    if (dbName === "development") {
-      await createConnection(dbEnvConfig.development)
-    } else {
-      await createConnection(dbEnvConfig.test)
+      if (dbName === "development") {
+        await createConnection(dbEnvConfig.development)
+      } else {
+        await createConnection(dbEnvConfig.test)
+      }
     }
   },
 

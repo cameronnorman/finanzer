@@ -1,6 +1,6 @@
 import http from "http";
 import express from "express";
-import supertest from "supertest";
+import request from "supertest";
 
 import server from "../../src/app";
 import connection from "../../src/connection"
@@ -14,14 +14,14 @@ beforeAll(async (done) => {
 });
 
 afterAll(async (done) => {
+  //await connection.close()
   server.close()
-  await connection.close()
   done()
 });
 
 describe('GET /check', () => {
   test('it returns OK if the server is running', async (done) => {
-    supertest(server)
+    request(server)
       .get('/check')
       .expect(200)
       .then((response) => {
@@ -39,7 +39,7 @@ describe('GET /transactions', () => {
       },
     })
 
-    supertest(server)
+    request(server)
       .get('/transactions')
       .expect(200)
       .then((response) => {
@@ -60,7 +60,7 @@ describe('POST /transactions', () => {
       currency: "euros"
     }
 
-    supertest(server)
+    request(server)
       .post('/transactions')
       .send(payload)
       .expect(200)
@@ -103,7 +103,7 @@ describe('GET /profile/:id', () => {
     })
     let lastProfile: Profile = lastProfileQuery[0]
 
-    supertest(server)
+    request(server)
       .get(`/profile/${lastProfile.id}`)
       .expect(200)
       .then((response) => {
@@ -115,7 +115,7 @@ describe('GET /profile/:id', () => {
 
 describe('GET /profile/:id', () => {
   test('when the profile does not exist, it returns a 404 not found', async (done) => {
-    supertest(server)
+    request(server)
       .get(`/profile/20`)
       .expect(404)
       .then((response) => {
@@ -146,7 +146,7 @@ describe('PUT /profile/:id', () => {
       currency: "euros"
     }
 
-    supertest(server)
+    request(server)
       .put(`/profile/${lastProfile.id}`)
       .expect(200)
       .send(updatedProfileDetails)
