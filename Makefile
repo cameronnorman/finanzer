@@ -1,3 +1,8 @@
+image=finanzer:0.0.2
+docker_repo=${DOCKER_REPO}
+docker_repo_username=${DOCKER_REPO_USERNAME}
+docker_repo_password=${DOCKER_REPO_PASSWORD}
+
 setup: build dependencies
 
 dependencies:
@@ -15,5 +20,12 @@ start:
 spec:
 	docker-compose run --rm app npm test
 
+prod_run:
+	#docker run --rm -it -p 3000 --env NODE_ENV=development --env PORT=3000 $(image)
+	docker-compose -f docker-compose-prod.yml up
+
 prod_build:
-	docker build . -t finanzer:0.0.1
+	docker build . --target=prod -t $(image)
+	docker login $(docker_repo) -u $(docker_repo_username) -p $(docker_repo_password)
+	docker tag $(image) $(docker_repo)/$(image)
+	docker push $(docker_repo)/$(image)

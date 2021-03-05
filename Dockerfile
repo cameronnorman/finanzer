@@ -11,6 +11,7 @@ ENV NODE_PATH=/app/node_modules
 RUN npm install -g typescript tslint ts-jest
 
 RUN npm install sqlite3 --save
+
 RUN npm install --save ts-jest
 
 FROM base as dev
@@ -24,3 +25,7 @@ COPY . .
 RUN npm install
 
 RUN tsc --project ./
+
+RUN cp -r api-docs dist/api-docs
+
+CMD ["npm", "run", "start"]
