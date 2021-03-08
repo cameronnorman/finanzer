@@ -143,6 +143,42 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "null"
+                      },
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "value": null,
+                      "msg": "Invalid value",
+                      "param": "description",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -226,7 +262,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 2
+            "example": 123
           },
           {
             "in": "body",
@@ -270,6 +306,50 @@
                   "example": "euros"
                 }
               }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "msg",
+                      "param",
+                      "location"
+                    ]
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "balance",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         },
