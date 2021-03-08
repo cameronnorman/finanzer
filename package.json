@@ -15,6 +15,7 @@
       "dotenv": "^8.2.0",
       "express": "^4.17.1",
       "express-oas-generator": "^1.0.32",
+      "express-validator": "^6.10.0",
       "morgan": "^1.10.0",
       "reflect-metadata": "^0.1.10",
       "sqlite3": "^5.0.2",
