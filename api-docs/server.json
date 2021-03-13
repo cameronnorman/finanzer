@@ -54,11 +54,20 @@
                 ]
               }
             }
+          },
+          "304": {},
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       },
       "post": {
@@ -179,6 +188,13 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -228,6 +244,13 @@
                   "example": "euros"
                 }
               }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
             }
           },
           "404": {
@@ -345,6 +368,13 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
+            }
+          },
           "404": {
             "description": "Not Found",
             "schema": {
@@ -355,7 +385,8 @@
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       }
     },
@@ -372,6 +403,13 @@
             "schema": {
               "type": "string",
               "example": "OK"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at logger (/usr/src/app/node_modules/morgan/index.js:144:5)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7</pre>\n</body>\n</html>\n"
             }
           }
         },

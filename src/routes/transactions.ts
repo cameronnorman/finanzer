@@ -5,7 +5,7 @@ import { body, validationResult } from 'express-validator';
 
 const router = express.Router()
 
-router.get("/transactions", (req: express.Request, res: express.Response, next) => {
+router.get("/", (req: express.Request, res: express.Response, next) => {
   const transactionRepository = getRepository(Transaction)
 
   transactionRepository.find({})
@@ -15,7 +15,7 @@ router.get("/transactions", (req: express.Request, res: express.Response, next) 
 })
 
 router.post(
-  "/transactions",
+  "/",
   body('description').not().isEmpty().trim().escape(),
   body('amount').not().isEmpty(),
   body('recurring').not().isEmpty(),

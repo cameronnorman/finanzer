@@ -5,7 +5,7 @@ import { body, validationResult } from 'express-validator';
 
 const router = express.Router()
 
-router.get("/profile/:id", (req: express.Request, res: express.Response, next) => {
+router.get("/:id", (req: express.Request, res: express.Response, next) => {
   const profileId = req.params.id
 
   const profileRepository = getRepository(Profile)
@@ -22,7 +22,7 @@ router.get("/profile/:id", (req: express.Request, res: express.Response, next) =
 })
 
 router.put(
-  "/profile/:id",
+  "/:id",
   body('balance').not().isEmpty(),
   body('currency').not().isEmpty(),
   async (req: express.Request, res: express.Response, next) => {
