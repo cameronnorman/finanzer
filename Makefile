@@ -1,7 +1,9 @@
-image=finanzer:0.0.4
+image=finanzer:0.0.5
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
+deploy_auth=${DEPLOY_AUTH}
+deploy_action_url=${DEPLOY_ACTION_URL}
 
 setup: build dependencies
 
@@ -35,3 +37,15 @@ prod_deploy:
 	docker login $(docker_repo) -u $(docker_repo_username) -p $(docker_repo_password)
 	docker tag $(image) $(docker_repo)/$(image)
 	docker push $(docker_repo)/$(image)
+
+start_service:
+	curl --location --request POST '$(deploy_action_url)' \
+	--header 'Accept: application/vnd.github.v3+json' \
+	--header '$(deploy_auth)' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{
+			"ref": "master",
+			"inputs": {
+					"image_version": "$(image)"
+			}
+	}'

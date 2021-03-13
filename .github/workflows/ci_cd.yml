@@ -23,3 +23,12 @@ jobs:
           DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
           DOCKER_REPO_USERNAME: ${{ secrets.DOCKER_REPO_USERNAME }}
           DOCKER_REPO_PASSWORD: ${{ secrets.DOCKER_REPO_PASSWORD }}
+      - name: Start service with new image
+        id: start-service
+        run: make start_service
+        env:
+          DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+          DOCKER_REPO_USERNAME: ${{ secrets.DOCKER_REPO_USERNAME }}
+          DOCKER_REPO_PASSWORD: ${{ secrets.DOCKER_REPO_PASSWORD }}
+          DEPLOY_AUTH: ${{ secrets.DEPLOY_AUTH }}
+          DEPLOY_ACTION_URL: ${{ secrets.DEPLOY_ACTION_URL }}
