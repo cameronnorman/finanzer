@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run tests
         id: run-tests
-        run: make spec
+        run: make prod_spec
       - name: Push to Docker Repository
         id: build-and-deploy
         run: make prod_deploy

@@ -21,6 +21,11 @@ spec:
 	rm -f test.sqlite
 	docker-compose run --rm app npm test
 
+prod_spec:
+	rm -f test.sqlite
+	cp .env.sample .env
+	docker-compose run --rm app npm test
+
 prod_run:
 	#docker run --rm -it -p 3000 --env NODE_ENV=development --env PORT=3000 $(image)
 	docker-compose -f docker-compose-prod.yml up
