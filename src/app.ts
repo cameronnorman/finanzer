@@ -54,9 +54,9 @@ expressOasGenerator.handleResponses(app, {
 app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
-//app.use('/', healthCheckRouter)
-//app.use('/transactions', checkAuth, transactionsRouter)
-//app.use('/profile', checkAuth, profilesRouter)
+// app.use('/', healthCheckRouter)
+// app.use('/transactions', checkAuth, transactionsRouter)
+// app.use('/profile', checkAuth, profilesRouter)
 
 app.use('/', healthCheckRouter)
 app.use('/transactions', transactionsRouter)
