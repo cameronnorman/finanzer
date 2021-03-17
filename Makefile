@@ -39,7 +39,7 @@ prod_deploy:
 	docker push $(docker_repo)/$(image)
 
 start_service:
-	curl --location --request POST $(deploy_action_url) \
+	curl -v --location --request POST $(deploy_action_url) \
 		--header 'Accept: application/vnd.github.v3+json' \
 		--header 'Authorization: $(deploy_auth)' \
 		--header 'Content-Type: application/json' \
