@@ -162,7 +162,11 @@ describe('Profile Transactions', () => {
 
           expect(response.body).toEqual({
             id: lastTransaction.id,
-            profileId: String(profile.id),
+            profile: {
+              id: profile.id,
+              balance: 20.59,
+              currency: "euros",
+            },
             description: "This is a awesome purchase",
             day: 2,
             amount: 10,
@@ -260,7 +264,7 @@ describe('Profile viewing and updates', () => {
         .expect(404)
         .send(updatedProfileDetails)
         .then((response) => {
-          expect(response.body).toEqual({})
+          expect(response.body).toEqual({error: "Not Found"})
           done()
         })
     })

@@ -1,5 +1,5 @@
 import express from "express"
-import { getRepository, InsertResult } from "typeorm"
+import { getRepository, UpdateResult } from "typeorm"
 import { Profile } from "../entity/Profile"
 import { Transaction } from "../entity/Transaction"
 import { body, validationResult } from 'express-validator';
@@ -16,7 +16,7 @@ router.get("/:id", (req: express.Request, res: express.Response, next) => {
         res.status(200).json(profile)
         next()
       } else {
-        res.status(404).json({})
+        res.status(404)
         next()
       }
   })
@@ -36,19 +36,15 @@ router.put(
     const profileId = req.params.id
     const profileRepository = getRepository(Profile)
 
-    const currentProfile = await profileRepository.findOne({ where: { id: profileId } })
+    const currentProfile: Profile = await profileRepository.findOne({ where: { id: profileId } })
     if (currentProfile === undefined) {
-      return res.status(404).json({})
+      return res.status(404).json({error: "Not Found"})
     }
 
-    const updatedProfileDetails = {
-      id: profileId,
-      ...req.body
-    }
-    profileRepository.save(updatedProfileDetails)
-      .then((profile: Profile) => {
-        return res.status(200).json(profile)
-      })
+    await profileRepository.update(profileId, req.body)
+    const updatedProfile: Profile = await profileRepository.findOne({ where: { id: profileId } })
+    res.status(200).json(updatedProfile)
+    next()
 })
 
 router.get("/:id/transactions", (req: express.Request, res: express.Response, next) => {
@@ -60,7 +56,7 @@ router.get("/:id/transactions", (req: express.Request, res: express.Response, ne
         res.status(200).json(profile.transactions)
         next()
       } else {
-        res.status(404).json({})
+        res.status(404).json({error: "Not Found"})
         next()
       }
     })
@@ -83,18 +79,20 @@ router.post(
 
     const profileId = req.params.id
     const profileRepository = getRepository(Profile)
+    const transactionRepository = getRepository(Transaction)
+    const transactionDetails: any = req.body
+
     profileRepository.findOne({ where: { id: profileId } })
       .then((profile: Profile) => {
         if (profile) {
-          const transactionRepository = getRepository(Transaction)
-          const transactionPayload = {profileId, ...req.body}
-          transactionRepository.save(transactionPayload)
+          transactionDetails.profile = profile
+          transactionRepository.save(transactionDetails)
             .then((transaction: Transaction) => {
               res.status(200).json(transaction)
               next()
             })
         } else {
-          res.status(404).json({})
+          res.status(404).json({error: "Not Found"})
           next()
         }
     })

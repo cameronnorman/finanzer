@@ -74,7 +74,8 @@
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       },
       "put": {
@@ -86,7 +87,27 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "integer",
+            "example": 3
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "balance": {
+                  "type": "number",
+                  "example": 200
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -152,7 +173,8 @@
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       }
     },
@@ -166,7 +188,9 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "integer",
+            "example": 1
           }
         ],
         "responses": {
@@ -297,6 +321,7 @@
               }
             }
           },
+          "204": {},
           "400": {
             "description": "Bad Request",
             "schema": {
