@@ -246,6 +246,7 @@
               }
             }
           },
+          "304": {},
           "401": {
             "description": "Unauthorized",
             "schema": {

@@ -10,6 +10,8 @@ import transactionsRouter from "./routes/transactions"
 import profilesRouter from "./routes/profiles"
 import healthCheckRouter from "./routes/health_check"
 import cors from "cors"
+import { getRepository, InsertResult } from "typeorm"
+import { Profile } from "./entity/Profile"
 
 dotenv.config();
 
@@ -62,13 +64,27 @@ app.use('/', healthCheckRouter)
 app.use('/transactions', transactionsRouter)
 app.use('/profile', profilesRouter)
 
-
 expressOasGenerator.handleRequests()
 
+const seedProfile = async () => {
+  const profileRepository = await getRepository(Profile)
+  profileRepository.findOne({ where: { id: 1 } })
+    .then(async (profile: Profile) => {
+      if (profile) {
+        // do nothing
+      } else {
+        await profileRepository.save({ balance: 0, currency: "EUR" })
+      }
+  })
+}
+
 const server = app.listen(port, () => {
-  connection.create(process.env.NODE_ENV)
-  // tslint:disable-next-line:no-console
-  console.log(`Server started on port: ${ port }`)
+  connection.create(process.env.NODE_ENV).then(() => {
+    if (process.env.NODE_ENV !== "test") { seedProfile() }
+
+    // tslint:disable-next-line:no-console
+    console.log(`Server started on port: ${ port }`)
+  })
 });
 
 export default server
