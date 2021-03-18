@@ -56,7 +56,13 @@ router.get("/:id/transactions", (req: express.Request, res: express.Response, ne
   const profileRepository = getRepository(Profile)
   profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
     .then((profile: Profile) => {
-      return res.status(200).json(profile.transactions)
+      if (profile) {
+        res.status(200).json(profile.transactions)
+        next()
+      } else {
+        res.status(404).json({})
+        next()
+      }
     })
 })
 
