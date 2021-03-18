@@ -1,4 +1,4 @@
-image=finanzer:0.0.8
+image=finanzer:0.0.9
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
@@ -17,7 +17,15 @@ shell:
 	docker-compose run --rm app ash
 
 start:
+	rm -rf dist
 	docker-compose up
+
+gendocs: rmdocs spec
+
+rmdocs:
+	rm -rf api-docs
+	mkdir api-docs
+	echo {} > api-docs/server.json
 
 spec:
 	rm -f test.sqlite

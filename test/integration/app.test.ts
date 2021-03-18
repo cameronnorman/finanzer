@@ -31,146 +31,152 @@ describe('GET /check', () => {
   })
 });
 
-describe('GET /transactions', () => {
-  test('it returns a list of transactions', async (done) => {
-    let transactions: Transaction[] = await getRepository(Transaction).find({
-      order: {
-        id: 'ASC'
-      },
-    })
+describe('Profile Transactions', () => {
+  let profile: Profile
+  let transaction: Transaction
 
-    request(server)
-      .get('/transactions')
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(transactions)
-        done()
-      })
-  })
-});
-
-describe('POST /transactions', () => {
-  test('when a required parameter is empty, it does not create a transaction', async (done) => {
-    let payload: any = {
-      amount: 10,
-      day: 2,
-      recurring: true,
-      recurringType: true,
-      currency: "euros"
-    }
-
-    request(server)
-      .post('/transactions')
-      .send(payload)
-      .expect(400)
-      .then(async (response) => {
-        expect(response.body).toEqual({
-          "errors": [
-            {"location": "body", "msg": "Invalid value", "param": "description"}
-          ]})
-        done()
-      })
-  })
-
-  test('when a required parameter is null, it does not create a transaction', async (done) => {
-    let payload: any = {
-      amount: 10,
-      description: null,
-      day: 2,
-      recurring: true,
-      recurringType: true,
-      currency: "euros"
-    }
-
-    request(server)
-      .post('/transactions')
-      .send(payload)
-      .expect(400)
-      .then(async (response) => {
-        expect(response.body).toEqual({
-          "errors": [
-            {"location": "body", "msg": "Invalid value", "param": "description", "value": null}
-          ]})
-        done()
-      })
-  })
-
-  test('it creates a transaction', async (done) => {
-    let payload: any = {
-      amount: 10,
-      description: "test transaction",
-      day: 2,
-      recurring: true,
-      recurringType: true,
-      currency: "euros"
-    }
-
-    request(server)
-      .post('/transactions')
-      .send(payload)
-      .expect(200)
-      .then(async (response) => {
-        let lastTransactionQuery: Transaction[] = await getRepository(Transaction).find({
-          order: {
-            id: 'DESC'
-          },
-          take: 1
-        })
-        let lastTransaction: Transaction = lastTransactionQuery[0]
-
-        expect(response.body).toEqual({
-          id: lastTransaction.id,
-          description: "test transaction",
-          day: 2,
-          amount: 10,
-          recurring: true,
-          recurringType: true,
-          currency: "euros"
-        })
-        done()
-      })
-  })
-});
-
-describe('GET /profile/:id', () => {
-  test('when the profile exists, it returns the relevant profile', async (done) => {
+  beforeAll(async (done) => {
+    let profileRepository = await getRepository(Profile)
+    let transactionRepository = await getRepository(Transaction)
     let profileDetails = {
       balance: 20.59,
       currency: "euros"
     }
-    let profileRepository = getRepository(Profile)
-    await profileRepository.save(profileDetails)
-    let lastProfileQuery: Profile[] = await getRepository(Profile).find({
-      order: {
-        id: 'DESC'
-      },
-      take: 1
+    profile = await profileRepository.save(profileDetails)
+
+    let transactionDetails: any = {
+      amount: 10,
+      day: 2,
+      recurring: true,
+      description: "This is a expensive transaction",
+      recurringType: "monthly",
+      currency: "euros",
+    }
+    transactionDetails.profile = profile
+    transaction = await transactionRepository.save(transactionDetails)
+
+    done()
+  });
+
+  describe('GET /profile/:id/transactions', () => {
+    test('it returns a list of transactions', async (done) => {
+      let transactions: Transaction[] = await getRepository(Transaction).find({
+        order: {
+          id: 'ASC'
+        },
+      })
+
+      request(server)
+        .get(`/profile/${profile.id}/transactions`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual([{
+            id: transaction.id,
+            amount: 10,
+            day: 2,
+            recurring: true,
+            description: "This is a expensive transaction",
+            recurringType: "monthly",
+            currency: "euros",
+          }])
+          done()
+        })
     })
-    let lastProfile: Profile = lastProfileQuery[0]
+  });
 
-    request(server)
-      .get(`/profile/${lastProfile.id}`)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(lastProfile)
-        done()
-      })
-  })
-});
+  describe('POST /profile/:id/transactions', () => {
+    test('when a required parameter is not specified, it does not create a transaction', async (done) => {
+      let payload: any = {
+        amount: 10,
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "euros"
+      }
 
-describe('GET /profile/:id', () => {
-  test('when the profile does not exist, it returns a 404 not found', async (done) => {
-    request(server)
-      .get(`/profile/20`)
-      .expect(404)
-      .then((response) => {
-        expect(response.body).toEqual({})
-        done()
-      })
-  })
-});
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(400)
+        .then(async (response) => {
+          expect(response.body).toEqual({
+            "errors": [
+              {"location": "body", "msg": "Invalid value", "param": "description"}
+            ]})
+          done()
+        })
+    })
 
-describe('PUT /profile/:id', () => {
+    test('when a required parameter is null, it does not create a transaction', async (done) => {
+      let payload: any = {
+        amount: 10,
+        description: null,
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "euros"
+      }
+
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(400)
+        .then(async (response) => {
+          expect(response.body).toEqual({
+            "errors": [
+              {"location": "body", "msg": "Invalid value", "param": "description", "value": null}
+            ]})
+          done()
+        })
+    })
+
+    test('it creates a transaction', async (done) => {
+      let profileDetails = {
+        balance: 20.59,
+        currency: "euros"
+      }
+      let profileRepository = getRepository(Profile)
+      let profile = await profileRepository.save(profileDetails)
+
+      let payload: any = {
+        amount: 10,
+        description: "This is a awesome purchase",
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "euros"
+      }
+
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(200)
+        .then(async (response) => {
+          let lastTransactionQuery: Transaction[] = await getRepository(Transaction).find({
+            order: {
+              id: 'DESC'
+            },
+            take: 1
+          })
+          let lastTransaction: Transaction = lastTransactionQuery[0]
+
+          expect(response.body).toEqual({
+            id: lastTransaction.id,
+            profileId: String(profile.id),
+            description: "This is a awesome purchase",
+            day: 2,
+            amount: 10,
+            recurring: true,
+            recurringType: "monthly",
+            currency: "euros"
+          })
+          done()
+        })
+    })
+  });
+})
+
+describe('Profile viewing and updates', () => {
   let lastProfile: Profile
 
   beforeAll(async (done) => {
@@ -179,66 +185,84 @@ describe('PUT /profile/:id', () => {
       balance: 20.59,
       currency: "euros"
     }
-    await profileRepository.save(profileDetails)
-    let lastProfileQuery: Profile[] = await getRepository(Profile).find({
-      order: {
-        id: 'DESC'
-      },
-      take: 1
-    })
-
-    lastProfile = lastProfileQuery[0]
+    lastProfile = await profileRepository.save(profileDetails)
     done()
   });
 
-  test('when the profile exists, it updates the profile with the new data', async (done) => {
-    let updatedProfileDetails = {
-      id: lastProfile.id,
-      balance: 60.39,
-      currency: "euros"
-    }
-
-    request(server)
-      .put(`/profile/${lastProfile.id}`)
-      .expect(200)
-      .send(updatedProfileDetails)
-      .then((response) => {
-        expect(response.body).toEqual(updatedProfileDetails)
-        done()
-      })
-  })
-
-  test('when the profile exists, and there is a error with the payload, it renders the errors', async (done) => {
-    let updatedProfileDetails = {
-      id: lastProfile.id,
-      currency: "euros"
-    }
-
-    request(server)
-      .put(`/profile/${lastProfile.id}`)
-      .expect(400)
-      .send(updatedProfileDetails)
-      .then((response) => {
-        expect(response.body).toEqual({
-          "errors": [{"location": "body", "msg": "Invalid value", "param": "balance"}]
+  describe('GET /profile/:id', () => {
+    test('when the profile exists, it returns the relevant profile', async (done) => {
+      request(server)
+        .get(`/profile/${lastProfile.id}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual(lastProfile)
+          done()
         })
-        done()
-      })
-  })
+    })
+  });
 
-  test('when the profile does not exist, it does not update the record', async (done) => {
-    let updatedProfileDetails = {
-      balance: 60.39,
-      currency: "euros"
-    }
+  describe('GET /profile/:id', () => {
+    test('when the profile does not exist, it returns a 404 not found', async (done) => {
+      request(server)
+        .get(`/profile/20`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).toEqual({})
+          done()
+        })
+    })
+  });
 
-    request(server)
-      .put(`/profile/123`)
-      .expect(404)
-      .send(updatedProfileDetails)
-      .then((response) => {
-        expect(response.body).toEqual({})
-        done()
-      })
-  })
-});
+  describe('PUT /profile/:id', () => {
+    test('when the profile exists, it updates the profile with the new data', async (done) => {
+      let updatedProfileDetails = {
+        id: lastProfile.id,
+        balance: 60.39,
+        currency: "euros"
+      }
+
+      request(server)
+        .put(`/profile/${lastProfile.id}`)
+        .expect(200)
+        .send(updatedProfileDetails)
+        .then((response) => {
+          expect(response.body).toEqual(updatedProfileDetails)
+          done()
+        })
+    })
+
+    test('when the profile exists, and there is a error with the payload, it renders the errors', async (done) => {
+      let updatedProfileDetails = {
+        id: lastProfile.id,
+        currency: "euros"
+      }
+
+      request(server)
+        .put(`/profile/${lastProfile.id}`)
+        .expect(400)
+        .send(updatedProfileDetails)
+        .then((response) => {
+          expect(response.body).toEqual({
+            "errors": [{"location": "body", "msg": "Invalid value", "param": "balance"}]
+          })
+          done()
+        })
+    })
+
+    test('when the profile does not exist, it does not update the record', async (done) => {
+      let updatedProfileDetails = {
+        balance: 60.39,
+        currency: "euros"
+      }
+
+      request(server)
+        .put(`/profile/123`)
+        .expect(404)
+        .send(updatedProfileDetails)
+        .then((response) => {
+          expect(response.body).toEqual({})
+          done()
+        })
+    })
+  });
+})

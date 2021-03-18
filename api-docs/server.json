@@ -6,13 +6,169 @@
     "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
   },
   "paths": {
-    "/transactions": {
+    "/check": {
       "get": {
-        "summary": "/transactions",
+        "summary": "/check",
         "consumes": [
           "application/json"
         ],
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "summary": "/profile/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 3
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 20.59
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "summary": "/profile/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 3
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 60.39
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "balance",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}/transactions": {
+      "get": {
+        "summary": "/profile/{id}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -42,40 +198,29 @@
                   "currency": {
                     "type": "string"
                   }
-                },
-                "required": [
-                  "id",
-                  "description",
-                  "amount",
-                  "recurring",
-                  "recurringType",
-                  "day",
-                  "currency"
-                ]
+                }
               }
-            }
-          },
-          "304": {},
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
             }
           }
         },
         "tags": [],
         "produces": [
-          "application/json",
-          "text/html"
+          "application/json"
         ]
       },
       "post": {
-        "summary": "/transactions",
+        "summary": "/profile/{id}/transactions",
         "consumes": [
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 2
+          },
           {
             "in": "body",
             "name": "body",
@@ -89,7 +234,7 @@
                 },
                 "description": {
                   "type": "string",
-                  "example": "test transaction"
+                  "example": "This is a awesome purchase"
                 },
                 "day": {
                   "type": "number",
@@ -100,16 +245,12 @@
                   "example": true
                 },
                 "recurringType": {
-                  "type": "boolean",
-                  "example": true
+                  "type": "string",
+                  "example": "monthly"
                 },
                 "currency": {
                   "type": "string",
                   "example": "euros"
-                },
-                "id": {
-                  "type": "number",
-                  "example": 3
                 }
               }
             }
@@ -121,13 +262,17 @@
             "schema": {
               "type": "object",
               "properties": {
+                "profileId": {
+                  "type": "string",
+                  "example": "2"
+                },
                 "amount": {
                   "type": "number",
                   "example": 10
                 },
                 "description": {
                   "type": "string",
-                  "example": "test transaction"
+                  "example": "This is a awesome purchase"
                 },
                 "day": {
                   "type": "number",
@@ -138,8 +283,8 @@
                   "example": true
                 },
                 "recurringType": {
-                  "type": "boolean",
-                  "example": true
+                  "type": "string",
+                  "example": "monthly"
                 },
                 "currency": {
                   "type": "string",
@@ -147,7 +292,7 @@
                 },
                 "id": {
                   "type": "number",
-                  "example": 3
+                  "example": 2
                 }
               }
             }
@@ -162,9 +307,6 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "value": {
-                        "type": "null"
-                      },
                       "msg": {
                         "type": "string"
                       },
@@ -178,7 +320,6 @@
                   },
                   "example": [
                     {
-                      "value": null,
                       "msg": "Invalid value",
                       "param": "description",
                       "location": "body"
@@ -187,236 +328,11 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>RepositoryNotFoundError: No repository for &quot;Transaction&quot; was found. Looks like this entity is not registered in current &quot;default&quot; connection?<br> &nbsp; &nbsp;at new RepositoryNotFoundError (/usr/src/app/src/error/RepositoryNotFoundError.ts:11:9)<br> &nbsp; &nbsp;at EntityManager.Object.&lt;anonymous&gt;.EntityManager.getRepository (/usr/src/app/src/entity-manager/EntityManager.ts:913:19)<br> &nbsp; &nbsp;at Connection.Object.&lt;anonymous&gt;.Connection.getRepository (/usr/src/app/src/connection/Connection.ts:346:29)<br> &nbsp; &nbsp;at Object.getRepository (/usr/src/app/src/index.ts:284:55)<br> &nbsp; &nbsp;at /usr/src/app/src/routes/transactions.ts:18:33<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/route.js:137:13)<br> &nbsp; &nbsp;at Route.dispatch (/usr/src/app/node_modules/express/lib/router/route.js:112:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:281:22</pre>\n</body>\n</html>\n"
-            }
           }
         },
         "tags": [],
         "produces": [
-          "application/json",
-          "text/html"
-        ]
-      }
-    },
-    "/profile/{id}": {
-      "get": {
-        "summary": "/profile/{id}",
-        "consumes": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 20
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 9
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 20.59
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                }
-              }
-            }
-          },
-          "304": {},
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>ConnectionNotFoundError: Connection &quot;default&quot; was not found.<br> &nbsp; &nbsp;at new ConnectionNotFoundError (/usr/src/app/src/error/ConnectionNotFoundError.ts:8:9)<br> &nbsp; &nbsp;at ConnectionManager.Object.&lt;anonymous&gt;.ConnectionManager.get (/usr/src/app/src/connection/ConnectionManager.ts:40:19)<br> &nbsp; &nbsp;at Object.getRepository (/usr/src/app/src/index.ts:284:35)<br> &nbsp; &nbsp;at /usr/src/app/src/routes/profiles.ts:10:29<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/route.js:137:13)<br> &nbsp; &nbsp;at Route.dispatch (/usr/src/app/node_modules/express/lib/router/route.js:112:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:281:22<br> &nbsp; &nbsp;at param (/usr/src/app/node_modules/express/lib/router/index.js:354:14)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
-      },
-      "put": {
-        "summary": "/profile/{id}",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 123
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 10
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 10
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "msg": {
-                        "type": "string"
-                      },
-                      "param": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "msg",
-                      "param",
-                      "location"
-                    ]
-                  },
-                  "example": [
-                    {
-                      "msg": "Invalid value",
-                      "param": "balance",
-                      "location": "body"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)<br> &nbsp; &nbsp;at router (/usr/src/app/node_modules/express/lib/router/index.js:47:12)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
-      }
-    },
-    "/check": {
-      "get": {
-        "summary": "/check",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string",
-              "example": "OK"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at logger (/usr/src/app/node_modules/morgan/index.js:144:5)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "text/html"
         ]
       }
     }

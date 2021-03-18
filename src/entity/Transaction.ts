@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
+import { Profile } from "../entity/Profile"
 
 @Entity()
 export class Transaction {
@@ -22,4 +23,7 @@ export class Transaction {
 
   @Column("varchar")
   currency: string
+
+  @ManyToOne(() => Profile, (profile: Profile) => profile.transactions)
+    profile: Profile;
 }

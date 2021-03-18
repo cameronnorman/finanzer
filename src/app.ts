@@ -6,7 +6,6 @@ import jwt from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import expressOasGenerator from "express-oas-generator"
 import connection from "./connection"
-import transactionsRouter from "./routes/transactions"
 import profilesRouter from "./routes/profiles"
 import healthCheckRouter from "./routes/health_check"
 import cors from "cors"
@@ -61,10 +60,8 @@ app.use(morgan('tiny'))
 // app.use('/profile', checkAuth, profilesRouter)
 
 app.use('/', healthCheckRouter)
-app.use('/transactions', transactionsRouter)
 app.use('/profile', profilesRouter)
 
-expressOasGenerator.handleRequests()
 
 const seedProfile = async () => {
   const profileRepository = await getRepository(Profile)
@@ -78,6 +75,7 @@ const seedProfile = async () => {
   })
 }
 
+expressOasGenerator.handleRequests()
 const server = app.listen(port, () => {
   connection.create(process.env.NODE_ENV).then(() => {
     if (process.env.NODE_ENV !== "test") { seedProfile() }

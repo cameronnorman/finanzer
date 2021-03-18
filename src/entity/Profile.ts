@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Transaction } from "../entity/Transaction";
 
 @Entity()
 export class Profile {
@@ -10,4 +11,7 @@ export class Profile {
 
   @Column("varchar")
   currency: string
+
+  @OneToMany(() => Transaction, (transaction: Transaction) => transaction.profile)
+    transactions: Transaction[];
 }
