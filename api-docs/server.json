@@ -51,7 +51,7 @@
               "properties": {
                 "id": {
                   "type": "number",
-                  "example": 3
+                  "example": 4
                 },
                 "balance": {
                   "type": "number",
@@ -67,8 +67,8 @@
           "404": {
             "description": "Not Found",
             "schema": {
-              "type": "object",
-              "properties": {}
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
             }
           }
         },
@@ -89,7 +89,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 3
+            "example": 4
           },
           {
             "in": "body",
@@ -98,9 +98,13 @@
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 4
+                },
                 "balance": {
                   "type": "number",
-                  "example": 200
+                  "example": 60.39
                 },
                 "currency": {
                   "type": "string",
@@ -118,7 +122,7 @@
               "properties": {
                 "id": {
                   "type": "number",
-                  "example": 3
+                  "example": 4
                 },
                 "balance": {
                   "type": "number",
@@ -167,14 +171,18 @@
             "description": "Not Found",
             "schema": {
               "type": "object",
-              "properties": {}
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
             }
           }
         },
         "tags": [],
         "produces": [
-          "application/json",
-          "text/html"
+          "application/json"
         ]
       }
     },
@@ -190,7 +198,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 1
+            "example": 2
           }
         ],
         "responses": {
@@ -243,7 +251,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 2
+            "example": 3
           },
           {
             "in": "body",
@@ -275,6 +283,18 @@
                 "currency": {
                   "type": "string",
                   "example": "euros"
+                },
+                "profile": {
+                  "type": "profile",
+                  "example": {
+                    "id": 3,
+                    "balance": 20.59,
+                    "currency": "euros"
+                  }
+                },
+                "id": {
+                  "type": "number",
+                  "example": 4
                 }
               }
             }
@@ -286,10 +306,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "profileId": {
-                  "type": "string",
-                  "example": "2"
-                },
                 "amount": {
                   "type": "number",
                   "example": 10
@@ -314,14 +330,30 @@
                   "type": "string",
                   "example": "euros"
                 },
+                "profile": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "balance": {
+                      "type": "number",
+                      "example": 20.59
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "euros"
+                    }
+                  }
+                },
                 "id": {
                   "type": "number",
-                  "example": 2
+                  "example": 4
                 }
               }
             }
           },
-          "204": {},
           "400": {
             "description": "Bad Request",
             "schema": {
@@ -350,6 +382,39 @@
                       "location": "body"
                     }
                   ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}/transactions/bulk": {
+      "post": {
+        "summary": "/profile/{id}/transactions/bulk",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success! 2 transaction(s) created"
                 }
               }
             }
