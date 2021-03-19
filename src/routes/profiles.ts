@@ -3,8 +3,9 @@ import { getRepository, UpdateResult } from "typeorm"
 import { Profile } from "../entity/Profile"
 import { Transaction } from "../entity/Transaction"
 import { body, validationResult } from 'express-validator';
+import initializeBulkTransactionRoutes from './bulk_transactions';
 
-const router = express.Router()
+let router = express.Router()
 
 router.get("/:id", (req: express.Request, res: express.Response, next) => {
   const profileId = req.params.id
@@ -41,7 +42,7 @@ router.put(
       return res.status(404).json({error: "Not Found"})
     }
 
-    await profileRepository.update(profileId, req.body)
+    await profileRepository.update(profileId, { balance: req.body.balance, currency: req.body.currency })
     const updatedProfile: Profile = await profileRepository.findOne({ where: { id: profileId } })
     res.status(200).json(updatedProfile)
     next()
@@ -97,5 +98,7 @@ router.post(
         }
     })
 })
+
+router = initializeBulkTransactionRoutes(router)
 
 export default router

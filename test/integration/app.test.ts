@@ -6,7 +6,7 @@ import server from "../../src/app";
 import connection from "../../src/connection"
 import { Transaction } from "../../src/entity/Transaction";
 import { Profile } from "../../src/entity/Profile";
-import { getRepository, InsertResult } from "typeorm";
+import { getConnection, getRepository, InsertResult } from "typeorm";
 
 beforeAll(async (done) => {
   await connection.create()
@@ -30,6 +30,54 @@ describe('GET /check', () => {
       })
   })
 });
+
+describe('Bulk Transactions', () => {
+  describe('POST /profile/:id/transactions/bulk', () => {
+    let profile: Profile
+
+    beforeAll(async (done) => {
+      let profileRepository = await getRepository(Profile)
+      let transactionRepository = await getRepository(Transaction)
+      let profileDetails = {
+        balance: 20.59,
+        currency: "euros"
+      }
+      profile = await profileRepository.save(profileDetails)
+
+      done()
+    });
+
+    afterAll(async (done) => {
+      const transactionRepository = await getRepository(Transaction)
+      const transactions = await transactionRepository.find({})
+      const transactionIds = transactions.map((trans) => trans.id)
+      await transactionRepository.delete(transactionIds)
+      done()
+    });
+
+    test('it returns a list of transactions', async (done) => {
+      const transactionRepository = await getRepository(Transaction)
+
+      request(server)
+        .post(`/profile/${profile.id}/transactions/bulk`)
+        .attach('file', 'test/fixtures/transactions.csv')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual({"message": "Success! 2 transaction(s) created"})
+          done()
+        })
+    })
+
+    test('after bulk process, there should be transactions', async (done) => {
+      const transactionRepository = await getRepository(Transaction)
+      transactionRepository.find({})
+        .then((transactions: Transaction[]) => {
+          expect(transactions.length).toEqual(2)
+          done()
+        })
+    })
+  })
+})
 
 describe('Profile Transactions', () => {
   let profile: Profile
