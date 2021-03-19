@@ -2,6 +2,8 @@ FROM node:15.8-alpine as base
 
 WORKDIR /usr/src/app
 
+RUN mkdir -p uploads
+
 RUN apk add sqlite
 
 COPY package*.json ./
