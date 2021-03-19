@@ -1,4 +1,4 @@
-image=finanzer:0.0.14
+image=finanzer:0.0.15
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
@@ -37,7 +37,6 @@ prod_spec:
 	docker-compose run --rm app npm test
 
 prod_run:
-	#docker run --rm -it -p 3000 --env NODE_ENV=development --env PORT=3000 $(image)
 	docker-compose -f docker-compose-prod.yml up
 
 prod_deploy:
