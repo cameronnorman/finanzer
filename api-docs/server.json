@@ -53,13 +53,17 @@
                   "type": "number",
                   "example": 4
                 },
+                "currency": {
+                  "type": "string",
+                  "example": "euros"
+                },
                 "balance": {
                   "type": "number",
                   "example": 20.59
                 },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
+                "netBalance": {
+                  "type": "number",
+                  "example": 20.59
                 }
               }
             }

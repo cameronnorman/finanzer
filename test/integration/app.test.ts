@@ -247,7 +247,47 @@ describe('Profile viewing and updates', () => {
         .get(`/profile/${lastProfile.id}`)
         .expect(200)
         .then((response) => {
-          expect(response.body).toEqual(lastProfile)
+          expect(response.body).toEqual({
+            ...lastProfile,
+            netBalance: lastProfile.balance
+          })
+          done()
+        })
+    })
+
+    test('when the profile exists, and it has transactions, it returns the correct net balance', async (done) => {
+      let transactionRepository = getRepository(Transaction)
+      let transactions = [
+        {
+          description: "This is a awesome purchase",
+          day: (new Date().getDate() + 1),
+          amount: 10,
+          recurring: true,
+          recurringType: "monthly",
+          currency: "euros",
+          profile: lastProfile
+        },
+        {
+          description: "This is a awesome purchase",
+          day:(new Date().getDate() + 1),
+          amount: -5.59,
+          recurring: true,
+          recurringType: "monthly",
+          currency: "euros",
+          profile: lastProfile
+        }
+      ]
+      let response = await transactionRepository.save(transactions)
+      request(server)
+        .get(`/profile/${lastProfile.id}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual({
+            id: lastProfile.id,
+            netBalance: 25.00,
+            balance: 20.59,
+            currency: "euros"
+          })
           done()
         })
     })

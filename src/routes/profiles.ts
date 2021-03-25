@@ -4,6 +4,7 @@ import { Profile } from "../entity/Profile"
 import { Transaction } from "../entity/Transaction"
 import { body, validationResult } from 'express-validator';
 import initializeBulkTransactionRoutes from './bulk_transactions';
+import getNetProfileBalance from '../services/profile_service';
 
 let router = express.Router()
 
@@ -11,11 +12,14 @@ router.get("/:id", (req: express.Request, res: express.Response, next) => {
   const profileId = req.params.id
 
   const profileRepository = getRepository(Profile)
-  profileRepository.findOne({ where: { id: profileId } })
+  profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
     .then((profile: Profile) => {
       if (profile) {
-        res.status(200).json(profile)
-        next()
+        getNetProfileBalance(profile)
+          .then((netProfile: object) => {
+            res.status(200).json(netProfile)
+            next()
+          })
       } else {
         res.status(404)
         next()

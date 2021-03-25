@@ -10,7 +10,7 @@ export class Transaction {
   description: string
 
   @Column("double")
-  amount: string
+  amount: number
 
   @Column("boolean")
   recurring: boolean
