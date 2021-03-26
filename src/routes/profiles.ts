@@ -30,7 +30,7 @@ router.get("/:id", (req: express.Request, res: express.Response, next) => {
 router.put(
   "/:id",
   body('balance').not().isEmpty(),
-  body('currency').not().isEmpty(),
+  body('currency').isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
   async (req: express.Request, res: express.Response, next) => {
     const errors = validationResult(req);
 
@@ -74,7 +74,7 @@ router.post(
   body('recurring').not().isEmpty(),
   body('recurringType').not().isEmpty(),
   body('day').not().isEmpty(),
-  body('currency').not().isEmpty(),
+  body('currency').isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
   (req: express.Request, res: express.Response, next) => {
     const errors = validationResult(req);
 

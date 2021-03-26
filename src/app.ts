@@ -70,7 +70,7 @@ const seedProfile = async () => {
       if (profile) {
         // do nothing
       } else {
-        await profileRepository.save({ balance: 0, currency: "EUR" })
+        await profileRepository.save({balance: 0, currency: "EUR"})
       }
   })
 }

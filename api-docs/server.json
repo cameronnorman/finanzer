@@ -13,19 +13,8 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string",
-              "example": "OK"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}": {
@@ -38,49 +27,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 20
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 20.59
-                },
-                "netBalance": {
-                  "type": "number",
-                  "example": 20.59
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       },
       "put": {
         "summary": "/profile/{id}",
@@ -91,103 +42,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 4
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                }
-              }
-            }
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "euros"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "msg": {
-                        "type": "string"
-                      },
-                      "param": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "msg": "Invalid value",
-                      "param": "balance",
-                      "location": "body"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "Not Found"
-                }
-              }
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}/transactions": {
@@ -202,7 +61,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 2
+            "example": 3
           }
         ],
         "responses": {
@@ -233,6 +92,12 @@
                   },
                   "currency": {
                     "type": "string"
+                  },
+                  "created": {
+                    "type": "string"
+                  },
+                  "updated": {
+                    "type": "string"
                   }
                 }
               }
@@ -255,7 +120,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 3
+            "example": 4
           },
           {
             "in": "body",
@@ -286,19 +151,29 @@
                 },
                 "currency": {
                   "type": "string",
-                  "example": "euros"
+                  "example": "EUR"
                 },
                 "profile": {
                   "type": "profile",
                   "example": {
-                    "id": 3,
+                    "id": 4,
                     "balance": 20.59,
-                    "currency": "euros"
+                    "currency": "EUR"
                   }
                 },
                 "id": {
                   "type": "number",
-                  "example": 4
+                  "example": 6
+                },
+                "created": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-03-26T15:28:58.000Z"
+                },
+                "updated": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-03-26T15:28:58.000Z"
                 }
               }
             }
@@ -332,14 +207,14 @@
                 },
                 "currency": {
                   "type": "string",
-                  "example": "euros"
+                  "example": "EUR"
                 },
                 "profile": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "number",
-                      "example": 3
+                      "example": 4
                     },
                     "balance": {
                       "type": "number",
@@ -347,13 +222,21 @@
                     },
                     "currency": {
                       "type": "string",
-                      "example": "euros"
+                      "example": "EUR"
                     }
                   }
                 },
                 "id": {
                   "type": "number",
-                  "example": 4
+                  "example": 6
+                },
+                "created": {
+                  "type": "string",
+                  "example": "2021-03-26T15:28:58.000Z"
+                },
+                "updated": {
+                  "type": "string",
+                  "example": "2021-03-26T15:28:58.000Z"
                 }
               }
             }
@@ -410,24 +293,8 @@
             "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Success! 2 transaction(s) created"
-                }
-              }
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "responses": {},
+        "tags": []
       }
     }
   },
