@@ -13,8 +13,19 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
       }
     },
     "/profile/{id}": {
@@ -27,11 +38,49 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "integer",
+            "example": 20
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 20.59
+                },
+                "netBalance": {
+                  "type": "number",
+                  "example": 20.59
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       },
       "put": {
         "summary": "/profile/{id}",
@@ -42,11 +91,103 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "integer",
+            "example": 2
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 60.39
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 60.39
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "balance",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/profile/{id}/transactions": {
@@ -293,8 +434,24 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Success! 2 transaction(s) created"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     }
   },
