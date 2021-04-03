@@ -29,6 +29,7 @@ rmdocs:
 
 spec:
 	rm -f test.sqlite
+	rm -f uploads/*
 	docker-compose run --rm app npm test
 
 prod_spec:
