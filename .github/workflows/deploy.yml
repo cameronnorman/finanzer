@@ -1,4 +1,4 @@
-name: CICD
+name: deploy
 
 on:
   push:
@@ -7,15 +7,12 @@ on:
 
 jobs:
   deploy:
-    name: CICD
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         id: checkout-code
         uses: actions/checkout@v2
-      - name: Run tests
-        id: run-tests
-        run: make prod_spec
       - name: Push to Docker Repository
         id: build-and-deploy
         run: make prod_deploy

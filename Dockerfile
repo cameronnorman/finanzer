@@ -1,8 +1,10 @@
-FROM node:15.8-alpine as base
+FROM node:15.13-alpine as base
 
 WORKDIR /usr/src/app
 
 RUN mkdir -p uploads
+
+RUN npm install -g npm@7.8.0
 
 RUN apk add sqlite
 
@@ -12,13 +14,9 @@ ENV NODE_PATH=/app/node_modules
 
 RUN npm install -g typescript tslint ts-jest typeorm
 
-RUN npm install sqlite3 --save
-
-RUN npm install --save ts-jest
+RUN npm install sqlite3 jest --save
 
 FROM base as dev
-
-RUN npm install -g jest
 
 FROM base as prod
 

@@ -1,0 +1,16 @@
+name: ci
+
+on:
+  pull_request:
+
+jobs:
+  deploy:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        id: checkout-code
+        uses: actions/checkout@v2
+      - name: Run tests
+        id: run-tests
+        run: make prod_spec
