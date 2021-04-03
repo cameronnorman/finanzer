@@ -294,12 +294,23 @@
                   "type": "string",
                   "example": "EUR"
                 },
+                "categoryId": {
+                  "type": "number",
+                  "example": 1
+                },
                 "profile": {
                   "type": "profile",
                   "example": {
                     "id": 4,
                     "balance": 20.59,
                     "currency": "EUR"
+                  }
+                },
+                "category": {
+                  "type": "category",
+                  "example": {
+                    "id": 1,
+                    "name": "Category 1"
                   }
                 },
                 "id": {
@@ -309,12 +320,12 @@
                 "created": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-03-26T15:28:58.000Z"
+                  "example": "2021-04-03T17:50:45.000Z"
                 },
                 "updated": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-03-26T15:28:58.000Z"
+                  "example": "2021-04-03T17:50:45.000Z"
                 }
               }
             }
@@ -350,6 +361,10 @@
                   "type": "string",
                   "example": "EUR"
                 },
+                "categoryId": {
+                  "type": "number",
+                  "example": 1
+                },
                 "profile": {
                   "type": "object",
                   "properties": {
@@ -367,17 +382,30 @@
                     }
                   }
                 },
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Category 1"
+                    }
+                  }
+                },
                 "id": {
                   "type": "number",
                   "example": 6
                 },
                 "created": {
                   "type": "string",
-                  "example": "2021-03-26T15:28:58.000Z"
+                  "example": "2021-04-03T17:50:45.000Z"
                 },
                 "updated": {
                   "type": "string",
-                  "example": "2021-03-26T15:28:58.000Z"
+                  "example": "2021-04-03T17:50:45.000Z"
                 }
               }
             }
@@ -410,6 +438,214 @@
                       "location": "body"
                     }
                   ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}/categories": {
+      "get": {
+        "summary": "/profile/{id}/categories",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "/profile/{id}/categories",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 5
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "cool category"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "cool category"
+                },
+                "profile": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 5
+                    },
+                    "balance": {
+                      "type": "number",
+                      "example": 20.59
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "EUR"
+                    }
+                  }
+                },
+                "id": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}/categories/{category_id}": {
+      "put": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 5
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 2
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "deadly category"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "name": {
+                  "type": "string",
+                  "example": "deadly category"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 5
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Category successfully deleted"
                 }
               }
             }

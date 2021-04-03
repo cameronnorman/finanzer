@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm"
 import { Profile } from "../entity/Profile"
+import { Category } from "../entity/Category"
 
 @Entity()
 export class Transaction {
@@ -32,4 +33,7 @@ export class Transaction {
 
   @ManyToOne(() => Profile, (profile: Profile) => profile.transactions)
     profile: Profile;
+
+  @ManyToOne(() => Category, (category: Category) => category.transactions)
+    category: Category
 }
