@@ -1,12 +1,14 @@
 import http from "http";
 import express from "express";
 import request from "supertest";
+import { getRepository } from "typeorm";
 
 import server from "../../src/app";
 import connection from "../../src/connection"
 import { Transaction } from "../../src/entity/Transaction";
 import { Profile } from "../../src/entity/Profile";
-import { getConnection, getRepository, InsertResult } from "typeorm";
+import { createCategory } from "../factories/category";
+import { Category } from "../../src/entity/Category";
 
 beforeAll(async (done) => {
   await connection.create()
@@ -21,6 +23,7 @@ afterAll(async (done) => {
 
 describe('Profile Transactions', () => {
   let profile: Profile
+  let category: Category
   let transaction: Transaction
 
   beforeAll(async (done) => {
@@ -31,6 +34,7 @@ describe('Profile Transactions', () => {
       currency: "EUR"
     }
     profile = await profileRepository.save(profileDetails)
+    category = await createCategory("Category 1", profile)
 
     let transactionDetails: any = {
       amount: 10,
@@ -41,6 +45,7 @@ describe('Profile Transactions', () => {
       currency: "EUR",
     }
     transactionDetails.profile = profile
+    transactionDetails.category = category
     transaction = await transactionRepository.save(transactionDetails)
 
     done()
@@ -48,12 +53,6 @@ describe('Profile Transactions', () => {
 
   describe('GET /profile/:id/transactions', () => {
     test('it returns a list of transactions', async (done) => {
-      let transactions: Transaction[] = await getRepository(Transaction).find({
-        order: {
-          id: 'ASC'
-        },
-      })
-
       request(server)
         .get(`/profile/${profile.id}/transactions`)
         .expect(200)
@@ -81,7 +80,8 @@ describe('Profile Transactions', () => {
         day: 2,
         recurring: true,
         recurringType: "monthly",
-        currency: "EUR"
+        currency: "EUR",
+        categoryId: category.id
       }
 
       request(server)
@@ -104,7 +104,8 @@ describe('Profile Transactions', () => {
         day: 2,
         recurring: true,
         recurringType: "monthly",
-        currency: "EUR"
+        currency: "EUR",
+        categoryId: category.id
       }
 
       request(server)
@@ -134,7 +135,8 @@ describe('Profile Transactions', () => {
         day: 2,
         recurring: true,
         recurringType: "monthly",
-        currency: "EUR"
+        currency: "EUR",
+        categoryId: category.id
       }
 
       request(server)
@@ -156,6 +158,11 @@ describe('Profile Transactions', () => {
               id: profile.id,
               balance: 20.59,
               currency: "EUR",
+            },
+            categoryId: category.id,
+            category: {
+              id: category.id,
+              name: "Category 1"
             },
             description: "This is a awesome purchase",
             day: 2,

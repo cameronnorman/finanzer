@@ -1,14 +1,17 @@
 import express from "express"
 import { getRepository, UpdateResult } from "typeorm"
+import { body, validationResult } from 'express-validator';
+
 import { Profile } from "../entity/Profile"
 import { Transaction } from "../entity/Transaction"
-import { body, validationResult } from 'express-validator';
+import { Category } from "../entity/Category";
 import initializeBulkTransactionRoutes from './bulk_transactions';
+import initializeCategoriesRoutes from './categories';
 import getNetProfileBalance from '../services/profile_service';
 
 let router = express.Router()
 
-router.get("/:id", (req: express.Request, res: express.Response, next) => {
+router.get("/:id", (req: express.Request, res: express.Response, next: any) => {
   const profileId = req.params.id
 
   const profileRepository = getRepository(Profile)
@@ -31,7 +34,7 @@ router.put(
   "/:id",
   body('balance').not().isEmpty(),
   body('currency').isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
-  async (req: express.Request, res: express.Response, next) => {
+  async (req: express.Request, res: express.Response, next: any) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -52,7 +55,7 @@ router.put(
     next()
 })
 
-router.get("/:id/transactions", (req: express.Request, res: express.Response, next) => {
+router.get("/:id/transactions", (req: express.Request, res: express.Response, next: any) => {
   const profileId = req.params.id
   const profileRepository = getRepository(Profile)
   profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
@@ -75,7 +78,7 @@ router.post(
   body('recurringType').not().isEmpty(),
   body('day').not().isEmpty(),
   body('currency').isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
-  (req: express.Request, res: express.Response, next) => {
+  (req: express.Request, res: express.Response, next: any) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -84,18 +87,23 @@ router.post(
 
     const profileId = req.params.id
     const profileRepository = getRepository(Profile)
+    const categoryRepository = getRepository(Category)
     const transactionRepository = getRepository(Transaction)
     const transactionDetails: any = req.body
 
     profileRepository.findOne({ where: { id: profileId } })
       .then((profile: Profile) => {
         if (profile) {
-          transactionDetails.profile = profile
-          transactionRepository.save(transactionDetails)
-            .then((transaction: Transaction) => {
-              res.status(200).json(transaction)
-              next()
-            })
+          categoryRepository.findOne({ where: { id: transactionDetails.categoryId } })
+            .then((category: Category) => {
+              transactionDetails.profile = profile
+              transactionDetails.category = category
+              transactionRepository.save(transactionDetails)
+                .then((transaction: Transaction) => {
+                  res.status(200).json(transaction)
+                  next()
+                })
+              })
         } else {
           res.status(404).json({error: "Not Found"})
           next()
@@ -103,6 +111,7 @@ router.post(
     })
 })
 
+router = initializeCategoriesRoutes(router)
 router = initializeBulkTransactionRoutes(router)
 
 export default router
