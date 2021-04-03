@@ -8,3 +8,4 @@ coverage/**/*
 *.sqlite
 .env
 .DS_Store
+uploads/
