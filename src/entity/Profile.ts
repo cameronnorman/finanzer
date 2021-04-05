@@ -7,6 +7,9 @@ export class Profile {
   @PrimaryGeneratedColumn()
   id: number
 
+  @Column("varchar")
+  email: string
+
   @Column("double")
   balance: number
 

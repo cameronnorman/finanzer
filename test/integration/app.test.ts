@@ -39,6 +39,7 @@ describe('Bulk Transactions', () => {
       let profileRepository = await getRepository(Profile)
       let transactionRepository = await getRepository(Transaction)
       let profileDetails = {
+        email: "cool_kid@looserville.com",
         balance: 20.59,
         currency: "EUR"
       }
@@ -80,12 +81,13 @@ describe('Bulk Transactions', () => {
 })
 
 
-describe('Profile viewing and updates', () => {
+describe('Profile view, create, update', () => {
   let lastProfile: Profile
 
   beforeAll(async (done) => {
     let profileRepository = getRepository(Profile)
     let profileDetails = {
+      email: "cool_kid@looserville.com",
       balance: 20.59,
       currency: "EUR"
     }
@@ -101,7 +103,7 @@ describe('Profile viewing and updates', () => {
         .then((response) => {
           expect(response.body).toEqual({
             ...lastProfile,
-            netBalance: lastProfile.balance
+            netBalance: 20.59
           })
           done()
         })
@@ -136,6 +138,7 @@ describe('Profile viewing and updates', () => {
         .then((response) => {
           expect(response.body).toEqual({
             id: lastProfile.id,
+            email: "cool_kid@looserville.com",
             netBalance: 25.00,
             balance: 20.59,
             currency: "EUR"
@@ -143,9 +146,7 @@ describe('Profile viewing and updates', () => {
           done()
         })
     })
-  });
 
-  describe('GET /profile/:id', () => {
     test('when the profile does not exist, it returns a 404 not found', async (done) => {
       request(server)
         .get(`/profile/20`)
@@ -157,10 +158,76 @@ describe('Profile viewing and updates', () => {
     })
   });
 
+  describe('GET /profile/:email', () => {
+    let profile: Profile
+
+    beforeAll(async (done) => {
+      let profileRepository = getRepository(Profile)
+      let profileDetails = {
+        email: "cool_kid@looserville.com",
+        balance: 20.59,
+        currency: "EUR"
+      }
+      profile = await profileRepository.save(profileDetails)
+      done()
+    });
+
+    test('when the profile exists, it returns the relevant profile', async (done) => {
+      const profileEmail = "cool_kid@looserville.com"
+      request(server)
+        .get(`/profile/${profileEmail}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual({
+            id: 1,
+            email: "cool_kid@looserville.com",
+            balance: 20.59,
+            currency: "EUR"
+          })
+          done()
+        })
+    })
+
+    test('when the profile does not exist, it returns a 404 not found', async (done) => {
+      const profileEmail = "happy_kid@coolville.com"
+      request(server)
+        .get(`/profile/${profileEmail}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).toEqual({})
+          done()
+        })
+    })
+  });
+
+  describe('POST /profile', () => {
+    test('when the data is correct, it creates a profile', async (done) => {
+
+      let profileDetails = {
+        email: "cool_kid@looserville.com"
+      }
+
+      request(server)
+        .post(`/profile`)
+        .expect(201)
+        .send(profileDetails)
+        .then((response) => {
+          expect(response.body).toEqual({
+            id: 4,
+            email: "cool_kid@looserville.com",
+            balance: 0,
+            currency: "EUR"
+          })
+          done()
+        })
+    })
+  })
+
   describe('PUT /profile/:id', () => {
     test('when the profile exists, it updates the profile with the new data', async (done) => {
       let updatedProfileDetails = {
         id: lastProfile.id,
+        email: "cool_kid@looserville.com",
         balance: 60.39,
         currency: "EUR"
       }
@@ -178,6 +245,7 @@ describe('Profile viewing and updates', () => {
     test('when the profile exists, and there is a error with the payload, it renders the errors', async (done) => {
       let updatedProfileDetails = {
         id: lastProfile.id,
+        email: "cool_kid@looserville.com",
         currency: "EUR"
       }
 
@@ -196,6 +264,7 @@ describe('Profile viewing and updates', () => {
     test('when the profile does not exist, it does not update the record', async (done) => {
       let updatedProfileDetails = {
         balance: 60.39,
+        email: "cool_kid@looserville.com",
         currency: "EUR"
       }
 

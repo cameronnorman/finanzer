@@ -39,8 +39,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "example": 20
+            "type": "string",
+            "example": "happy_kid@coolville.com"
           }
         ],
         "responses": {
@@ -53,13 +53,17 @@
                   "type": "number",
                   "example": 2
                 },
-                "currency": {
+                "email": {
                   "type": "string",
-                  "example": "EUR"
+                  "example": "cool_kid@looserville.com"
                 },
                 "balance": {
                   "type": "number",
                   "example": 20.59
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
                 },
                 "netBalance": {
                   "type": "number",
@@ -106,6 +110,10 @@
                   "type": "number",
                   "example": 2
                 },
+                "email": {
+                  "type": "string",
+                  "example": "cool_kid@looserville.com"
+                },
                 "balance": {
                   "type": "number",
                   "example": 60.39
@@ -127,6 +135,10 @@
                 "id": {
                   "type": "number",
                   "example": 2
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cool_kid@looserville.com"
                 },
                 "balance": {
                   "type": "number",
@@ -190,6 +202,77 @@
         ]
       }
     },
+    "/profile": {
+      "post": {
+        "summary": "/profile",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "cool_kid@looserville.com"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "cool_kid@looserville.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                },
+                "id": {
+                  "type": "number",
+                  "example": 4
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{email}": {
+      "get": {
+        "summary": "/profile/{email}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
     "/profile/{id}/transactions": {
       "get": {
         "summary": "/profile/{id}/transactions",
@@ -202,7 +285,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 3
+            "example": 5
           }
         ],
         "responses": {
@@ -261,7 +344,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 4
+            "example": 6
           },
           {
             "in": "body",
@@ -301,7 +384,8 @@
                 "profile": {
                   "type": "profile",
                   "example": {
-                    "id": 4,
+                    "id": 6,
+                    "email": "cool_kid@looserville.com",
                     "balance": 20.59,
                     "currency": "EUR"
                   }
@@ -320,12 +404,12 @@
                 "created": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-03T17:50:45.000Z"
+                  "example": "2021-04-05T07:55:13.000Z"
                 },
                 "updated": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-03T17:50:45.000Z"
+                  "example": "2021-04-05T07:55:13.000Z"
                 }
               }
             }
@@ -370,7 +454,11 @@
                   "properties": {
                     "id": {
                       "type": "number",
-                      "example": 4
+                      "example": 6
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
                     },
                     "balance": {
                       "type": "number",
@@ -401,11 +489,11 @@
                 },
                 "created": {
                   "type": "string",
-                  "example": "2021-04-03T17:50:45.000Z"
+                  "example": "2021-04-05T07:55:13.000Z"
                 },
                 "updated": {
                   "type": "string",
-                  "example": "2021-04-03T17:50:45.000Z"
+                  "example": "2021-04-05T07:55:13.000Z"
                 }
               }
             }
@@ -461,7 +549,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 5
+            "example": 7
           }
         ],
         "responses": {
@@ -499,7 +587,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 5
+            "example": 7
           },
           {
             "in": "body",
@@ -531,7 +619,11 @@
                   "properties": {
                     "id": {
                       "type": "number",
-                      "example": 5
+                      "example": 7
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
                     },
                     "balance": {
                       "type": "number",
@@ -569,7 +661,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 5
+            "example": 7
           },
           {
             "name": "category_id",
@@ -627,7 +719,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "example": 5
+            "example": 7
           },
           {
             "name": "category_id",

@@ -30,6 +30,7 @@ describe('Profile Transactions', () => {
     let profileRepository = await getRepository(Profile)
     let transactionRepository = await getRepository(Transaction)
     let profileDetails = {
+      email: "cool_kid@looserville.com",
       balance: 20.59,
       currency: "EUR"
     }
@@ -124,6 +125,7 @@ describe('Profile Transactions', () => {
     test('it creates a transaction', async (done) => {
       let profileDetails = {
         balance: 20.59,
+        email: "cool_kid@looserville.com",
         currency: "EUR"
       }
       let profileRepository = getRepository(Profile)
@@ -156,6 +158,7 @@ describe('Profile Transactions', () => {
             id: lastTransaction.id,
             profile: {
               id: profile.id,
+              email: "cool_kid@looserville.com",
               balance: 20.59,
               currency: "EUR",
             },
