@@ -15,14 +15,48 @@ router.get("/:id", (req: express.Request, res: express.Response, next: any) => {
   const profileId = req.params.id
 
   const profileRepository = getRepository(Profile)
-  profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
+  profileRepository.findOne({ where: { id: profileId } })
     .then((profile: Profile) => {
       if (profile) {
         getNetProfileBalance(profile)
-          .then((netProfile: object) => {
-            res.status(200).json(netProfile)
+          .then((netBalance: number) => {
+            res.status(200).json({ ...profile, netBalance })
             next()
           })
+      } else {
+        res.status(404)
+        next()
+      }
+  })
+})
+
+router.post(
+  "/",
+  body('email').not().isEmpty(),
+  (req: express.Request, res: express.Response, next: any) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const profileRepository = getRepository(Profile)
+  const newProfile = {email: req.body.email, balance: 0, currency: "EUR"}
+  profileRepository.save(newProfile)
+    .then((profile: Profile) => {
+      res.status(201).json(profile)
+      next()
+    })
+})
+
+router.get("/:email", (req: express.Request, res: express.Response, next: any) => {
+  const profileEmail = req.params.email
+
+  const profileRepository = getRepository(Profile)
+  profileRepository.findOne({ where: { email: profileEmail } })
+    .then((profile: Profile) => {
+      if (profile) {
+        res.status(200).json(profile)
       } else {
         res.status(404)
         next()

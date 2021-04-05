@@ -28,6 +28,7 @@ describe('Category Management', () => {
     let profileRepository = await getRepository(Profile)
     let profileDetails = {
       balance: 20.59,
+      email: "cool_kid@looserville.com",
       currency: "EUR"
     }
     profile = await profileRepository.save(profileDetails)
