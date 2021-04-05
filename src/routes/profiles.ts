@@ -49,7 +49,7 @@ router.post(
     })
 })
 
-router.get("/:email", (req: express.Request, res: express.Response, next: any) => {
+router.get("/by_email/:email", (req: express.Request, res: express.Response, next: any) => {
   const profileEmail = req.params.email
 
   const profileRepository = getRepository(Profile)

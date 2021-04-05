@@ -158,7 +158,7 @@ describe('Profile view, create, update', () => {
     })
   });
 
-  describe('GET /profile/:email', () => {
+  describe('GET /profile/by_email/:email', () => {
     let profile: Profile
 
     beforeAll(async (done) => {
@@ -173,9 +173,8 @@ describe('Profile view, create, update', () => {
     });
 
     test('when the profile exists, it returns the relevant profile', async (done) => {
-      const profileEmail = "cool_kid@looserville.com"
       request(server)
-        .get(`/profile/${profileEmail}`)
+        .get(`/profile/by_email/cool_kid@looserville.com`)
         .expect(200)
         .then((response) => {
           expect(response.body).toEqual({
@@ -189,9 +188,8 @@ describe('Profile view, create, update', () => {
     })
 
     test('when the profile does not exist, it returns a 404 not found', async (done) => {
-      const profileEmail = "happy_kid@coolville.com"
       request(server)
-        .get(`/profile/${profileEmail}`)
+        .get(`/profile/by_email/happy_kid@coolville.com`)
         .expect(404)
         .then((response) => {
           expect(response.body).toEqual({})

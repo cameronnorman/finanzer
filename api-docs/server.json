@@ -39,8 +39,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string",
-            "example": "happy_kid@coolville.com"
+            "type": "integer",
+            "example": 20
           }
         ],
         "responses": {
@@ -256,9 +256,9 @@
         ]
       }
     },
-    "/profile/{email}": {
+    "/profile/by_email/{email}": {
       "get": {
-        "summary": "/profile/{email}",
+        "summary": "/profile/by_email/{email}",
         "consumes": [
           "application/json"
         ],
@@ -266,11 +266,49 @@
           {
             "name": "email",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "happy_kid@coolville.com"
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cool_kid@looserville.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 20.59
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/transactions": {
@@ -404,12 +442,12 @@
                 "created": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T08:45:26.000Z"
+                  "example": "2021-04-05T09:09:07.000Z"
                 },
                 "updated": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T08:45:26.000Z"
+                  "example": "2021-04-05T09:09:07.000Z"
                 }
               }
             }
@@ -489,11 +527,11 @@
                 },
                 "created": {
                   "type": "string",
-                  "example": "2021-04-05T08:45:26.000Z"
+                  "example": "2021-04-05T09:09:07.000Z"
                 },
                 "updated": {
                   "type": "string",
-                  "example": "2021-04-05T08:45:26.000Z"
+                  "example": "2021-04-05T09:09:07.000Z"
                 }
               }
             }
