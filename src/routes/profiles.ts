@@ -1,5 +1,5 @@
 import express from "express"
-import { getRepository, UpdateResult } from "typeorm"
+import { getRepository, createQueryBuilder } from "typeorm"
 import { body, validationResult } from 'express-validator';
 
 import { Profile } from "../entity/Profile"
@@ -95,8 +95,19 @@ router.get("/:id/transactions", (req: express.Request, res: express.Response, ne
   profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
     .then((profile: Profile) => {
       if (profile) {
-        res.status(200).json(profile.transactions)
-        next()
+        const limit: number = Number(req.query.per_page) || 10
+        const offset: number = (Number(req.query.page) - 1) || 0
+
+        getRepository(Transaction)
+          .createQueryBuilder("transaction")
+          .where("transaction.profileId = :profileId", { profileId: profile.id })
+          .limit(limit)
+          .offset(offset)
+          .getMany()
+          .then((transactions: Transaction[]) => {
+            res.status(200).json(transactions)
+            next()
+          })
       } else {
         res.status(404).json({error: "Not Found"})
         next()

@@ -131,6 +131,7 @@ describe('Profile view, create, update', () => {
           profile: lastProfile
         }
       ]
+
       let response = await transactionRepository.save(transactions)
       request(server)
         .get(`/profile/${lastProfile.id}`)
