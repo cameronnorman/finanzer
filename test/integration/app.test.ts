@@ -181,7 +181,8 @@ describe('Profile view, create, update', () => {
             id: 1,
             email: "cool_kid@looserville.com",
             balance: 20.59,
-            currency: "EUR"
+            netBalance: 20.59,
+            currency: "EUR",
           })
           done()
         })
@@ -214,6 +215,7 @@ describe('Profile view, create, update', () => {
             id: 4,
             email: "cool_kid@looserville.com",
             balance: 0,
+            netBalance: 0,
             currency: "EUR"
           })
           done()

@@ -42,21 +42,29 @@ router.post(
 
   const profileRepository = getRepository(Profile)
   const newProfile = {email: req.body.email, balance: 0, currency: "EUR"}
+
   profileRepository.save(newProfile)
     .then((profile: Profile) => {
-      res.status(201).json(profile)
-      next()
+      getNetProfileBalance(profile)
+        .then((netBalance: number) => {
+          res.status(201).json({ ...profile, netBalance })
+          next()
+        })
     })
 })
 
 router.get("/by_email/:email", (req: express.Request, res: express.Response, next: any) => {
   const profileEmail = req.params.email
-
   const profileRepository = getRepository(Profile)
+
   profileRepository.findOne({ where: { email: profileEmail } })
     .then((profile: Profile) => {
       if (profile) {
-        res.status(200).json(profile)
+        getNetProfileBalance(profile)
+          .then((netBalance: number) => {
+            res.status(200).json({ ...profile, netBalance })
+            next()
+          })
       } else {
         res.status(404)
         next()
