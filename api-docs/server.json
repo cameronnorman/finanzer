@@ -324,6 +324,18 @@
             "required": true,
             "type": "integer",
             "example": 5
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "example": "1"
+          },
+          {
+            "type": "integer",
+            "name": "per_page",
+            "in": "query",
+            "example": "1"
           }
         ],
         "responses": {
@@ -361,7 +373,18 @@
                   "updated": {
                     "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "id",
+                  "description",
+                  "amount",
+                  "recurring",
+                  "recurringType",
+                  "day",
+                  "currency",
+                  "created",
+                  "updated"
+                ]
               }
             }
           }
@@ -437,17 +460,17 @@
                 },
                 "id": {
                   "type": "number",
-                  "example": 6
+                  "example": 9
                 },
                 "created": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T09:09:07.000Z"
+                  "example": "2021-04-05T20:20:08.000Z"
                 },
                 "updated": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T09:09:07.000Z"
+                  "example": "2021-04-05T20:20:08.000Z"
                 }
               }
             }
@@ -523,15 +546,15 @@
                 },
                 "id": {
                   "type": "number",
-                  "example": 6
+                  "example": 9
                 },
                 "created": {
                   "type": "string",
-                  "example": "2021-04-05T09:09:07.000Z"
+                  "example": "2021-04-05T20:20:08.000Z"
                 },
                 "updated": {
                   "type": "string",
-                  "example": "2021-04-05T09:09:07.000Z"
+                  "example": "2021-04-05T20:20:08.000Z"
                 }
               }
             }

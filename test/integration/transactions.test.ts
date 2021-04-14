@@ -9,6 +9,7 @@ import { Transaction } from "../../src/entity/Transaction";
 import { Profile } from "../../src/entity/Profile";
 import { createCategory } from "../factories/category";
 import { Category } from "../../src/entity/Category";
+import { createTransaction } from "../factories/transaction";
 
 beforeAll(async (done) => {
   await connection.create()
@@ -24,7 +25,7 @@ afterAll(async (done) => {
 describe('Profile Transactions', () => {
   let profile: Profile
   let category: Category
-  let transaction: Transaction
+  let transactions: Transaction[]
 
   beforeAll(async (done) => {
     let profileRepository = await getRepository(Profile)
@@ -37,38 +38,34 @@ describe('Profile Transactions', () => {
     profile = await profileRepository.save(profileDetails)
     category = await createCategory("Category 1", profile)
 
-    let transactionDetails: any = {
-      amount: 10,
-      day: 2,
-      recurring: true,
-      description: "This is a expensive transaction",
-      recurringType: "monthly",
-      currency: "EUR",
-    }
-    transactionDetails.profile = profile
-    transactionDetails.category = category
-    transaction = await transactionRepository.save(transactionDetails)
+    transactions = await Promise.all([
+      await createTransaction(category, profile),
+      await createTransaction(category, profile),
+      await createTransaction(category, profile),
+      await createTransaction(category, profile)
+    ])
 
     done()
   });
 
   describe('GET /profile/:id/transactions', () => {
-    test('it returns a list of transactions', async (done) => {
+    test('when no pagination provided, it returns a list of max. 10 transactions', async (done) => {
       request(server)
         .get(`/profile/${profile.id}/transactions`)
         .expect(200)
         .then((response) => {
-          expect(response.body).toEqual([{
-            id: transaction.id,
-            amount: 10,
-            day: 2,
-            recurring: true,
-            description: "This is a expensive transaction",
-            recurringType: "monthly",
-            currency: "EUR",
-            created: transaction.created.toISOString(),
-            updated: transaction.updated.toISOString()
-          }])
+          expect(response.body.length).toEqual(4)
+          done()
+        })
+    })
+
+    test('when pagination exitst, it returns a list of paginated transactions', async (done) => {
+      request(server)
+        .get(`/profile/${profile.id}/transactions?page=1&per_page=1`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.length).toEqual(1)
+          expect(response.body[0].id).toEqual(5)
           done()
         })
     })
