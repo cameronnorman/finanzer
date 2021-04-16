@@ -103,15 +103,28 @@ router.get("/:id/transactions", (req: express.Request, res: express.Response, ne
   profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
     .then((profile: Profile) => {
       if (profile) {
+        // The logic between here should be moved to the transaction service
+        // ####
+        const today: Date = new Date()
         const limit: number = Number(req.query.per_page) || 10
         const offset: number = (Number(req.query.page) - 1) || 0
+        let startDate: string = `${today.getFullYear()}-01-01`
+        let endDate: string = `${today.getFullYear()}-12-31`
+
+        if (req.query.start_date && req.query.end_date) {
+          startDate = String(req.query.start_date)
+          endDate = String(req.query.end_date)
+        }
 
         getRepository(Transaction)
           .createQueryBuilder("transaction")
-          .where("transaction.profileId = :profileId", { profileId: profile.id })
+          .where(
+            "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
+            { profileId: profile.id, startDate, endDate})
           .limit(limit)
           .offset(offset)
           .getMany()
+        // ####
           .then((transactions: Transaction[]) => {
             res.status(200).json(transactions)
             next()

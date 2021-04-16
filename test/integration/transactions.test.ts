@@ -39,10 +39,10 @@ describe('Profile Transactions', () => {
     category = await createCategory("Category 1", profile)
 
     transactions = await Promise.all([
-      await createTransaction(category, profile),
-      await createTransaction(category, profile),
-      await createTransaction(category, profile),
-      await createTransaction(category, profile)
+      await createTransaction(category, profile, {created: new Date(`${new Date().getFullYear()}-01-01`)}),
+      await createTransaction(category, profile, {created: new Date(`${new Date().getFullYear()}-01-01`)}),
+      await createTransaction(category, profile, {created: new Date(`${new Date().getFullYear()}-02-01`)}),
+      await createTransaction(category, profile, {created: new Date(`${new Date().getFullYear()}-02-01`)})
     ])
 
     done()
@@ -65,6 +65,16 @@ describe('Profile Transactions', () => {
         .expect(200)
         .then((response) => {
           expect(response.body.length).toEqual(1)
+          expect(response.body[0].id).toEqual(5)
+          done()
+        })
+    })
+    test('when date ranges exist', async (done) => {
+      request(server)
+        .get(`/profile/${profile.id}/transactions?start_date=${new Date().getFullYear()}-01-01&end_date=${new Date().getFullYear()}-01-31`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.length).toEqual(2)
           expect(response.body[0].id).toEqual(5)
           done()
         })

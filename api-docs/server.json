@@ -245,6 +245,10 @@
                 "id": {
                   "type": "number",
                   "example": 4
+                },
+                "netBalance": {
+                  "type": "number",
+                  "example": 0
                 }
               }
             }
@@ -292,6 +296,10 @@
                 "currency": {
                   "type": "string",
                   "example": "EUR"
+                },
+                "netBalance": {
+                  "type": "number",
+                  "example": 20.59
                 }
               }
             }
@@ -336,6 +344,18 @@
             "name": "per_page",
             "in": "query",
             "example": "1"
+          },
+          {
+            "type": "string",
+            "name": "start_date",
+            "in": "query",
+            "example": "2021-01-01"
+          },
+          {
+            "type": "string",
+            "name": "end_date",
+            "in": "query",
+            "example": "2021-01-31"
           }
         ],
         "responses": {
@@ -465,12 +485,12 @@
                 "created": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T20:20:08.000Z"
+                  "example": "2021-04-16T12:19:25.000Z"
                 },
                 "updated": {
                   "type": "string",
                   "format": "date-time",
-                  "example": "2021-04-05T20:20:08.000Z"
+                  "example": "2021-04-16T12:19:25.000Z"
                 }
               }
             }
@@ -550,11 +570,11 @@
                 },
                 "created": {
                   "type": "string",
-                  "example": "2021-04-05T20:20:08.000Z"
+                  "example": "2021-04-16T12:19:25.000Z"
                 },
                 "updated": {
                   "type": "string",
-                  "example": "2021-04-05T20:20:08.000Z"
+                  "example": "2021-04-16T12:19:25.000Z"
                 }
               }
             }
