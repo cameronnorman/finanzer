@@ -4,21 +4,21 @@ RUN apk add sqlite
 
 WORKDIR /usr/src/app
 
-RUN mkdir -p uploads
-
-RUN npm install -g npm@7.8.0
-
 COPY package*.json ./
 
-ENV NODE_PATH=/app/node_modules
+FROM base as dev
 
-RUN npm install -g typescript tslint ts-jest typeorm
+RUN npm install -g typescript tslint
 
-RUN npm install --save-dev sqlite3 jest
+RUN mkdir -p uploads
 
-CMD ["npm", "run", "dev"]
+RUN npm install -g ts-jest typeorm ts-node
 
-FROM base as prod
+RUN npm install --save-dev sqlite3 jest nodemon
+
+FROM base as builder
+
+RUN npm install -g typescript tslint
 
 COPY . .
 
@@ -26,7 +26,13 @@ RUN npm install
 
 RUN npm run build
 
-RUN cp -r api-docs dist/api-docs
+FROM base as prod
+
+COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
+COPY --from=builder /usr/src/app/dist /usr/src/app/dist
+COPY --from=builder /usr/src/app/api-docs /usr/src/app/api-docs
+
+RUN mkdir -p dist/uploads
 
 CMD ["npm", "run", "start"]
 
