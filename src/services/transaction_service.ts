@@ -13,3 +13,7 @@ export interface TransactionDetails {
   profile?: Profile,
   category?: Category,
 }
+
+export const filterTransactions = () => {
+  return ""
+}
