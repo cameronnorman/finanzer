@@ -121,8 +121,9 @@ router.get("/:id/transactions", (req: express.Request, res: express.Response, ne
           .where(
             "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
             { profileId: profile.id, startDate, endDate})
+          .leftJoinAndSelect("transaction.category", "categories")
           .limit(limit)
-          .offset(offset)
+          .offset(offset * limit)
           .getMany()
         // ####
           .then((transactions: Transaction[]) => {
