@@ -2,12 +2,13 @@
    "name": "finanzer",
    "version": "1.0.0",
    "description": "",
-   "main": "dist/app.js",
+   "main": "src/app.ts",
    "scripts": {
       "prebuild": "tslint -c tslint.json -p tsconfig.json",
-      "build": "tsc",
-      "prestart": "npm run build",
-      "start": "node .",
+      "build": "rm -rf dist/ && tsc",
+      "watch-dev": "nodemon",
+      "dev": "tslint -c tslint.json -p tsconfig.json && ts-node .",
+      "start": "node dist/app.js",
       "test": "NODE_ENV=test jest --runInBand --maxConcurrency=1",
       "testc": "NODE_ENV=test jest --runInBand --maxConcurrency=1 --coverage"
    },
