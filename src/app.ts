@@ -41,7 +41,7 @@ const checkAuth = (req: express.Request, res: express.Response, next: any) => {
 const app = express()
 const port: string = process.env.PORT
 
-const openAPIFilePath = './api-docs/server.json'
+const openAPIFilePath = '/usr/src/app/api-docs/server.json'
 
 const predefinedSpec = JSON.parse(
   fs.readFileSync(openAPIFilePath, { encoding: 'utf-8' })
@@ -49,7 +49,9 @@ const predefinedSpec = JSON.parse(
 
 expressOasGenerator.handleResponses(app, {
   predefinedSpec: () => predefinedSpec,
-  specOutputPath: openAPIFilePath
+  specOutputPath: openAPIFilePath,
+  alwaysServeDocs: true,
+  ignoredNodeEnvironments: ['test']
 })
 
 app.use(express.json())
@@ -58,25 +60,11 @@ app.use(morgan('tiny'))
 app.use('/', healthCheckRouter)
 app.use('/profile', checkAuth, profilesRouter)
 
-const seedProfile = async () => {
-  const profileRepository = await getRepository(Profile)
-  profileRepository.findOne({ where: { id: 1 } })
-    .then(async (profile: Profile) => {
-      if (profile) {
-        // do nothing
-      } else {
-        await profileRepository.save({email: "test@test.com", balance: 0, currency: "EUR"})
-      }
-  })
-}
-
 expressOasGenerator.handleRequests()
 const server = app.listen(port, () => {
   connection.create(process.env.NODE_ENV).then(() => {
-    if (process.env.NODE_ENV !== "test") { seedProfile() }
-
     // tslint:disable-next-line:no-console
-    console.log(`Server started on port: ${ port }`)
+    console.log(`Server started on port: ${port}`)
   })
 });
 

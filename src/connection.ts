@@ -7,22 +7,22 @@ interface TypeOrmCli {
 }
 
 interface TypeOrmConfig {
-    synchronize: boolean,
-    logging: boolean,
-    type: string,
-    database: string,
-    entities: string[],
-    migrations: string[],
-    subscribers: string[]
-    cli: TypeOrmCli
+  synchronize: boolean,
+  logging: boolean,
+  type: string,
+  database: string,
+  entities: string[],
+  migrations: string[],
+  subscribers: string[]
+  cli: TypeOrmCli
 }
 
 interface TypeOrmEnvConfig {
   development: ConnectionOptions,
-  test: ConnectionOptions
+  production: ConnectionOptions
 }
 
-const developmentConfig: ConnectionOptions = {
+const productionConfig: ConnectionOptions = {
   synchronize: true,
   logging: false,
   type: "sqlite",
@@ -41,7 +41,7 @@ const developmentConfig: ConnectionOptions = {
   }
 }
 
-const testConfig: ConnectionOptions = {
+const developmentConfig: ConnectionOptions = {
   synchronize: true,
   logging: false,
   type: "sqlite",
@@ -66,23 +66,31 @@ const connection = {
       return getConnection("default");
     } catch (e) {
       const dbEnvConfig: TypeOrmEnvConfig = {
-        development: developmentConfig,
-        test: testConfig
+        production: productionConfig,
+        development: developmentConfig
       }
 
-      if (dbName === "development") {
-        await createConnection(dbEnvConfig.development)
-      } else {
-        await createConnection(dbEnvConfig.test)
+      switch (dbName) {
+        case 'test':
+          await createConnection(dbEnvConfig.development)
+          break;
+        case 'development':
+          await createConnection(dbEnvConfig.development)
+          break;
+        case 'production':
+          await createConnection(dbEnvConfig.production)
+          break;
+        default:
+          throw Error("Unable to identify database connection!")
       }
     }
   },
 
-  async close(){
+  async close() {
     await getConnection().close()
   },
 
-  async clear(){
+  async clear() {
     const entities = getConnection().entityMetadatas;
 
     entities.forEach(async (entity) => {

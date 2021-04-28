@@ -17,7 +17,6 @@ shell:
 	docker-compose run --rm app ash
 
 start:
-	rm -rf dist
 	docker-compose up
 
 gendocs: rmdocs spec
@@ -34,14 +33,22 @@ spec:
 
 prod_spec:
 	rm -f test.sqlite
+	rm -f uploads/*
 	cp .env.sample .env
 	docker-compose run --rm app npm test
+
+prod_shell:
+	docker-compose -f docker-compose-prod.yml run --rm app ash
 
 prod_run:
 	docker-compose -f docker-compose-prod.yml up
 
-prod_deploy:
-	docker build . --target=prod -t $(image)
+prod_deploy: prod_build prod_push
+
+prod_build:
+	DOCKER_BUILDKIT=1 docker build . --target=prod -t $(image)
+
+prod_push:
 	docker login $(docker_repo) -u $(docker_repo_username) -p $(docker_repo_password)
 	docker tag $(image) $(docker_repo)/$(image)
 	docker push $(docker_repo)/$(image)

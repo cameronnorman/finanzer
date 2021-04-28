@@ -2,20 +2,9 @@ version: '3.7'
 
 services:
   app:
-    stdin_open: true
-    tty: true
-    image: "finanzer:0.0.1"
-    #build:
-      #context: .
-      #target: dev
-    volumes:
-      - "./:/usr/src/app"
-      - "node_modules:/usr/src/app/node_modules"
+    image: "finanzer:0.0.25"
     environment:
-      NODE_ENV: "development"
+      NODE_ENV: "production"
+      PORT: "3000"
     ports:
       - 3000:3000
-    command: "npm run start"
-
-volumes:
-  node_modules:
