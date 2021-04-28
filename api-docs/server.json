@@ -319,305 +319,6 @@
         ]
       }
     },
-    "/profile/{id}/transactions": {
-      "get": {
-        "summary": "/profile/{id}/transactions",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 5
-          },
-          {
-            "type": "integer",
-            "name": "page",
-            "in": "query",
-            "example": "1"
-          },
-          {
-            "type": "integer",
-            "name": "per_page",
-            "in": "query",
-            "example": "1"
-          },
-          {
-            "type": "string",
-            "name": "start_date",
-            "in": "query",
-            "example": "2021-01-01"
-          },
-          {
-            "type": "string",
-            "name": "end_date",
-            "in": "query",
-            "example": "2021-01-31"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "description": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "number"
-                  },
-                  "recurring": {
-                    "type": "boolean"
-                  },
-                  "recurringType": {
-                    "type": "string"
-                  },
-                  "day": {
-                    "type": "number"
-                  },
-                  "currency": {
-                    "type": "string"
-                  },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "id",
-                  "description",
-                  "amount",
-                  "recurring",
-                  "recurringType",
-                  "day",
-                  "currency",
-                  "created",
-                  "updated"
-                ]
-              }
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json"
-        ]
-      },
-      "post": {
-        "summary": "/profile/{id}/transactions",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 6
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "amount": {
-                  "type": "number",
-                  "example": 10
-                },
-                "description": {
-                  "type": "string",
-                  "example": "This is a awesome purchase"
-                },
-                "day": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recurring": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "recurringType": {
-                  "type": "string",
-                  "example": "monthly"
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "categoryId": {
-                  "type": "number",
-                  "example": 1
-                },
-                "profile": {
-                  "type": "profile",
-                  "example": {
-                    "id": 6,
-                    "email": "cool_kid@looserville.com",
-                    "balance": 20.59,
-                    "currency": "EUR"
-                  }
-                },
-                "category": {
-                  "type": "category",
-                  "example": {
-                    "id": 1,
-                    "name": "Category 1"
-                  }
-                },
-                "id": {
-                  "type": "number",
-                  "example": 9
-                },
-                "created": {
-                  "type": "string",
-                  "format": "date-time",
-                  "example": "2021-04-16T12:19:25.000Z"
-                },
-                "updated": {
-                  "type": "string",
-                  "format": "date-time",
-                  "example": "2021-04-16T12:19:25.000Z"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "amount": {
-                  "type": "number",
-                  "example": 10
-                },
-                "description": {
-                  "type": "string",
-                  "example": "This is a awesome purchase"
-                },
-                "day": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recurring": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "recurringType": {
-                  "type": "string",
-                  "example": "monthly"
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "categoryId": {
-                  "type": "number",
-                  "example": 1
-                },
-                "profile": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 6
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "cool_kid@looserville.com"
-                    },
-                    "balance": {
-                      "type": "number",
-                      "example": 20.59
-                    },
-                    "currency": {
-                      "type": "string",
-                      "example": "EUR"
-                    }
-                  }
-                },
-                "category": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Category 1"
-                    }
-                  }
-                },
-                "id": {
-                  "type": "number",
-                  "example": 9
-                },
-                "created": {
-                  "type": "string",
-                  "example": "2021-04-16T12:19:25.000Z"
-                },
-                "updated": {
-                  "type": "string",
-                  "example": "2021-04-16T12:19:25.000Z"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "msg": {
-                        "type": "string"
-                      },
-                      "param": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "msg": "Invalid value",
-                      "param": "description",
-                      "location": "body"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
     "/profile/{id}/categories": {
       "get": {
         "summary": "/profile/{id}/categories",
@@ -852,6 +553,317 @@
                 "message": {
                   "type": "string",
                   "example": "Success! 2 transaction(s) created"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/profile/{id}/transactions": {
+      "get": {
+        "summary": "/profile/{id}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 5
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "example": "1"
+          },
+          {
+            "type": "integer",
+            "name": "per_page",
+            "in": "query",
+            "example": "1"
+          },
+          {
+            "type": "string",
+            "name": "start_date",
+            "in": "query",
+            "example": "2021-01-01"
+          },
+          {
+            "type": "string",
+            "name": "end_date",
+            "in": "query",
+            "example": "2021-01-31"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "recurring": {
+                    "type": "boolean"
+                  },
+                  "recurringType": {
+                    "type": "string"
+                  },
+                  "day": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "created": {
+                    "type": "string"
+                  },
+                  "updated": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "description",
+                  "amount",
+                  "recurring",
+                  "recurringType",
+                  "day",
+                  "currency",
+                  "created",
+                  "updated",
+                  "category"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "/profile/{id}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "example": 6
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "description": {
+                  "type": "string",
+                  "example": "This is a awesome purchase"
+                },
+                "day": {
+                  "type": "number",
+                  "example": 2
+                },
+                "recurring": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "recurringType": {
+                  "type": "string",
+                  "example": "monthly"
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                },
+                "categoryId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "profile": {
+                  "type": "profile",
+                  "example": {
+                    "id": 6,
+                    "email": "cool_kid@looserville.com",
+                    "balance": 20.59,
+                    "currency": "EUR"
+                  }
+                },
+                "category": {
+                  "type": "category",
+                  "example": {
+                    "id": 1,
+                    "name": "Category 1"
+                  }
+                },
+                "id": {
+                  "type": "number",
+                  "example": 9
+                },
+                "created": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-04-28T07:03:25.000Z"
+                },
+                "updated": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-04-28T07:03:25.000Z"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "description": {
+                  "type": "string",
+                  "example": "This is a awesome purchase"
+                },
+                "day": {
+                  "type": "number",
+                  "example": 2
+                },
+                "recurring": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "recurringType": {
+                  "type": "string",
+                  "example": "monthly"
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                },
+                "categoryId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "profile": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 6
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": {
+                      "type": "number",
+                      "example": 20.59
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "EUR"
+                    }
+                  }
+                },
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Category 1"
+                    }
+                  }
+                },
+                "id": {
+                  "type": "number",
+                  "example": 9
+                },
+                "created": {
+                  "type": "string",
+                  "example": "2021-04-28T07:03:25.000Z"
+                },
+                "updated": {
+                  "type": "string",
+                  "example": "2021-04-28T07:03:25.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "description",
+                      "location": "body"
+                    }
+                  ]
                 }
               }
             }
