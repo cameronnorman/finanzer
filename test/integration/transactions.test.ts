@@ -55,6 +55,7 @@ describe('Profile Transactions', () => {
         .expect(200)
         .then((response) => {
           expect(response.body.length).toEqual(4)
+          expect(response.body[0].category.id).toEqual(category.id)
           done()
         })
     })
@@ -69,6 +70,7 @@ describe('Profile Transactions', () => {
           done()
         })
     })
+
     test('when date ranges exist', async (done) => {
       request(server)
         .get(`/profile/${profile.id}/transactions?start_date=${new Date().getFullYear()}-01-01&end_date=${new Date().getFullYear()}-01-31`)

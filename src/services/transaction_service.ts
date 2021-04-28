@@ -1,4 +1,7 @@
+import { getRepository, createQueryBuilder } from "typeorm"
+
 import { Profile } from "../entity/Profile";
+import { Transaction } from "../entity/Transaction"
 import { Category } from "../entity/Category";
 
 export interface TransactionDetails {
@@ -14,6 +17,14 @@ export interface TransactionDetails {
   category?: Category,
 }
 
-export const filterTransactions = () => {
-  return ""
+export const filterTransactions = (profileId: number, startDate: string, endDate: string, offset: number, limit: number) => {
+  return getRepository(Transaction)
+    .createQueryBuilder("transaction")
+    .where(
+      "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
+      { profileId: profileId, startDate, endDate})
+    .leftJoinAndSelect("transaction.category", "categories")
+    .limit(limit)
+    .offset(offset * limit)
+    .getMany()
 }
