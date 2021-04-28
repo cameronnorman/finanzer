@@ -22,7 +22,7 @@ export const filterTransactions = (profileId: number, startDate: string, endDate
     .createQueryBuilder("transaction")
     .where(
       "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
-      { profileId: profileId, startDate, endDate})
+      { profileId, startDate, endDate})
     .leftJoinAndSelect("transaction.category", "categories")
     .limit(limit)
     .offset(offset * limit)
