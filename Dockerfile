@@ -1,5 +1,7 @@
 FROM node:15.13-alpine as base
 
+RUN npm install -g npm@7.11.2
+
 RUN apk add sqlite
 
 WORKDIR /usr/src/app
