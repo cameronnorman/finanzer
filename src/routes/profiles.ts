@@ -8,28 +8,23 @@ import initializeBulkTransactionRoutes from "./bulk_transactions";
 import initializeTransactionsRoutes from "./transactions";
 import initializeCategoriesRoutes from "./categories";
 
-import { getNetProfileBalance } from "../services/profile_service";
+import { getNetProfileBalance, getProfile } from "../services/profile_service";
 
 let router = express.Router();
 
-router.get("/:id", (req: express.Request, res: express.Response, next: any) => {
-  const profileId = req.params.id;
+router.get(
+  "/:id",
+  async (req: express.Request, res: express.Response, next: any) => {
+    const profileId = req.params.id;
+    const profile = await getProfile(profileId);
+    if (!profile) {
+      return res.status(404).json("Profile not found");
+    }
 
-  const profileRepository = getRepository(Profile);
-  profileRepository
-    .findOne({ where: { id: profileId } })
-    .then((profile: Profile) => {
-      if (profile) {
-        getNetProfileBalance(profile).then((netBalance: number) => {
-          res.status(200).json({ ...profile, netBalance });
-          next();
-        });
-      } else {
-        res.status(404);
-        next();
-      }
-    });
-});
+    const netBalance = getNetProfileBalance(profile);
+    res.status(200).json({ ...profile, netBalance });
+  }
+);
 
 router.post(
   "/",
