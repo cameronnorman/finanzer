@@ -1,85 +1,85 @@
-import express from "express"
-import { body, validationResult } from 'express-validator';
-import { getRepository, createQueryBuilder } from "typeorm"
+import express from "express";
+import { body, validationResult } from "express-validator";
 
-import { Profile } from "../entity/Profile"
-import { Transaction } from "../entity/Transaction"
-import { Category } from "../entity/Category";
+import {
+  filterTransactions,
+  createTransaction,
+} from "../services/transaction_service";
+import { getProfile } from "../services/profile_service";
+import { getCategory } from "../services/category_service";
 
-import { filterTransactions } from '../services/transaction_service'
+const formatInputParams = (req: express.Request) => {
+  const today: Date = new Date();
+  const limit: number = Number(req.query.per_page) || 10;
+  const offset: number = Number(req.query.page) - 1 || 0;
+  let startDate: string = `${today.getFullYear()}-01-01`;
+  let endDate: string = `${today.getFullYear()}-12-31`;
+
+  if (req.query.start_date && req.query.end_date) {
+    startDate = String(req.query.start_date);
+    endDate = String(req.query.end_date);
+  }
+
+  return { startDate, endDate, offset, limit };
+};
 
 const initializeTransactionsRoutes = (router: express.Router) => {
-  router.get("/:id/transactions", (req: express.Request, res: express.Response, next: any) => {
-    const profileId = req.params.id
-    const profileRepository = getRepository(Profile)
-    profileRepository.findOne({ where: { id: profileId }, relations: ["transactions"] })
-      .then((profile: Profile) => {
-        if (profile) {
-          const today: Date = new Date()
-          const limit: number = Number(req.query.per_page) || 10
-          const offset: number = (Number(req.query.page) - 1) || 0
-          let startDate: string = `${today.getFullYear()}-01-01`
-          let endDate: string = `${today.getFullYear()}-12-31`
+  router.get(
+    "/:id/transactions",
+    async (req: express.Request, res: express.Response) => {
+      const profileId = req.params.id;
+      const profile = await getProfile(profileId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
 
-          if (req.query.start_date && req.query.end_date) {
-            startDate = String(req.query.start_date)
-            endDate = String(req.query.end_date)
-          }
-
-          filterTransactions(profile.id, startDate, endDate, offset, limit)
-            .then((transactions: Transaction[]) => {
-              res.status(200).json(transactions)
-              next()
-            })
-        } else {
-          res.status(404).json({error: "Not Found"})
-          next()
-        }
-      })
-  })
+      const { startDate, endDate, offset, limit } = formatInputParams(req);
+      const transactions = await filterTransactions(
+        profile.id,
+        startDate,
+        endDate,
+        offset,
+        limit
+      );
+      return res.status(200).json(transactions);
+    }
+  );
 
   router.post(
     "/:id/transactions",
-    body('description').not().isEmpty().trim().escape(),
-    body('amount').not().isEmpty(),
-    body('recurring').not().isEmpty(),
-    body('recurringType').not().isEmpty(),
-    body('day').not().isEmpty(),
-    body('currency').isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
-    (req: express.Request, res: express.Response, next: any) => {
+    body("description").not().isEmpty().trim().escape(),
+    body("amount").not().isEmpty(),
+    body("recurring").not().isEmpty(),
+    body("recurringType").not().isEmpty(),
+    body("day").not().isEmpty(),
+    body("currency").isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
+    async (req: express.Request, res: express.Response, next: any) => {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const profileId = req.params.id
-      const profileRepository = getRepository(Profile)
-      const categoryRepository = getRepository(Category)
-      const transactionRepository = getRepository(Transaction)
-      const transactionDetails: any = req.body
+      const profileId = req.params.id;
+      const profile = await getProfile(profileId, []);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
 
-      profileRepository.findOne({ where: { id: profileId } })
-        .then((profile: Profile) => {
-          if (profile) {
-            categoryRepository.findOne({ where: { id: transactionDetails.categoryId } })
-              .then((category: Category) => {
-                transactionDetails.profile = profile
-                transactionDetails.category = category
-                transactionRepository.save(transactionDetails)
-                  .then((transaction: Transaction) => {
-                    res.status(200).json(transaction)
-                    next()
-                  })
-                })
-          } else {
-            res.status(404).json({error: "Not Found"})
-            next()
-          }
-      })
-  })
+      const transactionDetails: any = req.body;
+      const category = await getCategory(transactionDetails.categoryId);
+      if (!category) {
+        return res.status(422).json({ error: "Category not found" });
+      }
 
-  return router
-}
+      transactionDetails.profile = profile;
+      transactionDetails.category = category;
+      const transaction = await createTransaction(transactionDetails);
+      res.status(200).json(transaction);
+    }
+  );
 
-export default initializeTransactionsRoutes
+  return router;
+};
+
+export default initializeTransactionsRoutes;
