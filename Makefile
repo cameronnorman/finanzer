@@ -1,4 +1,4 @@
-image=finanzer:0.0.28
+image=finanzer:0.0.29
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
@@ -27,7 +27,7 @@ rmdocs:
 	echo {} > api-docs/server.json
 
 spec:
-	rm -f test.sqlite
+	rm -f db/test.sqlite
 	rm -f uploads/*
 	docker-compose run --rm app npm test
 

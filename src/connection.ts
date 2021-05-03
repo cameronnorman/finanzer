@@ -1,64 +1,77 @@
-import { ConnectionOptions, createConnection, getConnection, getRepository } from 'typeorm';
+import {
+  ConnectionOptions,
+  createConnection,
+  getConnection,
+  getRepository,
+} from "typeorm";
 
 interface TypeOrmCli {
-  entitiesDir: string,
-  migrationsDir: string,
-  subscribersDir: string
+  entitiesDir: string;
+  migrationsDir: string;
+  subscribersDir: string;
 }
 
 interface TypeOrmConfig {
-  synchronize: boolean,
-  logging: boolean,
-  type: string,
-  database: string,
-  entities: string[],
-  migrations: string[],
-  subscribers: string[]
-  cli: TypeOrmCli
+  synchronize: boolean;
+  logging: boolean;
+  type: string;
+  database: string;
+  entities: string[];
+  migrations: string[];
+  subscribers: string[];
+  cli: TypeOrmCli;
 }
 
 interface TypeOrmEnvConfig {
-  development: ConnectionOptions,
-  production: ConnectionOptions
+  test: ConnectionOptions;
+  development: ConnectionOptions;
+  production: ConnectionOptions;
 }
 
 const productionConfig: ConnectionOptions = {
   synchronize: true,
   logging: false,
   type: "sqlite",
-  database: `development.sqlite`,
+  database: `db/production.sqlite`,
   entities: ["dist/entity/**/*.js"],
-  migrations: [
-    "dist/migration/**/*.js"
-  ],
-  subscribers: [
-    "dist/subscriber/**/*.js"
-  ],
+  migrations: ["dist/migration/**/*.js"],
+  subscribers: ["dist/subscriber/**/*.js"],
   cli: {
     entitiesDir: "dist/entity",
     migrationsDir: "dist/migration",
-    subscribersDir: "dist/subscriber"
-  }
-}
+    subscribersDir: "dist/subscriber",
+  },
+};
 
 const developmentConfig: ConnectionOptions = {
   synchronize: true,
   logging: false,
   type: "sqlite",
-  database: `test.sqlite`,
+  database: `db/development.sqlite`,
   entities: ["src/entity/**/*.ts"],
-  migrations: [
-    "src/migration/**/*.ts"
-  ],
-  subscribers: [
-    "src/subscriber/**/*.ts"
-  ],
+  migrations: ["src/migration/**/*.ts"],
+  subscribers: ["src/subscriber/**/*.ts"],
   cli: {
     entitiesDir: "src/entity",
     migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber"
-  }
-}
+    subscribersDir: "src/subscriber",
+  },
+};
+
+const testConfig: ConnectionOptions = {
+  synchronize: true,
+  logging: false,
+  type: "sqlite",
+  database: `db/test.sqlite`,
+  entities: ["src/entity/**/*.ts"],
+  migrations: ["src/migration/**/*.ts"],
+  subscribers: ["src/subscriber/**/*.ts"],
+  cli: {
+    entitiesDir: "src/entity",
+    migrationsDir: "src/migration",
+    subscribersDir: "src/subscriber",
+  },
+};
 
 const connection = {
   async create(dbName: string = process.env.NODE_ENV) {
@@ -67,27 +80,28 @@ const connection = {
     } catch (e) {
       const dbEnvConfig: TypeOrmEnvConfig = {
         production: productionConfig,
-        development: developmentConfig
-      }
+        development: developmentConfig,
+        test: testConfig,
+      };
 
       switch (dbName) {
-        case 'test':
-          await createConnection(dbEnvConfig.development)
+        case "test":
+          await createConnection(dbEnvConfig.test);
           break;
-        case 'development':
-          await createConnection(dbEnvConfig.development)
+        case "development":
+          await createConnection(dbEnvConfig.development);
           break;
-        case 'production':
-          await createConnection(dbEnvConfig.production)
+        case "production":
+          await createConnection(dbEnvConfig.production);
           break;
         default:
-          throw Error("Unable to identify database connection!")
+          throw Error("Unable to identify database connection!");
       }
     }
   },
 
   async close() {
-    await getConnection().close()
+    await getConnection().close();
   },
 
   async clear() {
@@ -98,6 +112,6 @@ const connection = {
       await repository.query(`DELETE FROM ${entity.tableName}`);
     });
   },
-}
+};
 
 export default connection;
