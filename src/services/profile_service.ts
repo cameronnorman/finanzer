@@ -10,7 +10,7 @@ export const getProfile = async (
   const profileRepository = getRepository(Profile);
   const profile: Profile = await profileRepository.findOne({
     where: { id: profileId },
-    relations: relations,
+    relations,
   });
 
   return profile;

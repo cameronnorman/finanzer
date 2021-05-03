@@ -16,12 +16,12 @@ router.get(
   "/:id",
   async (req: express.Request, res: express.Response, next: any) => {
     const profileId = req.params.id;
-    const profile = await getProfile(profileId);
+    const profile = await getProfile(profileId, []);
     if (!profile) {
       return res.status(404).json("Profile not found");
     }
 
-    const netBalance = getNetProfileBalance(profile);
+    const netBalance = await getNetProfileBalance(profile);
     res.status(200).json({ ...profile, netBalance });
   }
 );
