@@ -1,24 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+} from "typeorm";
 import { Transaction } from "../entity/Transaction";
 import { Category } from "../entity/Category";
 
 @Entity()
 export class Profile {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column("varchar")
-  email: string
+  email: string;
 
   @Column("double")
-  balance: number
+  balance: number;
 
   @Column("varchar")
-  currency: string
+  currency: string;
 
-  @OneToMany(() => Transaction, (transaction: Transaction) => transaction.profile)
-    transactions: Transaction[];
+  @OneToMany(
+    () => Transaction,
+    (transaction: Transaction) => transaction.profile
+  )
+  transactions: Transaction[];
 
   @OneToMany(() => Category, (category: Category) => category.profile)
-    categories: Category[]
+  categories: Category[];
 }

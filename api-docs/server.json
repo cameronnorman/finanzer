@@ -9,9 +9,7 @@
     "/check": {
       "get": {
         "summary": "/check",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -23,17 +21,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "text/html"
-        ]
+        "produces": ["text/html"]
       }
     },
     "/profile/{id}": {
       "get": {
         "summary": "/profile/{id}",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -81,16 +75,11 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "produces": ["application/json", "text/html"]
       },
       "put": {
         "summary": "/profile/{id}",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -197,17 +186,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/profile": {
       "post": {
         "summary": "/profile",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -255,17 +240,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/profile/by_email/{email}": {
       "get": {
         "summary": "/profile/by_email/{email}",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "email",
@@ -313,18 +294,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "produces": ["application/json", "text/html"]
       }
     },
     "/profile/{id}/categories": {
       "get": {
         "summary": "/profile/{id}/categories",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -354,15 +330,11 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       },
       "post": {
         "summary": "/profile/{id}/categories",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -426,17 +398,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/profile/{id}/categories/{category_id}": {
       "put": {
         "summary": "/profile/{id}/categories/{category_id}",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -486,15 +454,11 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       },
       "delete": {
         "summary": "/profile/{id}/categories/{category_id}",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -526,17 +490,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/profile/{id}/transactions/bulk": {
       "post": {
         "summary": "/profile/{id}/transactions/bulk",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -559,17 +519,13 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/profile/{id}/transactions": {
       "get": {
         "summary": "/profile/{id}/transactions",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -667,15 +623,11 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       },
       "post": {
         "summary": "/profile/{id}/transactions",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -870,16 +822,12 @@
           }
         },
         "tags": [],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     }
   },
   "swagger": "2.0",
   "tags": [],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "host": "127.0.0.1:3000"
 }

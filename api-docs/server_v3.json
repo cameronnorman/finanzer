@@ -1,1 +1,738 @@
-{"openapi":"3.0.0","info":{"title":"finanzer","version":"1.0.0","description":"Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."},"paths":{"/check":{"get":{"summary":"/check","responses":{"200":{"description":"OK","content":{"text/html":{"schema":{"type":"string","example":"OK"}}}}},"tags":[]}},"/profile/{id}":{"get":{"summary":"/profile/{id}","parameters":[{"name":"id","in":"path","required":true,"example":20,"schema":{"type":"integer"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"number","example":2},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"},"netBalance":{"type":"number","example":20.59}}}},"text/html":{"schema":{"type":"object","properties":{"id":{"type":"number","example":2},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"},"netBalance":{"type":"number","example":20.59}}}}}},"404":{"description":"Not Found","content":{"application/json":{"schema":{"type":"string","example":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"}},"text/html":{"schema":{"type":"string","example":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"}}}}},"tags":[]},"put":{"summary":"/profile/{id}","parameters":[{"name":"id","in":"path","required":true,"example":2,"schema":{"type":"integer"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"number","example":2},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":60.39},"currency":{"type":"string","example":"EUR"}}}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"number","example":2},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":60.39},"currency":{"type":"string","example":"EUR"}}}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"type":"object","properties":{"errors":{"type":"array","items":{"type":"object","properties":{"msg":{"type":"string"},"param":{"type":"string"},"location":{"type":"string"}}},"example":[{"msg":"Invalid value","param":"balance","location":"body"}]}}}}}},"404":{"description":"Not Found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"string","example":"Not Found"}}}}}}},"tags":[]}},"/profile":{"post":{"summary":"/profile","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"email":{"type":"string","example":"cool_kid@looserville.com"}}}}},"required":true},"responses":{"201":{"description":"Created","content":{"application/json":{"schema":{"type":"object","properties":{"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":0},"currency":{"type":"string","example":"EUR"},"id":{"type":"number","example":4},"netBalance":{"type":"number","example":0}}}}}}},"tags":[]}},"/profile/by_email/{email}":{"get":{"summary":"/profile/by_email/{email}","parameters":[{"name":"email","in":"path","required":true,"example":"happy_kid@coolville.com","schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"number","example":1},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"},"netBalance":{"type":"number","example":20.59}}}},"text/html":{"schema":{"type":"object","properties":{"id":{"type":"number","example":1},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"},"netBalance":{"type":"number","example":20.59}}}}}},"404":{"description":"Not Found","content":{"application/json":{"schema":{"type":"string","example":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"}},"text/html":{"schema":{"type":"string","example":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"}}}}},"tags":[]}},"/profile/{id}/categories":{"get":{"summary":"/profile/{id}/categories","parameters":[{"name":"id","in":"path","required":true,"example":7,"schema":{"type":"integer"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"id":{"type":"number"},"name":{"type":"string"}}}}}}}},"tags":[]},"post":{"summary":"/profile/{id}/categories","parameters":[{"name":"id","in":"path","required":true,"example":7,"schema":{"type":"integer"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string","example":"cool category"}}}}},"required":true},"responses":{"201":{"description":"Created","content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string","example":"cool category"},"profile":{"type":"object","properties":{"id":{"type":"number","example":7},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"}}},"id":{"type":"number","example":3}}}}}}},"tags":[]}},"/profile/{id}/categories/{category_id}":{"put":{"summary":"/profile/{id}/categories/{category_id}","parameters":[{"name":"id","in":"path","required":true,"example":7,"schema":{"type":"integer"}},{"name":"category_id","in":"path","required":true,"example":2,"schema":{"type":"integer"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string","example":"deadly category"}}}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"number","example":2},"name":{"type":"string","example":"deadly category"}}}}}}},"tags":[]},"delete":{"summary":"/profile/{id}/categories/{category_id}","parameters":[{"name":"id","in":"path","required":true,"example":7,"schema":{"type":"integer"}},{"name":"category_id","in":"path","required":true,"example":4,"schema":{"type":"integer"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string","example":"Category successfully deleted"}}}}}}},"tags":[]}},"/profile/{id}/transactions/bulk":{"post":{"summary":"/profile/{id}/transactions/bulk","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"message":{"type":"string","example":"Success! 2 transaction(s) created"}}}}}}},"tags":[]}},"/profile/{id}/transactions":{"get":{"summary":"/profile/{id}/transactions","parameters":[{"name":"id","in":"path","required":true,"example":5,"schema":{"type":"integer"}},{"name":"page","in":"query","example":"1","schema":{"type":"integer"}},{"name":"per_page","in":"query","example":"1","schema":{"type":"integer"}},{"name":"start_date","in":"query","example":"2021-01-01","schema":{"type":"string"}},{"name":"end_date","in":"query","example":"2021-01-31","schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"id":{"type":"number"},"description":{"type":"string"},"amount":{"type":"number"},"recurring":{"type":"boolean"},"recurringType":{"type":"string"},"day":{"type":"number"},"currency":{"type":"string"},"created":{"type":"string"},"updated":{"type":"string"},"category":{"type":"object","properties":{"id":{"type":"number"},"name":{"type":"string"}}}},"required":["id","description","amount","recurring","recurringType","day","currency","created","updated","category"]}}}}}},"tags":[]},"post":{"summary":"/profile/{id}/transactions","parameters":[{"name":"id","in":"path","required":true,"example":6,"schema":{"type":"integer"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"amount":{"type":"number","example":10},"description":{"type":"string","example":"This is a awesome purchase"},"day":{"type":"number","example":2},"recurring":{"type":"boolean","example":true},"recurringType":{"type":"string","example":"monthly"},"currency":{"type":"string","example":"EUR"},"categoryId":{"type":"number","example":1},"profile":{"type":"profile","example":{"id":6,"email":"cool_kid@looserville.com","balance":20.59,"currency":"EUR"}},"category":{"type":"category","example":{"id":1,"name":"Category 1"}},"id":{"type":"number","example":9},"created":{"type":"string","format":"date-time","example":"2021-04-28T07:03:25.000Z"},"updated":{"type":"string","format":"date-time","example":"2021-04-28T07:03:25.000Z"}}}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"amount":{"type":"number","example":10},"description":{"type":"string","example":"This is a awesome purchase"},"day":{"type":"number","example":2},"recurring":{"type":"boolean","example":true},"recurringType":{"type":"string","example":"monthly"},"currency":{"type":"string","example":"EUR"},"categoryId":{"type":"number","example":1},"profile":{"type":"object","properties":{"id":{"type":"number","example":6},"email":{"type":"string","example":"cool_kid@looserville.com"},"balance":{"type":"number","example":20.59},"currency":{"type":"string","example":"EUR"}}},"category":{"type":"object","properties":{"id":{"type":"number","example":1},"name":{"type":"string","example":"Category 1"}}},"id":{"type":"number","example":9},"created":{"type":"string","example":"2021-04-28T07:03:25.000Z"},"updated":{"type":"string","example":"2021-04-28T07:03:25.000Z"}}}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"type":"object","properties":{"errors":{"type":"array","items":{"type":"object","properties":{"msg":{"type":"string"},"param":{"type":"string"},"location":{"type":"string"}}},"example":[{"msg":"Invalid value","param":"description","location":"body"}]}}}}}}},"tags":[]}}},"tags":[],"servers":[{"url":"http://127.0.0.1:3000"}]}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "finanzer",
+    "version": "1.0.0",
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/check": {
+      "get": {
+        "summary": "/check",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": { "schema": { "type": "string", "example": "OK" } }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "summary": "/profile/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 20,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 2 },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 20.59 },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "netBalance": { "type": "number", "example": 20.59 }
+                  }
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 2 },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 20.59 },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "netBalance": { "type": "number", "example": 20.59 }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      },
+      "put": {
+        "summary": "/profile/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 2,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "number", "example": 2 },
+                  "email": {
+                    "type": "string",
+                    "example": "cool_kid@looserville.com"
+                  },
+                  "balance": { "type": "number", "example": 60.39 },
+                  "currency": { "type": "string", "example": "EUR" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 2 },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 60.39 },
+                    "currency": { "type": "string", "example": "EUR" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": { "type": "string" },
+                          "param": { "type": "string" },
+                          "location": { "type": "string" }
+                        }
+                      },
+                      "example": [
+                        {
+                          "msg": "Invalid value",
+                          "param": "balance",
+                          "location": "body"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string", "example": "Not Found" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile": {
+      "post": {
+        "summary": "/profile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "cool_kid@looserville.com"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 0 },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "id": { "type": "number", "example": 4 },
+                    "netBalance": { "type": "number", "example": 0 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/by_email/{email}": {
+      "get": {
+        "summary": "/profile/by_email/{email}",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "example": "happy_kid@coolville.com",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 1 },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 20.59 },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "netBalance": { "type": "number", "example": 20.59 }
+                  }
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 1 },
+                    "email": {
+                      "type": "string",
+                      "example": "cool_kid@looserville.com"
+                    },
+                    "balance": { "type": "number", "example": 20.59 },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "netBalance": { "type": "number", "example": 20.59 }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}/categories": {
+      "get": {
+        "summary": "/profile/{id}/categories",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 7,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "number" },
+                      "name": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      },
+      "post": {
+        "summary": "/profile/{id}/categories",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 7,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "cool category" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "cool category" },
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "number", "example": 7 },
+                        "email": {
+                          "type": "string",
+                          "example": "cool_kid@looserville.com"
+                        },
+                        "balance": { "type": "number", "example": 20.59 },
+                        "currency": { "type": "string", "example": "EUR" }
+                      }
+                    },
+                    "id": { "type": "number", "example": 3 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}/categories/{category_id}": {
+      "put": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 7,
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "example": 2,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "deadly category" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number", "example": 2 },
+                    "name": { "type": "string", "example": "deadly category" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      },
+      "delete": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 7,
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "example": 4,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Category successfully deleted"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}/transactions/bulk": {
+      "post": {
+        "summary": "/profile/{id}/transactions/bulk",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Success! 2 transaction(s) created"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}/transactions": {
+      "get": {
+        "summary": "/profile/{id}/transactions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 5,
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "example": "1",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "example": "1",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "example": "2021-01-01",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "example": "2021-01-31",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "number" },
+                      "description": { "type": "string" },
+                      "amount": { "type": "number" },
+                      "recurring": { "type": "boolean" },
+                      "recurringType": { "type": "string" },
+                      "day": { "type": "number" },
+                      "currency": { "type": "string" },
+                      "created": { "type": "string" },
+                      "updated": { "type": "string" },
+                      "category": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "number" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "amount",
+                      "recurring",
+                      "recurringType",
+                      "day",
+                      "currency",
+                      "created",
+                      "updated",
+                      "category"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      },
+      "post": {
+        "summary": "/profile/{id}/transactions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": 6,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "number", "example": 10 },
+                  "description": {
+                    "type": "string",
+                    "example": "This is a awesome purchase"
+                  },
+                  "day": { "type": "number", "example": 2 },
+                  "recurring": { "type": "boolean", "example": true },
+                  "recurringType": { "type": "string", "example": "monthly" },
+                  "currency": { "type": "string", "example": "EUR" },
+                  "categoryId": { "type": "number", "example": 1 },
+                  "profile": {
+                    "type": "profile",
+                    "example": {
+                      "id": 6,
+                      "email": "cool_kid@looserville.com",
+                      "balance": 20.59,
+                      "currency": "EUR"
+                    }
+                  },
+                  "category": {
+                    "type": "category",
+                    "example": { "id": 1, "name": "Category 1" }
+                  },
+                  "id": { "type": "number", "example": 9 },
+                  "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2021-04-28T07:03:25.000Z"
+                  },
+                  "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2021-04-28T07:03:25.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "amount": { "type": "number", "example": 10 },
+                    "description": {
+                      "type": "string",
+                      "example": "This is a awesome purchase"
+                    },
+                    "day": { "type": "number", "example": 2 },
+                    "recurring": { "type": "boolean", "example": true },
+                    "recurringType": { "type": "string", "example": "monthly" },
+                    "currency": { "type": "string", "example": "EUR" },
+                    "categoryId": { "type": "number", "example": 1 },
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "number", "example": 6 },
+                        "email": {
+                          "type": "string",
+                          "example": "cool_kid@looserville.com"
+                        },
+                        "balance": { "type": "number", "example": 20.59 },
+                        "currency": { "type": "string", "example": "EUR" }
+                      }
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "number", "example": 1 },
+                        "name": { "type": "string", "example": "Category 1" }
+                      }
+                    },
+                    "id": { "type": "number", "example": 9 },
+                    "created": {
+                      "type": "string",
+                      "example": "2021-04-28T07:03:25.000Z"
+                    },
+                    "updated": {
+                      "type": "string",
+                      "example": "2021-04-28T07:03:25.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": { "type": "string" },
+                          "param": { "type": "string" },
+                          "location": { "type": "string" }
+                        }
+                      },
+                      "example": [
+                        {
+                          "msg": "Invalid value",
+                          "param": "description",
+                          "location": "body"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    }
+  },
+  "tags": [],
+  "servers": [{ "url": "http://127.0.0.1:3000" }]
+}
