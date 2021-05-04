@@ -14,6 +14,10 @@ export const getAll = async (profileId: string) => {
     relations: ["categories"],
   });
 
+  if (!profile) {
+    throw new Error("Profile not found");
+  }
+
   return profile.categories;
 };
 
