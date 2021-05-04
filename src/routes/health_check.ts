@@ -1,10 +1,10 @@
-import express from "express";
+import express from "express"
 
-const router = express.Router();
+const router = express.Router()
 
 // Health check for server
 router.get("/check", (req: express.Request, res: express.Response, next) => {
-  return res.send("OK");
-});
+  return res.send("OK")
+})
 
-export default router;
+export default router

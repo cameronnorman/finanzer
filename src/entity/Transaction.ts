@@ -5,42 +5,42 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { Profile } from "../entity/Profile";
-import { Category } from "../entity/Category";
+} from "typeorm"
+import { Profile } from "../entity/Profile"
+import { Category } from "../entity/Category"
 
 @Entity()
 export class Transaction {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column("varchar")
-  description: string;
+  description: string
 
   @Column("double")
-  amount: number;
+  amount: number
 
   @Column("boolean")
-  recurring: boolean;
+  recurring: boolean
 
   @Column("varchar")
-  recurringType: string;
+  recurringType: string
 
   @Column("integer")
-  day: number;
+  day: number
 
   @Column("varchar")
-  currency: string;
+  currency: string
 
   @CreateDateColumn()
-  created: Date;
+  created: Date
 
   @UpdateDateColumn()
-  updated: Date;
+  updated: Date
 
   @ManyToOne(() => Profile, (profile: Profile) => profile.transactions)
-  profile: Profile;
+  profile: Profile
 
   @ManyToOne(() => Category, (category: Category) => category.transactions)
-  category: Category;
+  category: Category
 }
