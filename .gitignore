@@ -4,7 +4,7 @@ node_modules/
 dist/
 tmp/
 temp/
-coverage/**/*
+coverage/
 *.sqlite
 .env
 .DS_Store

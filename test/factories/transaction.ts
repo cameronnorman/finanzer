@@ -1,10 +1,14 @@
-import { getRepository } from "typeorm";
-import { Profile } from "../../src/entity/Profile";
-import { Category } from "../../src/entity/Category";
-import { Transaction } from "../../src/entity/Transaction";
-import { TransactionDetails } from "../../src/services/transaction_service";
+import { getRepository } from "typeorm"
+import { Profile } from "../../src/entity/Profile"
+import { Category } from "../../src/entity/Category"
+import { Transaction } from "../../src/entity/Transaction"
+import { TransactionDetails } from "../../src/services/transaction_service"
 
-export const createTransaction = async (category: Category, profile: Profile, other: TransactionDetails) => {
+export const createTransaction = async (
+  category: Category,
+  profile: Profile,
+  other: TransactionDetails
+) => {
   const defaultTransactionDetails: TransactionDetails = {
     amount: 10,
     day: 2,
@@ -13,7 +17,10 @@ export const createTransaction = async (category: Category, profile: Profile, ot
     recurringType: "monthly",
     currency: "EUR",
   }
-  const newTransaction: TransactionDetails = {...defaultTransactionDetails, ...other}
+  const newTransaction: TransactionDetails = {
+    ...defaultTransactionDetails,
+    ...other,
+  }
   newTransaction.profile = profile
   newTransaction.category = category
   const transactionRepository = await getRepository(Transaction)

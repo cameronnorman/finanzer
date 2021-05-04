@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm"
 import { Profile } from "../entity/Profile"
 import { Category } from "../entity/Category"
 
@@ -26,14 +33,14 @@ export class Transaction {
   currency: string
 
   @CreateDateColumn()
-  created: Date;
+  created: Date
 
   @UpdateDateColumn()
-  updated: Date;
+  updated: Date
 
   @ManyToOne(() => Profile, (profile: Profile) => profile.transactions)
-    profile: Profile;
+  profile: Profile
 
   @ManyToOne(() => Category, (category: Category) => category.transactions)
-    category: Category
+  category: Category
 }
