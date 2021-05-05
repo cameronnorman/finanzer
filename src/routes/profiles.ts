@@ -1,8 +1,5 @@
 import express from "express"
-import { getRepository } from "typeorm"
 import { body, validationResult } from "express-validator"
-
-import { Profile } from "../entity/Profile"
 
 import initializeBulkTransactionRoutes from "./bulk_transactions"
 import initializeTransactionsRoutes from "./transactions"
@@ -54,7 +51,6 @@ router.get(
   "/by_email/:email",
   async (req: express.Request, res: express.Response, next: any) => {
     const profileEmail = req.params.email
-    const profileRepository = getRepository(Profile)
 
     const profile = await getProfileByEmail(profileEmail)
     if (!profile) {

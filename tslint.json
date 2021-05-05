@@ -8,7 +8,7 @@
     "trailing-comma": [
       false
     ],
-    "no-unused-declaration": true
+    "no-unused-variable": true
   },
   "rulesDirectory": []
 }
