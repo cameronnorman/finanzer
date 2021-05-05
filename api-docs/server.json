@@ -9,7 +9,9 @@
     "/check": {
       "get": {
         "summary": "/check",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -21,13 +23,17 @@
           }
         },
         "tags": [],
-        "produces": ["text/html"]
+        "produces": [
+          "text/html"
+        ]
       }
     },
     "/profile/{id}": {
       "get": {
         "summary": "/profile/{id}",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -66,6 +72,13 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
+          },
           "404": {
             "description": "Not Found",
             "schema": {
@@ -75,11 +88,16 @@
           }
         },
         "tags": [],
-        "produces": ["application/json", "text/html"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       },
       "put": {
         "summary": "/profile/{id}",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -172,6 +190,13 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
+          },
           "404": {
             "description": "Not Found",
             "schema": {
@@ -186,13 +211,18 @@
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile": {
       "post": {
         "summary": "/profile",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -237,16 +267,28 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/by_email/{email}": {
       "get": {
         "summary": "/profile/by_email/{email}",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "email",
@@ -285,6 +327,13 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
+          },
           "404": {
             "description": "Not Found",
             "schema": {
@@ -294,13 +343,18 @@
           }
         },
         "tags": [],
-        "produces": ["application/json", "text/html"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/categories": {
       "get": {
         "summary": "/profile/{id}/categories",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -327,14 +381,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       },
       "post": {
         "summary": "/profile/{id}/categories",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -395,16 +461,28 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/categories/{category_id}": {
       "put": {
         "summary": "/profile/{id}/categories/{category_id}",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -451,14 +529,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       },
       "delete": {
         "summary": "/profile/{id}/categories/{category_id}",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -487,16 +577,28 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/transactions/bulk": {
       "post": {
         "summary": "/profile/{id}/transactions/bulk",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -516,16 +618,28 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/transactions": {
       "get": {
         "summary": "/profile/{id}/transactions",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -620,14 +734,26 @@
                 ]
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       },
       "post": {
         "summary": "/profile/{id}/transactions",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -819,15 +945,27 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
+            }
           }
         },
         "tags": [],
-        "produces": ["application/json"]
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     }
   },
   "swagger": "2.0",
   "tags": [],
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "host": "127.0.0.1:3000"
 }
