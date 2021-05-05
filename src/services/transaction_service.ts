@@ -16,6 +16,9 @@ export interface TransactionDetails {
   profile?: Profile
   category?: Category
 }
+const repository = () => {
+  return getRepository(Transaction)
+}
 
 export const filterTransactions = (
   profileId: number,
@@ -24,7 +27,7 @@ export const filterTransactions = (
   offset: number,
   limit: number
 ) => {
-  return getRepository(Transaction)
+  return repository()
     .createQueryBuilder("transaction")
     .where(
       "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
@@ -36,10 +39,18 @@ export const filterTransactions = (
     .getMany()
 }
 
-export const createTransaction = async (
-  transactionDetails: TransactionDetails
-) => {
-  const transactionRepository = getRepository(Transaction)
-  const transaction = await transactionRepository.save(transactionDetails)
-  return transaction
+export const newTransaction = (transactionDetails: TransactionDetails) => {
+  return repository().create(transactionDetails)
+}
+
+export const createTransaction = (transactionDetails: TransactionDetails) => {
+  return repository()
+    .save(transactionDetails)
+    .then((transaction: Transaction) => {
+      return transaction
+    })
+}
+
+export const bulkSaveTransactions = async (transactions: Transaction[]) => {
+  return repository().save(transactions)
 }

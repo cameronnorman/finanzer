@@ -9,8 +9,6 @@ import connection from "./connection"
 import profilesRouter from "./routes/profiles"
 import healthCheckRouter from "./routes/health_check"
 import cors from "cors"
-import { getRepository, InsertResult } from "typeorm"
-import { Profile } from "./entity/Profile"
 
 dotenv.config()
 

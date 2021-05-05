@@ -3,6 +3,16 @@ import { getRepository } from "typeorm"
 import { Transaction } from "../entity/Transaction"
 import { Profile } from "../entity/Profile"
 
+export interface ProfileDetails {
+  email?: string
+  balance?: number
+  currency?: string
+}
+
+const repository = () => {
+  return getRepository(Profile)
+}
+
 export const getProfile = async (
   profileId: string,
   relations: string[] = ["transactions"]
@@ -14,6 +24,28 @@ export const getProfile = async (
   })
 
   return profile
+}
+
+export const getProfileByEmail = (profileEmail: string) => {
+  return repository()
+    .findOne({ where: { email: profileEmail } })
+    .then((profile: Profile) => {
+      return profile
+    })
+}
+
+export const createProfile = (profileDetails: ProfileDetails) => {
+  return repository().save(profileDetails)
+}
+
+export const updateProfile = (
+  profileId: string,
+  profileDetails: ProfileDetails
+) => {
+  return repository().update(profileId, {
+    balance: profileDetails.balance,
+    currency: profileDetails.currency,
+  })
 }
 
 export const getNetProfileBalance = async (profile: Profile) => {

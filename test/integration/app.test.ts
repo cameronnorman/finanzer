@@ -194,7 +194,7 @@ describe("Profile view, create, update", () => {
         .get(`/profile/by_email/happy_kid@coolville.com`)
         .expect(404)
         .then((response) => {
-          expect(response.body).toEqual({})
+          expect(response.body).toEqual("Profile not found")
           done()
         })
     })
@@ -275,7 +275,7 @@ describe("Profile view, create, update", () => {
         .expect(404)
         .send(updatedProfileDetails)
         .then((response) => {
-          expect(response.body).toEqual({ error: "Not Found" })
+          expect(response.body).toEqual("Profile not found")
           done()
         })
     })

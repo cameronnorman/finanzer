@@ -5,23 +5,6 @@ import {
   getRepository,
 } from "typeorm"
 
-interface TypeOrmCli {
-  entitiesDir: string
-  migrationsDir: string
-  subscribersDir: string
-}
-
-interface TypeOrmConfig {
-  synchronize: boolean
-  logging: boolean
-  type: string
-  database: string
-  entities: string[]
-  migrations: string[]
-  subscribers: string[]
-  cli: TypeOrmCli
-}
-
 interface TypeOrmEnvConfig {
   test: ConnectionOptions
   development: ConnectionOptions
