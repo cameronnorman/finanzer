@@ -1,1 +1,290 @@
-{"openapi":"3.0.0","info":{"title":"finanzer","version":"1.0.0","description":"Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."},"paths":{"/check":{"get":{"summary":"/check","responses":{},"tags":[]}},"/profile/{id}":{"get":{"summary":"/profile/{id}","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]},"put":{"summary":"/profile/{id}","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile":{"post":{"summary":"/profile","responses":{},"tags":[]}},"/profile/by_email/{email}":{"get":{"summary":"/profile/by_email/{email}","parameters":[{"name":"email","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile/{id}/categories":{"get":{"summary":"/profile/{id}/categories","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]},"post":{"summary":"/profile/{id}/categories","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile/{id}/categories/{category_id}":{"put":{"summary":"/profile/{id}/categories/{category_id}","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"category_id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]},"delete":{"summary":"/profile/{id}/categories/{category_id}","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"category_id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile/{id}/transactions/bulk":{"post":{"summary":"/profile/{id}/transactions/bulk","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile/{id}/transactions":{"get":{"summary":"/profile/{id}/transactions","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]},"post":{"summary":"/profile/{id}/transactions","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{},"tags":[]}},"/profile/{id}/reports/expenses_by_category":{"get":{"summary":"/profile/{id}/reports/expenses_by_category","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"rent":{"type":"number","example":1300},"food":{"type":"number","example":300}}}}}}},"tags":[]}},"/profile/{id}/reports/income_expenses":{"get":{"summary":"/profile/{id}/reports/income_expenses","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"year":{"type":"number"},"month":{"type":"number"},"income":{"type":"number"},"expenses":{"type":"number"}}}}}}}},"tags":[]}}},"tags":[]}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "finanzer",
+    "version": "1.0.0",
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/check": {
+      "get": {
+        "summary": "/check",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "summary": "/profile/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "put": {
+        "summary": "/profile/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile": {
+      "post": {
+        "summary": "/profile",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/by_email/{email}": {
+      "get": {
+        "summary": "/profile/by_email/{email}",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/categories": {
+      "get": {
+        "summary": "/profile/{id}/categories",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "post": {
+        "summary": "/profile/{id}/categories",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/categories/{category_id}": {
+      "put": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "delete": {
+        "summary": "/profile/{id}/categories/{category_id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/transactions/bulk": {
+      "post": {
+        "summary": "/profile/{id}/transactions/bulk",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/transactions": {
+      "get": {
+        "summary": "/profile/{id}/transactions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "post": {
+        "summary": "/profile/{id}/transactions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/reports/expenses_by_category": {
+      "get": {
+        "summary": "/profile/{id}/reports/expenses_by_category",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rent": {
+                      "type": "number",
+                      "example": 1300
+                    },
+                    "food": {
+                      "type": "number",
+                      "example": 300
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/profile/{id}/reports/income_expenses": {
+      "get": {
+        "summary": "/profile/{id}/reports/income_expenses",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "year": {
+                        "type": "number",
+                        "example": 2021
+                      },
+                      "month": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "income": {
+                        "type": "number",
+                        "example": 1000
+                      },
+                      "expenses": {
+                        "type": "number",
+                        "example": 300
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    }
+  },
+  "tags": []
+}

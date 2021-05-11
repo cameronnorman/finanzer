@@ -260,19 +260,19 @@
                 "properties": {
                   "year": {
                     "type": "number",
-                    "example": "2021"
+                    "example": 2021
                   },
                   "month": {
                     "type": "number",
-                    "example": "01"
+                    "example": 1
                   },
                   "income": {
                     "type": "number",
-                    "example": "1000"
+                    "example": 1000
                   },
                   "expenses": {
                     "type": "number",
-                    "example": "300"
+                    "example": 300
                   }
                 }
               }
