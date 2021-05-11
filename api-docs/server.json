@@ -13,19 +13,8 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string",
-              "example": "OK"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}": {
@@ -38,60 +27,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 20
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 2
-                },
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 20.59
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "netBalance": {
-                  "type": "number",
-                  "example": 20.59
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/20</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       },
       "put": {
         "summary": "/profile/{id}",
@@ -102,119 +42,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 2
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 2
-                },
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                }
-              }
-            }
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 2
-                },
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 60.39
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "msg": {
-                        "type": "string"
-                      },
-                      "param": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "msg": "Invalid value",
-                      "param": "balance",
-                      "location": "body"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "Not Found"
-                }
-              }
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile": {
@@ -223,64 +55,9 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 0
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "netBalance": {
-                  "type": "number",
-                  "example": 0
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "parameters": [],
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/by_email/{email}": {
@@ -293,60 +70,11 @@
           {
             "name": "email",
             "in": "path",
-            "required": true,
-            "type": "string",
-            "example": "happy_kid@coolville.com"
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                },
-                "email": {
-                  "type": "string",
-                  "example": "cool_kid@looserville.com"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 20.59
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "netBalance": {
-                  "type": "number",
-                  "example": 20.59
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /profile/by_email/happy_kid@coolville.com</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}/categories": {
@@ -359,42 +87,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 7
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       },
       "post": {
         "summary": "/profile/{id}/categories",
@@ -405,76 +102,11 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 7
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "cool category"
-                }
-              }
-            }
+            "required": true
           }
         ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "cool category"
-                },
-                "profile": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 7
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "cool_kid@looserville.com"
-                    },
-                    "balance": {
-                      "type": "number",
-                      "example": 20.59
-                    },
-                    "currency": {
-                      "type": "string",
-                      "example": "EUR"
-                    }
-                  }
-                },
-                "id": {
-                  "type": "number",
-                  "example": 3
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}/categories/{category_id}": {
@@ -487,62 +119,16 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 7
+            "required": true
           },
           {
             "name": "category_id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 2
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "deadly category"
-                }
-              }
-            }
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 2
-                },
-                "name": {
-                  "type": "string",
-                  "example": "deadly category"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       },
       "delete": {
         "summary": "/profile/{id}/categories/{category_id}",
@@ -553,49 +139,70 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 7
+            "required": true
           },
           {
             "name": "category_id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 4
+            "required": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Category successfully deleted"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
-        ]
+        "responses": {},
+        "tags": []
       }
     },
     "/profile/{id}/transactions/bulk": {
       "post": {
         "summary": "/profile/{id}/transactions/bulk",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/transactions": {
+      "get": {
+        "summary": "/profile/{id}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "post": {
+        "summary": "/profile/{id}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/profile/{id}/reports/expenses_by_category": {
+      "get": {
+        "summary": "/profile/{id}/reports/expenses_by_category",
         "consumes": [
           "application/json"
         ],
@@ -612,31 +219,27 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Success! 2 transaction(s) created"
+                "rent": {
+                  "type": "number",
+                  "example": 1300
+                },
+                "food": {
+                  "type": "number",
+                  "example": 300
                 }
               }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
             }
           }
         },
         "tags": [],
         "produces": [
-          "application/json",
-          "text/html"
+          "application/json"
         ]
       }
     },
-    "/profile/{id}/transactions": {
+    "/profile/{id}/reports/income_expenses": {
       "get": {
-        "summary": "/profile/{id}/transactions",
+        "summary": "/profile/{id}/reports/income_expenses",
         "consumes": [
           "application/json"
         ],
@@ -644,33 +247,7 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 5
-          },
-          {
-            "type": "integer",
-            "name": "page",
-            "in": "query",
-            "example": "1"
-          },
-          {
-            "type": "integer",
-            "name": "per_page",
-            "in": "query",
-            "example": "1"
-          },
-          {
-            "type": "string",
-            "name": "start_date",
-            "in": "query",
-            "example": "2021-01-01"
-          },
-          {
-            "type": "string",
-            "name": "end_date",
-            "in": "query",
-            "example": "2021-01-31"
+            "required": true
           }
         ],
         "responses": {
@@ -681,291 +258,34 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "number"
+                  "year": {
+                    "type": "number",
+                    "example": "2021"
                   },
-                  "description": {
-                    "type": "string"
+                  "month": {
+                    "type": "number",
+                    "example": "01"
                   },
-                  "amount": {
-                    "type": "number"
+                  "income": {
+                    "type": "number",
+                    "example": "1000"
                   },
-                  "recurring": {
-                    "type": "boolean"
-                  },
-                  "recurringType": {
-                    "type": "string"
-                  },
-                  "day": {
-                    "type": "number"
-                  },
-                  "currency": {
-                    "type": "string"
-                  },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
-                    "type": "string"
-                  },
-                  "category": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "name": {
-                        "type": "string"
-                      }
-                    }
+                  "expenses": {
+                    "type": "number",
+                    "example": "300"
                   }
-                },
-                "required": [
-                  "id",
-                  "description",
-                  "amount",
-                  "recurring",
-                  "recurringType",
-                  "day",
-                  "currency",
-                  "created",
-                  "updated",
-                  "category"
-                ]
+                }
               }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
             }
           }
         },
         "tags": [],
         "produces": [
-          "application/json",
-          "text/html"
-        ]
-      },
-      "post": {
-        "summary": "/profile/{id}/transactions",
-        "consumes": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "example": 6
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "amount": {
-                  "type": "number",
-                  "example": 10
-                },
-                "description": {
-                  "type": "string",
-                  "example": "This is a awesome purchase"
-                },
-                "day": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recurring": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "recurringType": {
-                  "type": "string",
-                  "example": "monthly"
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "categoryId": {
-                  "type": "number",
-                  "example": 1
-                },
-                "profile": {
-                  "type": "profile",
-                  "example": {
-                    "id": 6,
-                    "email": "cool_kid@looserville.com",
-                    "balance": 20.59,
-                    "currency": "EUR"
-                  }
-                },
-                "category": {
-                  "type": "category",
-                  "example": {
-                    "id": 1,
-                    "name": "Category 1"
-                  }
-                },
-                "id": {
-                  "type": "number",
-                  "example": 9
-                },
-                "created": {
-                  "type": "string",
-                  "format": "date-time",
-                  "example": "2021-04-28T07:03:25.000Z"
-                },
-                "updated": {
-                  "type": "string",
-                  "format": "date-time",
-                  "example": "2021-04-28T07:03:25.000Z"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "amount": {
-                  "type": "number",
-                  "example": 10
-                },
-                "description": {
-                  "type": "string",
-                  "example": "This is a awesome purchase"
-                },
-                "day": {
-                  "type": "number",
-                  "example": 2
-                },
-                "recurring": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "recurringType": {
-                  "type": "string",
-                  "example": "monthly"
-                },
-                "currency": {
-                  "type": "string",
-                  "example": "EUR"
-                },
-                "categoryId": {
-                  "type": "number",
-                  "example": 1
-                },
-                "profile": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 6
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "cool_kid@looserville.com"
-                    },
-                    "balance": {
-                      "type": "number",
-                      "example": 20.59
-                    },
-                    "currency": {
-                      "type": "string",
-                      "example": "EUR"
-                    }
-                  }
-                },
-                "category": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Category 1"
-                    }
-                  }
-                },
-                "id": {
-                  "type": "number",
-                  "example": 9
-                },
-                "created": {
-                  "type": "string",
-                  "example": "2021-04-28T07:03:25.000Z"
-                },
-                "updated": {
-                  "type": "string",
-                  "example": "2021-04-28T07:03:25.000Z"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "msg": {
-                        "type": "string"
-                      },
-                      "param": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "msg": "Invalid value",
-                      "param": "description",
-                      "location": "body"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "string",
-              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: No authorization token was found<br> &nbsp; &nbsp;at middleware (/usr/src/app/node_modules/express-jwt/lib/index.js:79:21)<br> &nbsp; &nbsp;at checkAuth (/usr/src/app/src/app.ts:36:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/usr/src/app/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/usr/src/app/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:635:15<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/index.js:260:14)<br> &nbsp; &nbsp;at Function.handle (/usr/src/app/node_modules/express/lib/router/index.js:174:3)</pre>\n</body>\n</html>\n"
-            }
-          }
-        },
-        "tags": [],
-        "produces": [
-          "application/json",
-          "text/html"
         ]
       }
     }
   },
   "swagger": "2.0",
-  "tags": [],
-  "schemes": [
-    "http"
-  ],
-  "host": "127.0.0.1:3000"
+  "tags": []
 }
