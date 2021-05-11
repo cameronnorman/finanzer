@@ -4,6 +4,7 @@ import { body, validationResult } from "express-validator"
 import initializeBulkTransactionRoutes from "./bulk_transactions"
 import initializeTransactionsRoutes from "./transactions"
 import initializeCategoriesRoutes from "./categories"
+import initializeReportsRoutes from "./reports"
 
 import {
   getNetProfileBalance,
@@ -92,5 +93,6 @@ router.put(
 router = initializeCategoriesRoutes(router)
 router = initializeBulkTransactionRoutes(router)
 router = initializeTransactionsRoutes(router)
+router = initializeReportsRoutes(router)
 
 export default router
