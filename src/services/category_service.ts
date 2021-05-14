@@ -2,41 +2,33 @@ import { Profile } from "../entity/Profile"
 import { Category } from "../entity/Category"
 import { getRepository } from "typeorm"
 
+import { PrismaClient } from "@prisma/client"
+
+const prisma = new PrismaClient()
 export interface CategoryDetails {
   name: string
   profile: Profile
 }
 
 export const getAll = async (profileId: string) => {
-  const profileRepository = await getRepository(Profile)
-  const profile = await profileRepository.findOne({
-    where: { id: profileId },
-    relations: ["categories"],
+  const categories = await prisma.category.findMany({
+    where: { profileId },
   })
-
-  if (!profile) {
-    throw new Error("Profile not found")
-  }
-
-  return profile.categories
+  return categories
 }
 
 export const getCategory = async (categoryId: string) => {
-  const categoryRepository = await getRepository(Category)
-  const category = await categoryRepository.findOne(categoryId)
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId },
+  })
+
   return category
 }
 
 export const create = async (profileId: string, categoryParams: any) => {
-  const profileRepository = await getRepository(Profile)
-  const profile = await profileRepository.findOne(profileId)
-
-  const categoryRepository = await getRepository(Category)
-  const categoryDetails: CategoryDetails = {
-    name: categoryParams.name,
-    profile,
-  }
-  const category = categoryRepository.save(categoryDetails)
+  const category = await prisma.category.create({
+    data: { ...categoryParams, profileId },
+  })
 
   return category
 }

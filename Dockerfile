@@ -2,8 +2,6 @@ FROM node:15.13-alpine as base
 
 RUN npm install -g npm@7.11.2
 
-RUN apk add sqlite
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -16,7 +14,7 @@ RUN mkdir -p uploads
 
 RUN npm install -g ts-jest typeorm ts-node
 
-RUN npm install --save-dev sqlite3 jest nodemon
+RUN npm install --save-dev jest nodemon
 
 FROM base as builder
 

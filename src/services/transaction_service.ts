@@ -1,24 +1,6 @@
-import { getRepository } from "typeorm"
+import { PrismaClient } from "@prisma/client"
 
-import { Profile } from "../entity/Profile"
-import { Transaction } from "../entity/Transaction"
-import { Category } from "../entity/Category"
-
-export interface TransactionDetails {
-  amount?: number
-  day?: number
-  recurring?: boolean
-  description?: string
-  recurringType?: string
-  currency?: string
-  created?: Date
-  updated?: Date
-  profile?: Profile
-  category?: Category
-}
-const repository = () => {
-  return getRepository(Transaction)
-}
+const prisma = new PrismaClient()
 
 export const filterTransactions = (
   profileId: string,
@@ -27,30 +9,30 @@ export const filterTransactions = (
   offset: number,
   limit: number
 ) => {
-  return repository()
-    .createQueryBuilder("transaction")
-    .where(
-      "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
-      { profileId, startDate, endDate }
-    )
-    .leftJoinAndSelect("transaction.category", "categories")
-    .limit(limit)
-    .offset(offset * limit)
-    .getMany()
+  return prisma.transaction.findMany({
+    where: {
+      profileId,
+      createdAt: {
+        gt: new Date(startDate),
+        lt: new Date(endDate),
+      },
+    },
+    include: {
+      Category: true,
+    },
+    take: limit,
+    skip: offset * limit,
+  })
 }
 
-export const newTransaction = (transactionDetails: TransactionDetails) => {
-  return repository().create(transactionDetails)
+export const newTransaction = (transactionDetails: any) => {
+  return prisma.transaction.create({ data: transactionDetails })
 }
 
-export const createTransaction = (transactionDetails: TransactionDetails) => {
-  return repository()
-    .save(transactionDetails)
-    .then((transaction: Transaction) => {
-      return transaction
-    })
+export const createTransaction = (transactionDetails: any) => {
+  return prisma.transaction.create({ data: transactionDetails })
 }
 
-export const bulkSaveTransactions = async (transactions: Transaction[]) => {
-  return repository().save(transactions)
+export const bulkSaveTransactions = async (transactions: any) => {
+  return prisma.transaction.createMany({ data: transactions })
 }

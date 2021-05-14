@@ -13,7 +13,6 @@
     "testc": "NODE_ENV=test jest --runInBand --maxConcurrency=1 --coverage"
   },
   "dependencies": {
-    "@prisma/client": "^2.22.1",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "dotenv": "^8.2.0",
@@ -30,6 +29,7 @@
     "typeorm": "0.2.31"
   },
   "devDependencies": {
+    "@prisma/client": "^2.22.1",
     "@types/cors": "^2.8.10",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",

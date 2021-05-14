@@ -3,7 +3,6 @@ import multer from "multer"
 import * as fs from "fs"
 import csv from "csv-parser"
 
-import { Transaction } from "../entity/Transaction"
 import {
   newTransaction,
   bulkSaveTransactions,
@@ -39,7 +38,7 @@ const initializeBulkTransactionRoutes = (router: express.Router) => {
           .status(400)
           .json({ error: "No file attached. Please upload file" })
       }
-      const newTransactions: Transaction[] = []
+      const newTransactions: any[] = []
 
       fs.createReadStream(file.path)
         .pipe(csv())
@@ -65,7 +64,7 @@ const initializeBulkTransactionRoutes = (router: express.Router) => {
         .on("end", async () => {
           const transactions = await bulkSaveTransactions(newTransactions)
           res.status(200).json({
-            message: `Success! ${transactions.length} transaction(s) created`,
+            message: `Success! ${transactions.count} transaction(s) created`,
           })
         })
     }

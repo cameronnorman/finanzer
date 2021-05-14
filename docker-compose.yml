@@ -22,6 +22,8 @@ services:
     ports:
       - 3000:3000
     command: "npm run watch-dev"
+    depends_on:
+      - db
 
 volumes:
   node_modules:

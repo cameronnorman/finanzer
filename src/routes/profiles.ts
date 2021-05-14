@@ -7,7 +7,6 @@ import initializeCategoriesRoutes from "./categories"
 import initializeReportsRoutes from "./reports"
 
 import {
-  getNetProfileBalance,
   getProfile,
   createProfile,
   getProfileByEmail,
@@ -20,13 +19,12 @@ router.get(
   "/:id",
   async (req: express.Request, res: express.Response, next: any) => {
     const profileId = req.params.id
-    const profile = await getProfile(profileId, [])
+    const profile = await getProfile(profileId)
     if (!profile) {
       return res.status(404).json("Profile not found")
     }
 
-    // const netBalance = await getNetProfileBalance(profile)
-    res.status(200).json({ ...profile })
+    res.status(200).json(profile)
   }
 )
 
@@ -42,9 +40,14 @@ router.post(
 
     const newProfile = { email: req.body.email, balance: 0, currency: "EUR" }
 
-    const profile = await createProfile(newProfile)
-    // const netBalance = await getNetProfileBalance(profile)
-    return res.status(201).json(profile)
+    try {
+      const profile = await createProfile(newProfile)
+      return res.status(201).json(profile)
+    } catch {
+      return res
+        .status(422)
+        .json({ error: "Unable to create profile. Profile already exists" })
+    }
   }
 )
 
@@ -58,9 +61,7 @@ router.get(
       return res.status(404).json("Profile not found")
     }
 
-    const netBalance = await getNetProfileBalance(profile)
-
-    return res.status(200).json({ ...profile, netBalance })
+    return res.status(200).json(profile)
   }
 )
 
@@ -84,7 +85,7 @@ router.put(
 
     const profileDetails = req.body
     await updateProfile(profileId, profileDetails)
-    const updatedProfile = await getProfile(profileId, [])
+    const updatedProfile = await getProfile(profileId)
 
     res.status(200).json(updatedProfile)
   }

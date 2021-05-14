@@ -49,10 +49,10 @@ const initializeTransactionsRoutes = (router: express.Router) => {
     "/:id/transactions",
     body("description").not().isEmpty().trim().escape(),
     body("amount").not().isEmpty(),
-    body("recurring").not().isEmpty(),
-    body("recurringType").not().isEmpty(),
-    body("day").not().isEmpty(),
-    body("currency").isIn(["EUR", "ZAR", "USD"]).not().isEmpty(),
+    body("recurring").optional(),
+    body("recurringType").optional(),
+    body("day").optional(),
+    body("currency").isIn(["EUR", "ZAR", "USD"]).optional(),
     async (req: express.Request, res: express.Response, next: any) => {
       const errors = validationResult(req)
 
@@ -61,7 +61,7 @@ const initializeTransactionsRoutes = (router: express.Router) => {
       }
 
       const profileId = req.params.id
-      const profile = await getProfile(profileId, [])
+      const profile = await getProfile(profileId)
       if (!profile) {
         return res.status(404).json({ error: "Profile not found" })
       }
@@ -72,8 +72,7 @@ const initializeTransactionsRoutes = (router: express.Router) => {
         return res.status(422).json({ error: "Category not found" })
       }
 
-      transactionDetails.profile = profile
-      transactionDetails.category = category
+      transactionDetails.profileId = profileId
       const transaction = await createTransaction(transactionDetails)
       res.status(200).json(transaction)
     }

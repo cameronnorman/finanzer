@@ -17,25 +17,36 @@ model Profile {
   currency     String
   transactions Transaction[]
   categories   Category[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+
+  @@unique([email], name: "uniqProfileByEmail")
 }
 
 model Transaction {
   id            String   @id @default(uuid())
   description   String
   amount        Float
-  recurring     Boolean
-  recurringType String
-  day           Int
-  currency      String
+  recurring     Boolean? @default(false)
+  recurringType String?  @default("monthly")
+  day           Int?     @default(1)
+  currency      String?  @default("EUR")
   Profile       Profile? @relation(fields: [profileId], references: [id])
   profileId     String
   categoryId    String
   Category      Category @relation(fields: [categoryId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
 }
 
 model Category {
   id           String        @id @default(uuid())
+  name         String
   profileId    String
   Profile      Profile       @relation(fields: [profileId], references: [id])
   Transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+
+  @@unique([name], name: "uniqCategoryByName")
 }

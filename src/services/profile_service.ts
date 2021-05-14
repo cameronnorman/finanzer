@@ -1,7 +1,3 @@
-import { getRepository } from "typeorm"
-
-import { Transaction } from "../entity/Transaction"
-import { Profile } from "../entity/Profile"
 import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
@@ -11,27 +7,29 @@ export interface ProfileDetails {
   currency?: string
 }
 
-const repository = () => {
-  return getRepository(Profile)
-}
-
-export const getProfile = (
+export const getProfile = async (
   profileId: string,
-  relations: string[] = ["transactions"]
+  include = { transactions: false, categories: false },
+  getNetBalance = false
 ) => {
-  const profile = prisma.profile.findFirst({
+  const profile = await prisma.profile.findFirst({
     where: { id: profileId },
+    include,
   })
+
+  if (getNetBalance) {
+    return { ...profile, netBalance: getNetProfileBalance(profile) }
+  }
 
   return profile
 }
 
-export const getProfileByEmail = (profileEmail: string) => {
-  return repository()
-    .findOne({ where: { email: profileEmail } })
-    .then((profile: Profile) => {
-      return profile
-    })
+export const getProfileByEmail = async (profileEmail: string) => {
+  const profile = await prisma.profile.findFirst({
+    where: { email: profileEmail },
+  })
+
+  return profile
 }
 
 export const createProfile = (profileDetails: any) => {
@@ -42,27 +40,30 @@ export const updateProfile = (
   profileId: string,
   profileDetails: ProfileDetails
 ) => {
-  return repository().update(profileId, {
-    balance: profileDetails.balance,
-    currency: profileDetails.currency,
+  return prisma.profile.update({
+    where: { id: profileId },
+    data: {
+      balance: profileDetails.balance,
+      currency: profileDetails.currency,
+    },
   })
 }
 
-export const getNetProfileBalance = async (profile: Profile) => {
+export const getNetProfileBalance = async (profile: any) => {
   const todayDay = new Date().getDate()
-  const transactions = await getRepository(Transaction).find({
-    where: { profile },
+  const transactions = await prisma.transaction.findMany({
+    where: { profileId: profile.id },
   })
 
   let calcNetBalance: number = profile.balance
-  const recurringTransactions: Transaction[] = transactions.filter(
-    (transaction: Transaction) => {
+  const recurringTransactions: any[] = transactions.filter(
+    (transaction: any) => {
       return transaction.recurring === true && transaction.day >= todayDay
     }
   )
   if (recurringTransactions.length > 0) {
     const transactionAmounts: number[] = recurringTransactions.map(
-      (transaction: Transaction) => transaction.amount
+      (transaction: any) => transaction.amount
     )
     calcNetBalance = transactionAmounts.reduce(
       (currentBalance: number, transactionAmount: number) =>

@@ -23,7 +23,7 @@ const initializeCategoriesRoutes = (router: express.Router) => {
   router.post(
     "/:id/categories",
     body("name").not().isEmpty().trim().escape(),
-    (req: express.Request, res: express.Response, next: any) => {
+    async (req: express.Request, res: express.Response, next: any) => {
       const errors = validationResult(req)
 
       if (!errors.isEmpty()) {
@@ -32,10 +32,14 @@ const initializeCategoriesRoutes = (router: express.Router) => {
 
       const profileId = req.params.id
 
-      create(profileId, { name: req.body.name }).then((category) => {
-        res.status(201).json(category)
-        next()
-      })
+      try {
+        const category = await create(profileId, { name: req.body.name })
+        return res.status(201).json(category)
+      } catch (e) {
+        return res
+          .status(422)
+          .json({ error: "Unable to create category. Category already exists" })
+      }
     }
   )
 
