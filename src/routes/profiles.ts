@@ -25,8 +25,8 @@ router.get(
       return res.status(404).json("Profile not found")
     }
 
-    const netBalance = await getNetProfileBalance(profile)
-    res.status(200).json({ ...profile, netBalance })
+    // const netBalance = await getNetProfileBalance(profile)
+    res.status(200).json({ ...profile })
   }
 )
 
@@ -43,8 +43,8 @@ router.post(
     const newProfile = { email: req.body.email, balance: 0, currency: "EUR" }
 
     const profile = await createProfile(newProfile)
-    const netBalance = await getNetProfileBalance(profile)
-    return res.status(201).json({ ...profile, netBalance })
+    // const netBalance = await getNetProfileBalance(profile)
+    return res.status(201).json(profile)
   }
 )
 

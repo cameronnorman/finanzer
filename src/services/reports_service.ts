@@ -12,7 +12,7 @@ type TransactionSummary = {
   expenses: number
 }
 
-export const expensesByCategory = async (profileId: number) => {
+export const expensesByCategory = async (profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
     .toISOString()
     .split("T")[0]
@@ -47,7 +47,7 @@ export const expensesByCategory = async (profileId: number) => {
   return result
 }
 
-export const incomeExpenses = async (profileId: number) => {
+export const incomeExpenses = async (profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), 0, 1)
     .toISOString()
     .split("T")[0]

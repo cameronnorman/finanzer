@@ -5,7 +5,6 @@ import fs from "fs"
 import jwt from "express-jwt"
 import jwksRsa from "jwks-rsa"
 import expressOasGenerator from "express-oas-generator"
-import connection from "./connection"
 import profilesRouter from "./routes/profiles"
 import healthCheckRouter from "./routes/health_check"
 import cors from "cors"
@@ -59,11 +58,9 @@ app.use("/", healthCheckRouter)
 app.use("/profile", checkAuth, profilesRouter)
 
 expressOasGenerator.handleRequests()
-const server = app.listen(port, () => {
-  connection.create(process.env.NODE_ENV).then(() => {
-    // tslint:disable-next-line:no-console
-    console.log(`Server started on port: ${port}`)
-  })
+const server = app.listen(port, async () => {
+  // tslint:disable-next-line:no-console
+  console.log(`Server started on port: ${port}`)
 })
 
 export default server

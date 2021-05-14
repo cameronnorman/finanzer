@@ -1,6 +1,13 @@
 version: "3.7"
 
 services:
+  db:
+    image: "postgres:13-alpine"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "db:/var/lib/postgresql/data"
   app:
     stdin_open: true
     tty: true
@@ -18,3 +25,4 @@ services:
 
 volumes:
   node_modules:
+  db:

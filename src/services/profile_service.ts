@@ -2,7 +2,9 @@ import { getRepository } from "typeorm"
 
 import { Transaction } from "../entity/Transaction"
 import { Profile } from "../entity/Profile"
+import { PrismaClient } from "@prisma/client"
 
+const prisma = new PrismaClient()
 export interface ProfileDetails {
   email?: string
   balance?: number
@@ -13,14 +15,12 @@ const repository = () => {
   return getRepository(Profile)
 }
 
-export const getProfile = async (
+export const getProfile = (
   profileId: string,
   relations: string[] = ["transactions"]
 ) => {
-  const profileRepository = getRepository(Profile)
-  const profile: Profile = await profileRepository.findOne({
+  const profile = prisma.profile.findFirst({
     where: { id: profileId },
-    relations,
   })
 
   return profile
@@ -34,8 +34,8 @@ export const getProfileByEmail = (profileEmail: string) => {
     })
 }
 
-export const createProfile = (profileDetails: ProfileDetails) => {
-  return repository().save(profileDetails)
+export const createProfile = (profileDetails: any) => {
+  return prisma.profile.create({ data: profileDetails })
 }
 
 export const updateProfile = (

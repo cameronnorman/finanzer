@@ -21,7 +21,7 @@ const repository = () => {
 }
 
 export const filterTransactions = (
-  profileId: number,
+  profileId: string,
   startDate: string,
   endDate: string,
   offset: number,

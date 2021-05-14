@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id           String        @id @default(uuid())
+  email        String        @db.VarChar(255)
+  balance      Float
+  currency     String
+  transactions Transaction[]
+  categories   Category[]
+}
+
+model Transaction {
+  id            String   @id @default(uuid())
+  description   String
+  amount        Float
+  recurring     Boolean
+  recurringType String
+  day           Int
+  currency      String
+  Profile       Profile? @relation(fields: [profileId], references: [id])
+  profileId     String
+  categoryId    String
+  Category      Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id           String        @id @default(uuid())
+  profileId    String
+  Profile      Profile       @relation(fields: [profileId], references: [id])
+  Transactions Transaction[]
+}

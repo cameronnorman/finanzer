@@ -13,8 +13,19 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
       }
     },
     "/profile/{id}": {
@@ -30,8 +41,51 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "e5f7169a-5ed7-4b43-8b0f-909baae90ab3"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: jwt expired<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express-jwt/lib/index.js:105:22<br> &nbsp; &nbsp;at /usr/src/app/node_modules/jsonwebtoken/verify.js:152:16<br> &nbsp; &nbsp;at getSecret (/usr/src/app/node_modules/jsonwebtoken/verify.js:90:14)<br> &nbsp; &nbsp;at Object.module.exports [as verify] (/usr/src/app/node_modules/jsonwebtoken/verify.js:94:10)<br> &nbsp; &nbsp;at verifyToken (/usr/src/app/node_modules/express-jwt/lib/index.js:103:13)<br> &nbsp; &nbsp;at nextTask (/usr/src/app/node_modules/async/dist/async.js:4576:27)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/async/dist/async.js:4584:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/async/dist/async.js:321:20<br> &nbsp; &nbsp;at /usr/src/app/node_modules/jwks-rsa/src/integrations/express.js:32:9<br> &nbsp; &nbsp;at processTicksAndRejections (node:internal/process/task_queues:94:5)</pre>\n</body>\n</html>\n"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html",
+          "application/json"
+        ]
       },
       "put": {
         "summary": "/profile/{id}",
@@ -56,8 +110,36 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "e5f7169a-5ed7-4b43-8b0f-909baae90ab3"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/profile/by_email/{email}": {
