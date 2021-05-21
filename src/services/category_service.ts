@@ -1,14 +1,5 @@
-import { Profile } from "../entity/Profile"
-import { Category } from "../entity/Category"
-import { getRepository } from "typeorm"
-
 import { PrismaClient } from "@prisma/client"
-
 const prisma = new PrismaClient()
-export interface CategoryDetails {
-  name: string
-  profile: Profile
-}
 
 export const getAll = async (profileId: string) => {
   const categories = await prisma.category.findMany({
@@ -34,13 +25,14 @@ export const create = async (profileId: string, categoryParams: any) => {
 }
 
 export const update = async (categoryId: string, categoryDetails: any) => {
-  const categoryRepository = await getRepository(Category)
-  await categoryRepository.update(categoryId, { name: categoryDetails.name })
+  const updatedCategory = prisma.category.update({
+    where: { id: categoryId },
+    data: categoryDetails,
+  })
 
-  return categoryRepository.findOne({ where: { id: categoryId } })
+  return updatedCategory
 }
 
 export const destroy = async (categoryId: string) => {
-  const categoryRepository = await getRepository(Category)
-  return categoryRepository.delete(categoryId)
+  await prisma.category.delete({ where: { id: categoryId } })
 }

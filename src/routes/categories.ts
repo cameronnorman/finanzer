@@ -1,7 +1,13 @@
 import express from "express"
 import { body, validationResult } from "express-validator"
 
-import { getAll, create, update, destroy } from "../services/category_service"
+import {
+  getAll,
+  getCategory,
+  create,
+  update,
+  destroy,
+} from "../services/category_service"
 
 const initializeCategoriesRoutes = (router: express.Router) => {
   router.get(
@@ -64,13 +70,15 @@ const initializeCategoriesRoutes = (router: express.Router) => {
 
   router.delete(
     "/:id/categories/:category_id",
-    (req: express.Request, res: express.Response, next: any) => {
+    async (req: express.Request, res: express.Response, next: any) => {
       const categoryId = req.params.category_id
+      const category = await getCategory(categoryId)
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" })
+      }
 
-      destroy(categoryId).then(() => {
-        res.status(200).json({ message: "Category successfully deleted" })
-        next()
-      })
+      await destroy(categoryId)
+      res.status(200).json({ message: "Category successfully deleted" })
     }
   )
 

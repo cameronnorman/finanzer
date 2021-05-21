@@ -472,16 +472,56 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "1d3353a7-e882-4bb0-9bd5-489e571b3df9"
           },
           {
             "name": "category_id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "6d3a2b89-006b-47c5-bcbf-e584eb9ca7c3"
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Category successfully deleted"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Category not found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
+        ]
       }
     },
     "/profile/{id}/transactions/bulk": {
@@ -629,11 +669,24 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Category not found"
+                }
+              }
+            }
           }
         },
         "tags": [],
         "produces": [
-          "application/json"
+          "application/json",
+          "text/html"
         ]
       }
     },
@@ -665,6 +718,13 @@
                   "example": 300
                 }
               }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
             }
           }
         },
@@ -713,6 +773,13 @@
                   }
                 }
               }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
             }
           }
         },

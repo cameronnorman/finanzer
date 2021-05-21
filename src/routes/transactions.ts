@@ -3,7 +3,9 @@ import { body, validationResult } from "express-validator"
 
 import {
   filterTransactions,
+  getTransaction,
   createTransaction,
+  updateTransaction,
 } from "../services/transaction_service"
 import { getProfile } from "../services/profile_service"
 import { getCategory } from "../services/category_service"
@@ -60,21 +62,77 @@ const initializeTransactionsRoutes = (router: express.Router) => {
         return res.status(400).json({ errors: errors.array() })
       }
 
+      const transactionDetails: any = req.body
+
       const profileId = req.params.id
       const profile = await getProfile(profileId)
       if (!profile) {
         return res.status(404).json({ error: "Profile not found" })
       }
 
-      const transactionDetails: any = req.body
-      const category = await getCategory(transactionDetails.categoryId)
-      if (!category) {
-        return res.status(422).json({ error: "Category not found" })
+      const categoryId = transactionDetails.categoryId
+      if (transactionDetails.categoryId) {
+        const category = await getCategory(categoryId)
+        if (!category) {
+          return res.status(422).json({ error: "Category not found" })
+        }
+        delete transactionDetails.categoryId
       }
 
-      transactionDetails.profileId = profileId
-      const transaction = await createTransaction(transactionDetails)
+      const transaction = await createTransaction(
+        profileId,
+        categoryId,
+        transactionDetails
+      )
       res.status(200).json(transaction)
+    }
+  )
+
+  router.put(
+    "/:id/transactions/:transaction_id",
+    body("description").not().isEmpty().trim().escape(),
+    body("amount").not().isEmpty(),
+    body("recurring").optional(),
+    body("recurringType").optional(),
+    body("day").optional(),
+    body("currency").isIn(["EUR", "ZAR", "USD"]).optional(),
+    async (req: express.Request, res: express.Response, next: any) => {
+      const errors = validationResult(req)
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+      }
+
+      const transactionDetails: any = req.body
+
+      const profileId = req.params.id
+      const profile = await getProfile(profileId)
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" })
+      }
+
+      const categoryId = transactionDetails.categoryId
+      if (categoryId) {
+        const category = await getCategory(categoryId)
+        if (!category) {
+          return res.status(422).json({ error: "Category not found" })
+        }
+        delete transactionDetails.categoryId
+      }
+
+      const transactionId = req.params.transaction_id
+      const transaction = await getTransaction(transactionId)
+      if (!transaction) {
+        return res.status(404).json({ error: "Transaction not found" })
+      }
+
+      const updatedTransaction = await updateTransaction(
+        profileId,
+        categoryId,
+        transactionId,
+        transactionDetails
+      )
+      res.status(200).json(updatedTransaction)
     }
   )
 

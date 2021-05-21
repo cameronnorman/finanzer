@@ -25,12 +25,54 @@ export const filterTransactions = (
   })
 }
 
+export const transactionsFromDate = (profileId: string, startDate: string) => {
+  return prisma.transaction.findMany({
+    where: {
+      profileId,
+      createdAt: {
+        gt: new Date(startDate),
+      },
+    },
+  })
+}
+
+export const getTransaction = (transactionId: string) => {
+  return prisma.transaction.findFirst({ where: { id: transactionId } })
+}
+
 export const newTransaction = (transactionDetails: any) => {
   return prisma.transaction.create({ data: transactionDetails })
 }
 
-export const createTransaction = (transactionDetails: any) => {
-  return prisma.transaction.create({ data: transactionDetails })
+export const createTransaction = (
+  profileId: any,
+  categoryId: any,
+  transactionDetails: any
+) => {
+  transactionDetails.Profile = { connect: { id: profileId } }
+  if (categoryId) {
+    transactionDetails.Category = { connect: { id: categoryId } }
+  }
+  return prisma.transaction.create({
+    data: transactionDetails,
+  })
+}
+
+export const updateTransaction = (
+  profileId: string,
+  categoryId: string,
+  transactionId: string,
+  transactionDetails: any
+) => {
+  transactionDetails.Profile = { connect: { id: profileId } }
+  if (categoryId) {
+    transactionDetails.Category = { connect: { id: categoryId } }
+  }
+
+  return prisma.transaction.update({
+    where: { id: transactionId },
+    data: transactionDetails,
+  })
 }
 
 export const bulkSaveTransactions = async (transactions: any) => {

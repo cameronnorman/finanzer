@@ -5,7 +5,10 @@ docker_repo_password=${DOCKER_REPO_PASSWORD}
 deploy_auth=${DEPLOY_AUTH}
 deploy_action_url=${DEPLOY_ACTION_URL}
 
-setup: build dependencies
+setup: build dependencies migrate
+
+migrate:
+	docker-compose run --rm app npx prisma migrate dev
 
 dependencies:
 	docker-compose run --rm app npm install --include=dev
