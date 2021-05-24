@@ -36,6 +36,14 @@ export const createProfile = (profileDetails: any) => {
   return prisma.profile.create({ data: profileDetails })
 }
 
+export const deleteProfile = (profileId: string) => {
+  return prisma.profile.delete({ where: { id: profileId } })
+}
+
+export const deleteManyProfiles = () => {
+  return prisma.profile.deleteMany()
+}
+
 export const updateProfile = (
   profileId: string,
   profileDetails: ProfileDetails

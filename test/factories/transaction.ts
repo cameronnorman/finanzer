@@ -1,13 +1,7 @@
-import { getRepository } from "typeorm"
-import { Profile } from "../../src/entity/Profile"
-import { Category } from "../../src/entity/Category"
-import { Transaction } from "../../src/entity/Transaction"
-import { TransactionDetails } from "../../src/services/transaction_service"
-
 export const createTransaction = async (
-  category: Category,
-  profile: Profile,
-  other: TransactionDetails
+  category: any,
+  profile: any,
+  other: any
 ) => {
   const defaultTransactionDetails: TransactionDetails = {
     amount: 10,

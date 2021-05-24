@@ -5,7 +5,7 @@ docker_repo_password=${DOCKER_REPO_PASSWORD}
 deploy_auth=${DEPLOY_AUTH}
 deploy_action_url=${DEPLOY_ACTION_URL}
 
-setup: build dependencies migrate
+setup: build dependencies migrate spec_migrate
 
 migrate:
 	docker-compose run --rm app npx prisma migrate dev
@@ -29,10 +29,16 @@ rmdocs:
 	mkdir api-docs
 	echo {} > api-docs/server.json
 
+spec_shell:
+	docker-compose -f docker-compose-test.yml run --rm app ash
+
 spec:
 	rm -f db/test.sqlite
 	rm -f uploads/*
-	docker-compose run --rm app npm test
+	docker-compose -f docker-compose-test.yml run --rm app npm test
+
+spec_migrate:
+	docker-compose -f docker-compose-test.yml run --rm app npx prisma migrate dev
 
 prod_spec:
 	rm -f test.sqlite

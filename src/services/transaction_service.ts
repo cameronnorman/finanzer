@@ -36,6 +36,10 @@ export const transactionsFromDate = (profileId: string, startDate: string) => {
   })
 }
 
+export const getTransactions = () => {
+  return prisma.transaction.findMany({})
+}
+
 export const getTransaction = (transactionId: string) => {
   return prisma.transaction.findFirst({ where: { id: transactionId } })
 }
@@ -73,6 +77,14 @@ export const updateTransaction = (
     where: { id: transactionId },
     data: transactionDetails,
   })
+}
+
+export const deleteTransaction = (transactionId: string) => {
+  return prisma.transaction.delete({ where: { id: transactionId } })
+}
+
+export const deleteManyTransactions = () => {
+  return prisma.transaction.deleteMany()
 }
 
 export const bulkSaveTransactions = async (transactions: any) => {
