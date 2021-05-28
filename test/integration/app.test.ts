@@ -1,8 +1,12 @@
 import request from "supertest"
 import server from "../../src/app"
 
+beforeAll(async (done) => {
+  done()
+})
+
 afterAll(async (done) => {
-  server.close()
+  await server.close()
   done()
 })
 

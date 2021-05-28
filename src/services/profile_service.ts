@@ -1,6 +1,3 @@
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
 export interface ProfileDetails {
   email?: string
   balance?: number
@@ -8,6 +5,7 @@ export interface ProfileDetails {
 }
 
 export const getProfile = async (
+  prisma: any,
   profileId: string,
   include = { transactions: false, categories: false },
   getNetBalance = false
