@@ -8,7 +8,7 @@ COPY package*.json ./
 
 FROM base as dev
 
-RUN npm install -g typescript tslint
+RUN npm install -g typescript tslint prisma
 
 RUN mkdir -p uploads
 
