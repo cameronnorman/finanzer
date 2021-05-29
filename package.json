@@ -9,7 +9,7 @@
     "watch-dev": "nodemon",
     "dev": "tslint -c tslint.json -p tsconfig.json && ts-node .",
     "start": "npx prisma migrate prod && node dist/app.js",
-    "test": "tslint -c tslint.json -p tsconfig.json && NODE_ENV=test jest --runInBand --maxConcurrency=1",
+    "test": "./node_modules/.bin/tslint -c tslint.json -p tsconfig.json && NODE_ENV=test jest --runInBand --maxConcurrency=1",
     "testc": "NODE_ENV=test jest --runInBand --maxConcurrency=1 --coverage"
   },
   "dependencies": {
