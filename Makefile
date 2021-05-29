@@ -36,10 +36,12 @@ spec:
 	rm -f uploads/*
 	docker-compose -f docker-compose-test.yml run --rm app npm test
 
+prod_spec: spec_migrate run_prod_spec
+
 spec_migrate:
 	docker-compose -f docker-compose-test.yml run --rm app npx prisma migrate dev
 
-prod_spec:
+run_prod_spec:
 	rm -f uploads/*
 	cp .env.sample .env
 	docker-compose -f docker-compose-test.yml run --rm app npm test
