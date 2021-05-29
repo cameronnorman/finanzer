@@ -39,7 +39,7 @@ export const transactionsFromDate = (
 }
 
 export const getTransactions = (prisma: any) => {
-  return prisma.transaction.findMany({})
+  return prisma.transaction.findMany({ orderBy: [{ createdAt: "desc" }] })
 }
 
 export const getTransaction = (prisma: any, transactionId: string) => {

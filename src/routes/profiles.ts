@@ -7,7 +7,9 @@ import {
   getProfileByEmail,
   updateProfile,
 } from "../services/profile_service"
+import initializeBulkTransactionRoutes from "./bulk_transactions"
 import initializeCategoriesRoutes from "./categories"
+import initializeReportsRoutes from "./reports"
 import initializeTransactionsRoutes from "./transactions"
 
 export const createProfilesRouter = (prisma: any) => {
@@ -93,8 +95,8 @@ export const createProfilesRouter = (prisma: any) => {
 
   router = initializeCategoriesRoutes(prisma, router)
   router = initializeTransactionsRoutes(prisma, router)
-  // router = initializeBulkTransactionRoutes(router)
-  // router = initializeReportsRoutes(router)
+  router = initializeReportsRoutes(prisma, router)
+  router = initializeBulkTransactionRoutes(prisma, router)
 
   return router
 }

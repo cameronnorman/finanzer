@@ -11,7 +11,7 @@ type TransactionSummary = {
   expenses: number
 }
 
-export const expensesByCategory = async (profileId: string) => {
+export const expensesByCategory = async (prisma: any, profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
     .toISOString()
     .split("T")[0]
@@ -24,6 +24,7 @@ export const expensesByCategory = async (profileId: string) => {
     .split("T")[0]
 
   const transactions = await filterTransactions(
+    prisma,
     profileId,
     startDate,
     endDate,
@@ -45,16 +46,16 @@ export const expensesByCategory = async (profileId: string) => {
   return result
 }
 
-export const incomeExpenses = async (profileId: string) => {
+export const incomeExpenses = async (prisma: any, profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), 0, 1)
     .toISOString()
     .split("T")[0]
 
-  const transactions = await transactionsFromDate(profileId, startDate)
+  const transactions = await transactionsFromDate(prisma, profileId, startDate)
 
   const summarized: TransactionSummary[] = []
 
-  transactions.forEach((transaction) => {
+  transactions.forEach((transaction: any) => {
     const transactionYear = transaction.createdAt.getFullYear()
     const transactionMonth = transaction.createdAt.getMonth() + 1
     const summaryIndex: number = summarized.findIndex(

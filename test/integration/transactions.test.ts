@@ -1,5 +1,3 @@
-// import http from "http"
-// import express from "express"
 import request from "supertest"
 import prisma from "../../client"
 import { createServer } from "../../src/app"
@@ -8,7 +6,10 @@ import {
   createProfile,
   deleteManyProfiles,
 } from "../../src/services/profile_service"
-import { deleteManyTransactions } from "../../src/services/transaction_service"
+import {
+  deleteManyTransactions,
+  getTransactions,
+} from "../../src/services/transaction_service"
 import { createTransactionFactory } from "../factories/transaction"
 let server: any
 let transactions: any
@@ -91,112 +92,82 @@ describe("Profile Transactions", () => {
     })
   })
 
-  //   describe("POST /profile/:id/transactions", () => {
-  //     test("when a required parameter is not specified, it does not create a transaction", async (done) => {
-  //       let payload: any = {
-  //         amount: 10,
-  //         day: 2,
-  //         recurring: true,
-  //         recurringType: "monthly",
-  //         currency: "EUR",
-  //         categoryId: category.id,
-  //       }
-  //       request(server)
-  //         .post(`/profile/${profile.id}/transactions`)
-  //         .send(payload)
-  //         .expect(400)
-  //         .then(async (response) => {
-  //           expect(response.body).toEqual({
-  //             errors: [
-  //               { location: "body", msg: "Invalid value", param: "description" },
-  //             ],
-  //           })
-  //           done()
-  //         })
-  //     })
-  //     test("when a required parameter is null, it does not create a transaction", async (done) => {
-  //       let payload: any = {
-  //         amount: 10,
-  //         description: null,
-  //         day: 2,
-  //         recurring: true,
-  //         recurringType: "monthly",
-  //         currency: "EUR",
-  //         categoryId: category.id,
-  //       }
-  //       request(server)
-  //         .post(`/profile/${profile.id}/transactions`)
-  //         .send(payload)
-  //         .expect(400)
-  //         .then(async (response) => {
-  //           expect(response.body).toEqual({
-  //             errors: [
-  //               {
-  //                 location: "body",
-  //                 msg: "Invalid value",
-  //                 param: "description",
-  //                 value: null,
-  //               },
-  //             ],
-  //           })
-  //           done()
-  //         })
-  //     })
-  //     test("it creates a transaction", async (done) => {
-  //       let profileDetails = {
-  //         balance: 20.59,
-  //         email: "cool_kid@looserville.com",
-  //         currency: "EUR",
-  //       }
-  //       let profileRepository = getRepository(Profile)
-  //       let profile = await profileRepository.save(profileDetails)
-  //       let payload: any = {
-  //         amount: 10,
-  //         description: "This is a awesome purchase",
-  //         day: 2,
-  //         recurring: true,
-  //         recurringType: "monthly",
-  //         currency: "EUR",
-  //         categoryId: category.id,
-  //       }
-  //       request(server)
-  //         .post(`/profile/${profile.id}/transactions`)
-  //         .send(payload)
-  //         .expect(200)
-  //         .then(async (response) => {
-  //           let lastTransactionQuery: Transaction[] = await getRepository(
-  //             Transaction
-  //           ).find({
-  //             order: {
-  //               id: "DESC",
-  //             },
-  //             take: 1,
-  //           })
-  //           let lastTransaction: Transaction = lastTransactionQuery[0]
-  //           expect(response.body).toEqual({
-  //             id: lastTransaction.id,
-  //             profile: {
-  //               id: profile.id,
-  //               email: "cool_kid@looserville.com",
-  //               balance: 20.59,
-  //               currency: "EUR",
-  //             },
-  //             categoryId: category.id,
-  //             category: {
-  //               id: category.id,
-  //               name: "Category 1",
-  //             },
-  //             description: "This is a awesome purchase",
-  //             day: 2,
-  //             amount: 10,
-  //             recurring: true,
-  //             recurringType: "monthly",
-  //             currency: "EUR",
-  //             created: lastTransaction.created.toISOString(),
-  //             updated: lastTransaction.updated.toISOString(),
-  //           })
-  //           done()
-  //         })
-  //     })
-  //   })
+  describe("POST /profile/:id/transactions", () => {
+    test("when a required parameter is not specified, it does not create a transaction", async (done) => {
+      let payload: any = {
+        amount: 10,
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "EUR",
+        categoryId: category.id,
+      }
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(400)
+        .then(async (response) => {
+          expect(response.body).toEqual({
+            errors: [
+              { location: "body", msg: "Invalid value", param: "description" },
+            ],
+          })
+          done()
+        })
+    })
+
+    test("when a required parameter is null, it does not create a transaction", async (done) => {
+      let payload: any = {
+        amount: 10,
+        description: null,
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "EUR",
+        categoryId: category.id,
+      }
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(400)
+        .then(async (response) => {
+          expect(response.body).toEqual({
+            errors: [
+              {
+                location: "body",
+                msg: "Invalid value",
+                param: "description",
+                value: null,
+              },
+            ],
+          })
+          done()
+        })
+    })
+
+    test("it creates a transaction", async (done) => {
+      let payload: any = {
+        amount: 10,
+        description: "This is a awesome purchase",
+        day: 2,
+        recurring: true,
+        recurringType: "monthly",
+        currency: "EUR",
+        categoryId: category.id,
+      }
+      request(server)
+        .post(`/profile/${profile.id}/transactions`)
+        .send(payload)
+        .expect(200)
+        .then(async (response) => {
+          let latestTransactions: any = await getTransactions(prisma)
+          let lastTransaction: any = latestTransactions[0]
+
+          expect(response.body.id).toEqual(lastTransaction.id)
+          expect(response.body.categoryId).toEqual(category.id)
+          expect(response.body.profileId).toEqual(profile.id)
+          done()
+        })
+    })
+  })
 })
