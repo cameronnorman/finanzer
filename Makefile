@@ -40,7 +40,6 @@ spec_migrate:
 	docker-compose -f docker-compose-test.yml run --rm app npx prisma migrate dev
 
 prod_spec:
-	rm -f test.sqlite
 	rm -f uploads/*
 	cp .env.sample .env
 	docker-compose run --rm app npm test
