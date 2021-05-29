@@ -20,8 +20,6 @@ COPY . .
 
 RUN npm install
 
-RUN npm install -g --save-dev typescript tslint ts-jest typeorm ts-node jest nodemon prisma
-
 FROM base as builder
 
 RUN npm install -g typescript tslint
