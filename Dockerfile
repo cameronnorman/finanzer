@@ -14,9 +14,11 @@ RUN mkdir -p uploads
 
 FROM dev as ci
 
+COPY . .
+
 RUN npm install --save-dev typescript tslint ts-jest typeorm ts-node jest ts-jest nodemon prisma
 
-COPY . .
+RUN npm install
 
 FROM base as builder
 
