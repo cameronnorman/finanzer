@@ -20,6 +20,8 @@ FROM dev as ci
 
 COPY . .
 
+RUN npm install
+
 FROM base as builder
 
 RUN npm install -g typescript tslint
