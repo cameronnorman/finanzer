@@ -42,7 +42,7 @@ spec_migrate:
 prod_spec:
 	rm -f uploads/*
 	cp .env.sample .env
-	docker-compose run --rm app npm test
+	docker-compose -f docker-compose-test.yml run --rm app npm test
 
 prod_shell:
 	docker-compose -f docker-compose-prod.yml run --rm app ash
