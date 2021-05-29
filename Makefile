@@ -42,6 +42,7 @@ spec_migrate:
 prod_spec:
 	rm -f uploads/*
 	cp .env.sample .env
+	docker-compose -f docker-compose-ci.yml build
 	docker-compose -f docker-compose-ci.yml run --rm app npx prisma migrate dev && npm test
 
 prod_shell:

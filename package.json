@@ -8,7 +8,7 @@
     "build": "rm -rf dist/ && tsc",
     "watch-dev": "nodemon",
     "dev": "tslint -c tslint.json -p tsconfig.json && ts-node .",
-    "start": "node dist/app.js",
+    "start": "npx prisma migrate prod && node dist/app.js",
     "test": "tslint -c tslint.json -p tsconfig.json && NODE_ENV=test jest --runInBand --maxConcurrency=1",
     "testc": "NODE_ENV=test jest --runInBand --maxConcurrency=1 --coverage"
   },
