@@ -8,13 +8,13 @@ COPY package*.json ./
 
 FROM base as dev
 
-RUN npm install -g typescript tslint prisma
+RUN npm install -g typescript tslint
 
 RUN mkdir -p uploads
 
 RUN npm install -g ts-jest typeorm ts-node
 
-RUN npm install --save-dev jest nodemon
+RUN npm install --save-dev jest nodemon prisma
 
 FROM base as builder
 
