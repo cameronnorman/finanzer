@@ -12,7 +12,9 @@ RUN npm install -g typescript tslint ts-jest typeorm ts-node jest ts-jest nodemo
 
 RUN mkdir -p uploads
 
-FROM dev as ci
+FROM base as ci
+
+RUN mkdir -p uploads
 
 COPY . .
 
