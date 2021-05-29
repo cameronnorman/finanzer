@@ -5,9 +5,10 @@ import fs from "fs"
 import jwt from "express-jwt"
 import jwksRsa from "jwks-rsa"
 import expressOasGenerator from "express-oas-generator"
-import profilesRouter from "./routes/profiles"
+import { createProfilesRouter } from "./routes/profiles"
 import healthCheckRouter from "./routes/health_check"
 import cors from "cors"
+import prisma from "../client"
 
 dotenv.config()
 
@@ -35,32 +36,36 @@ const checkAuth = (req: express.Request, res: express.Response, next: any) => {
   checkJwt(req, res, next)
 }
 
-const app = express()
-const port: string = process.env.PORT
+export const createServer = (prismaClient: any) => {
+  const app = express()
 
-const openAPIFilePath = "/usr/src/app/api-docs/server.json"
+  const openAPIFilePath = "/usr/src/app/api-docs/server.json"
 
-const predefinedSpec = JSON.parse(
-  fs.readFileSync(openAPIFilePath, { encoding: "utf-8" })
-)
+  const predefinedSpec = JSON.parse(
+    fs.readFileSync(openAPIFilePath, { encoding: "utf-8" })
+  )
 
-expressOasGenerator.handleResponses(app, {
-  predefinedSpec: () => predefinedSpec,
-  specOutputPath: openAPIFilePath,
-  alwaysServeDocs: true,
-  ignoredNodeEnvironments: ["test"],
-})
+  expressOasGenerator.handleResponses(app, {
+    predefinedSpec: () => predefinedSpec,
+    specOutputPath: openAPIFilePath,
+    alwaysServeDocs: true,
+    ignoredNodeEnvironments: ["test"],
+  })
 
-app.use(express.json())
-app.use(cors())
-app.use(morgan("tiny"))
-app.use("/", healthCheckRouter)
-app.use("/profile", checkAuth, profilesRouter)
+  const profilesRouter = createProfilesRouter(prismaClient)
+  app.use(express.json())
+  app.use(cors())
+  app.use(morgan("tiny"))
+  app.use("/", healthCheckRouter)
+  app.use("/profile", checkAuth, profilesRouter)
 
-expressOasGenerator.handleRequests()
-const server = app.listen(port, async () => {
-  // tslint:disable-next-line:no-console
-  console.log(`Server started on port: ${port}`)
-})
+  return app
+}
 
-export default server
+export const startServer = (serverInstance: any, port: string) => {
+  expressOasGenerator.handleRequests()
+  return serverInstance.listen(port, async () => {
+    // tslint:disable-next-line:no-console
+    console.log(`Server started on port: ${port}`)
+  })
+}

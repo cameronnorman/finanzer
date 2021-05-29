@@ -16,13 +16,13 @@ export const getProfile = async (
   })
 
   if (getNetBalance) {
-    return { ...profile, netBalance: getNetProfileBalance(profile) }
+    return { ...profile, netBalance: getNetProfileBalance(prisma, profile) }
   }
 
   return profile
 }
 
-export const getProfileByEmail = async (profileEmail: string) => {
+export const getProfileByEmail = async (prisma: any, profileEmail: string) => {
   const profile = await prisma.profile.findFirst({
     where: { email: profileEmail },
   })
@@ -30,19 +30,20 @@ export const getProfileByEmail = async (profileEmail: string) => {
   return profile
 }
 
-export const createProfile = (profileDetails: any) => {
+export const createProfile = (prisma: any, profileDetails: any) => {
   return prisma.profile.create({ data: profileDetails })
 }
 
-export const deleteProfile = (profileId: string) => {
+export const deleteProfile = (prisma: any, profileId: string) => {
   return prisma.profile.delete({ where: { id: profileId } })
 }
 
-export const deleteManyProfiles = () => {
+export const deleteManyProfiles = (prisma: any) => {
   return prisma.profile.deleteMany()
 }
 
 export const updateProfile = (
+  prisma: any,
   profileId: string,
   profileDetails: ProfileDetails
 ) => {
@@ -55,7 +56,7 @@ export const updateProfile = (
   })
 }
 
-export const getNetProfileBalance = async (profile: any) => {
+export const getNetProfileBalance = async (prisma: any, profile: any) => {
   const todayDay = new Date().getDate()
   const transactions = await prisma.transaction.findMany({
     where: { profileId: profile.id },

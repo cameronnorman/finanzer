@@ -1,12 +1,17 @@
 import request from "supertest"
-import server from "../../src/app"
+import { PrismaClient } from "@prisma/client"
 
+import { createServer, startServer } from "../../src/app"
+
+const prisma = new PrismaClient()
+let server: any
 beforeAll(async (done) => {
+  server = createServer(prisma)
   done()
 })
 
 afterAll(async (done) => {
-  await server.close()
+  await prisma.$disconnect()
   done()
 })
 
@@ -21,135 +26,6 @@ describe("GET /check", () => {
       })
   })
 })
-
-// describe("Profile view, create, update", () => {
-//   let lastProfile: any
-
-//   beforeAll(async (done) => {
-//     let profileDetails = {
-//       email: "cool_kid@looserville.com",
-//       balance: 20.59,
-//       currency: "EUR",
-//     }
-//     lastProfile = await createProfile(profileDetails)
-//     done()
-//   })
-
-//     test("when the profile exists, and it has transactions, it returns the correct net balance", async (done) => {
-//       let transactions = [
-//         {
-//           description: "This is a awesome purchase",
-//           day: new Date().getDate() + 1,
-//           amount: 10,
-//           recurring: true,
-//           recurringType: "monthly",
-//           currency: "EUR",
-//           profile: lastProfile,
-//         },
-//         {
-//           description: "This is a awesome purchase",
-//           day: new Date().getDate() + 1,
-//           amount: -5.59,
-//           recurring: true,
-//           recurringType: "monthly",
-//           currency: "EUR",
-//           profile: lastProfile,
-//         },
-//       ]
-
-//       transactions.map(async (transaction) => {
-//         await createTransaction(lastProfile.id, null, transaction)
-//       })
-
-//       request(server)
-//         .get(`/profile/${lastProfile.id}`)
-//         .expect(200)
-//         .then((response) => {
-//           expect(response.body).toEqual({
-//             id: lastProfile.id,
-//             email: "cool_kid@looserville.com",
-//             netBalance: 25.0,
-//             balance: 20.59,
-//             currency: "EUR",
-//           })
-//           done()
-//         })
-//     })
-
-//   test("when the profile does not exist, it returns a 404 not found", async (done) => {
-//     request(server)
-//       .get(`/profile/20`)
-//       .expect(404)
-//       .then((response) => {
-//         expect(response.body).toEqual("Profile not found")
-//         done()
-//       })
-//   })
-// })
-
-// describe("GET /profile/by_email/:email", () => {
-//   let profile: Profile
-
-//   beforeAll(async (done) => {
-//     let profileRepository = getRepository(Profile)
-//     let profileDetails = {
-//       email: "cool_kid@looserville.com",
-//       balance: 20.59,
-//       currency: "EUR",
-//     }
-//     profile = await profileRepository.save(profileDetails)
-//     done()
-//   })
-
-//   test("when the profile exists, it returns the relevant profile", async (done) => {
-//     request(server)
-//       .get(`/profile/by_email/cool_kid@looserville.com`)
-//       .expect(200)
-//       .then((response) => {
-//         expect(response.body).toEqual({
-//           id: 1,
-//           email: "cool_kid@looserville.com",
-//           balance: 20.59,
-//           netBalance: 20.59,
-//           currency: "EUR",
-//         })
-//         done()
-//       })
-//   })
-
-//   test("when the profile does not exist, it returns a 404 not found", async (done) => {
-//     request(server)
-//       .get(`/profile/by_email/happy_kid@coolville.com`)
-//       .expect(404)
-//       .then((response) => {
-//         expect(response.body).toEqual("Profile not found")
-//         done()
-//       })
-//   })
-// })
-
-// describe("POST /profile", () => {
-//   test("when the data is correct, it creates a profile", async (done) => {
-//     let profileDetails = {
-//       email: "cool_kid@looserville.com",
-//     }
-
-//     request(server)
-//       .post(`/profile`)
-//       .expect(201)
-//       .send(profileDetails)
-//       .then((response) => {
-//         expect(response.body).toEqual({
-//           id: 4,
-//           email: "cool_kid@looserville.com",
-//           balance: 0,
-//           netBalance: 0,
-//           currency: "EUR",
-//         })
-//         done()
-//       })
-//   })
-// })
 
 // describe("PUT /profile/:id", () => {
 //   test("when the profile exists, it updates the profile with the new data", async (done) => {

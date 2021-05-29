@@ -1,6 +1,5 @@
-import prisma from "../../client"
-
 export const filterTransactions = (
+  prisma: any,
   profileId: string,
   startDate: string,
   endDate: string,
@@ -23,7 +22,11 @@ export const filterTransactions = (
   })
 }
 
-export const transactionsFromDate = (profileId: string, startDate: string) => {
+export const transactionsFromDate = (
+  prisma: any,
+  profileId: string,
+  startDate: string
+) => {
   return prisma.transaction.findMany({
     where: {
       profileId,
@@ -34,19 +37,20 @@ export const transactionsFromDate = (profileId: string, startDate: string) => {
   })
 }
 
-export const getTransactions = () => {
+export const getTransactions = (prisma: any) => {
   return prisma.transaction.findMany({})
 }
 
-export const getTransaction = (transactionId: string) => {
+export const getTransaction = (prisma: any, transactionId: string) => {
   return prisma.transaction.findFirst({ where: { id: transactionId } })
 }
 
-export const newTransaction = (transactionDetails: any) => {
+export const newTransaction = (prisma: any, transactionDetails: any) => {
   return prisma.transaction.create({ data: transactionDetails })
 }
 
 export const createTransaction = (
+  prisma: any,
   profileId: any,
   categoryId: any,
   transactionDetails: any
@@ -61,6 +65,7 @@ export const createTransaction = (
 }
 
 export const updateTransaction = (
+  prisma: any,
   profileId: string,
   categoryId: string,
   transactionId: string,
@@ -77,14 +82,14 @@ export const updateTransaction = (
   })
 }
 
-export const deleteTransaction = (transactionId: string) => {
+export const deleteTransaction = (prisma: any, transactionId: string) => {
   return prisma.transaction.delete({ where: { id: transactionId } })
 }
 
-export const deleteManyTransactions = () => {
+export const deleteManyTransactions = (prisma: any) => {
   return prisma.transaction.deleteMany()
 }
 
-export const bulkSaveTransactions = async (transactions: any) => {
+export const bulkSaveTransactions = async (prisma: any, transactions: any) => {
   return prisma.transaction.createMany({ data: transactions })
 }
