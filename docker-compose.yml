@@ -13,7 +13,7 @@ services:
     tty: true
     build:
       context: .
-      target: dev
+      target: dependencies
     volumes:
       - "./:/usr/src/app"
       - "node_modules:/usr/src/app/node_modules"

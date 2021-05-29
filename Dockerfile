@@ -1,28 +1,22 @@
-FROM node:15.13-alpine as base
-
-RUN npm install -g npm@7.11.2
+FROM node:14.17-alpine as base
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-FROM base as dev
+FROM base as dependencies
 
 RUN npm install -g typescript tslint ts-jest typeorm ts-node jest nodemon prisma
 
 RUN mkdir -p uploads
 
-FROM base as ci
-
-RUN mkdir -p uploads
+FROM dependencies as ci
 
 COPY . .
 
 RUN npm install
 
 FROM base as builder
-
-RUN npm install -g typescript tslint
 
 COPY . .
 
