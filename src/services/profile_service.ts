@@ -15,7 +15,7 @@ export const getProfile = async (
     include,
   })
 
-  if (getNetBalance) {
+  if (profileId && getNetBalance) {
     return { ...profile, netBalance: getNetProfileBalance(prisma, profile) }
   }
 

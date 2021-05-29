@@ -1,21 +1,17 @@
 import express from "express"
 import { body, validationResult } from "express-validator"
-
-import initializeBulkTransactionRoutes from "./bulk_transactions"
-import initializeTransactionsRoutes from "./transactions"
-import initializeCategoriesRoutes from "./categories"
-import initializeReportsRoutes from "./reports"
-
 import {
-  getProfile,
-  getNetProfileBalance,
   createProfile,
+  getNetProfileBalance,
+  getProfile,
   getProfileByEmail,
   updateProfile,
 } from "../services/profile_service"
+import initializeCategoriesRoutes from "./categories"
+import initializeTransactionsRoutes from "./transactions"
 
 export const createProfilesRouter = (prisma: any) => {
-  const router = express.Router()
+  let router = express.Router()
 
   router.get(
     "/:id",
@@ -95,9 +91,9 @@ export const createProfilesRouter = (prisma: any) => {
     }
   )
 
-  // router = initializeCategoriesRoutes(router)
+  router = initializeCategoriesRoutes(prisma, router)
+  router = initializeTransactionsRoutes(prisma, router)
   // router = initializeBulkTransactionRoutes(router)
-  // router = initializeTransactionsRoutes(router)
   // router = initializeReportsRoutes(router)
 
   return router

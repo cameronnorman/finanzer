@@ -1,14 +1,13 @@
 import express from "express"
 import { body, validationResult } from "express-validator"
-
+import { getCategory } from "../services/category_service"
+import { getProfile } from "../services/profile_service"
 import {
+  createTransaction,
   filterTransactions,
   getTransaction,
-  createTransaction,
   updateTransaction,
 } from "../services/transaction_service"
-import { getProfile } from "../services/profile_service"
-import { getCategory } from "../services/category_service"
 
 const formatInputParams = (req: express.Request) => {
   const today: Date = new Date()
@@ -25,18 +24,19 @@ const formatInputParams = (req: express.Request) => {
   return { startDate, endDate, offset, limit }
 }
 
-const initializeTransactionsRoutes = (router: express.Router) => {
+const initializeTransactionsRoutes = (prisma: any, router: express.Router) => {
   router.get(
     "/:id/transactions",
     async (req: express.Request, res: express.Response) => {
       const profileId = req.params.id
-      const profile = await getProfile(profileId)
+      const profile = await getProfile(prisma, profileId)
       if (!profile) {
         return res.status(404).json({ error: "Profile not found" })
       }
 
       const { startDate, endDate, offset, limit } = formatInputParams(req)
       const transactions = await filterTransactions(
+        prisma,
         profile.id,
         startDate,
         endDate,
@@ -65,14 +65,14 @@ const initializeTransactionsRoutes = (router: express.Router) => {
       const transactionDetails: any = req.body
 
       const profileId = req.params.id
-      const profile = await getProfile(profileId)
+      const profile = await getProfile(prisma, profileId)
       if (!profile) {
         return res.status(404).json({ error: "Profile not found" })
       }
 
       const categoryId = transactionDetails.categoryId
       if (transactionDetails.categoryId) {
-        const category = await getCategory(categoryId)
+        const category = await getCategory(prisma, categoryId)
         if (!category) {
           return res.status(422).json({ error: "Category not found" })
         }
@@ -80,6 +80,7 @@ const initializeTransactionsRoutes = (router: express.Router) => {
       }
 
       const transaction = await createTransaction(
+        prisma,
         profileId,
         categoryId,
         transactionDetails
@@ -106,14 +107,14 @@ const initializeTransactionsRoutes = (router: express.Router) => {
       const transactionDetails: any = req.body
 
       const profileId = req.params.id
-      const profile = await getProfile(profileId)
+      const profile = await getProfile(prisma, profileId)
       if (!profile) {
         return res.status(404).json({ error: "Profile not found" })
       }
 
       const categoryId = transactionDetails.categoryId
       if (categoryId) {
-        const category = await getCategory(categoryId)
+        const category = await getCategory(prisma, categoryId)
         if (!category) {
           return res.status(422).json({ error: "Category not found" })
         }
@@ -121,12 +122,13 @@ const initializeTransactionsRoutes = (router: express.Router) => {
       }
 
       const transactionId = req.params.transaction_id
-      const transaction = await getTransaction(transactionId)
+      const transaction = await getTransaction(prisma, transactionId)
       if (!transaction) {
         return res.status(404).json({ error: "Transaction not found" })
       }
 
       const updatedTransaction = await updateTransaction(
+        prisma,
         profileId,
         categoryId,
         transactionId,

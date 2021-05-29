@@ -10,13 +10,14 @@ export const filterTransactions = (
     where: {
       profileId,
       createdAt: {
-        gt: new Date(startDate),
-        lt: new Date(endDate),
+        gte: new Date(startDate),
+        lte: new Date(endDate),
       },
     },
     include: {
       Category: true,
     },
+    orderBy: [{ createdAt: "desc" }],
     take: limit,
     skip: offset * limit,
   })

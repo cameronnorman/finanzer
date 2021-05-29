@@ -33,7 +33,6 @@ spec_shell:
 	docker-compose -f docker-compose-test.yml run --rm app ash
 
 spec:
-	rm -f db/test.sqlite
 	rm -f uploads/*
 	docker-compose -f docker-compose-test.yml run --rm app npm test
 

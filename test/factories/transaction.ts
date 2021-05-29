@@ -1,9 +1,12 @@
-export const createTransaction = async (
+import { createTransaction } from "../../src/services/transaction_service"
+
+export const createTransactionFactory = async (
+  prisma: any,
   category: any,
   profile: any,
   other: any
 ) => {
-  const defaultTransactionDetails: TransactionDetails = {
+  const defaultTransactionDetails: any = {
     amount: 10,
     day: 2,
     recurring: true,
@@ -11,13 +14,10 @@ export const createTransaction = async (
     recurringType: "monthly",
     currency: "EUR",
   }
-  const newTransaction: TransactionDetails = {
+  const newTransaction: any = {
     ...defaultTransactionDetails,
     ...other,
   }
-  newTransaction.profile = profile
-  newTransaction.category = category
-  const transactionRepository = await getRepository(Transaction)
 
-  return transactionRepository.save(newTransaction)
+  return createTransaction(prisma, profile.id, category.id, newTransaction)
 }
