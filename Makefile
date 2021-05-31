@@ -29,20 +29,16 @@ rmdocs:
 	mkdir api-docs
 	echo {} > api-docs/server.json
 
-spec_shell:
-	docker-compose -f docker-compose-test.yml run --rm app ash
-
 spec:
 	rm -f uploads/*
-	docker-compose -f docker-compose-test.yml run --rm app npm test
-
-spec_migrate:
-	docker-compose -f docker-compose-test.yml run --rm app npx prisma migrate dev
+	docker-compose -f docker-compose.yml run --rm app npm test
 
 ci_spec:
 	rm -f uploads/*
 	cp .env.sample .env
-	docker-compose -f docker-compose-ci.yml run --rm app npx prisma migrate dev && npm test
+	docker-compose -f docker-compose.yml run --rm app npm test
+	# docker-compose -f docker-compose-ci.yml build app
+	# docker-compose -f docker-compose-ci.yml run --rm app npx prisma migrate dev && npm test
 
 prod_shell:
 	docker-compose -f docker-compose-prod.yml run --rm app ash
