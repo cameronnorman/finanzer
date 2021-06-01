@@ -1,60 +1,58 @@
-import http from "http"
-import express from "express"
 import request from "supertest"
-import { getRepository } from "typeorm"
-
-import server from "../../src/app"
-import connection from "../../src/connection"
-import { Transaction } from "../../src/entity/Transaction"
-import { Profile } from "../../src/entity/Profile"
-import { createCategory } from "../factories/category"
-import { Category } from "../../src/entity/Category"
-import { createTransaction } from "../factories/transaction"
+import prisma from "../../client"
+import { createServer } from "../../src/app"
+import { createCategory } from "../../src/services/category_service"
+import {
+  createProfile,
+  deleteManyProfiles,
+} from "../../src/services/profile_service"
+import {
+  deleteManyTransactions,
+  getTransactions,
+} from "../../src/services/transaction_service"
+import { createTransactionFactory } from "../factories/transaction"
+let server: any
+let transactions: any
+let category: any
+let profile: any
 
 beforeAll(async (done) => {
-  await connection.create()
+  server = createServer(prisma)
+  let profileDetails = {
+    email: "cool_kid@looserville.com",
+    balance: 20.59,
+    currency: "EUR",
+  }
+  profile = await createProfile(prisma, profileDetails)
+  category = await createCategory(prisma, profile.id, { name: "Category 1" })
+  transactions = await Promise.all([
+    createTransactionFactory(prisma, category, profile, {
+      createdAt: new Date(`${new Date().getFullYear()}-01-01`),
+    }),
+    createTransactionFactory(prisma, category, profile, {
+      createdAt: new Date(`${new Date().getFullYear()}-01-02`),
+    }),
+    createTransactionFactory(prisma, category, profile, {
+      createdAt: new Date(`${new Date().getFullYear()}-02-01`),
+    }),
+    createTransactionFactory(prisma, category, profile, {
+      createdAt: new Date(`${new Date().getFullYear()}-02-02`),
+    }),
+  ])
   done()
 })
 
 afterAll(async (done) => {
-  //await connection.close()
-  server.close()
+  const deleteProfiles = deleteManyProfiles(prisma)
+  const deleteTransactions = deleteManyTransactions(prisma)
+
+  await prisma.$transaction([deleteProfiles, deleteTransactions])
+  await prisma.$disconnect()
+
   done()
 })
 
 describe("Profile Transactions", () => {
-  let profile: Profile
-  let category: Category
-  let transactions: Transaction[]
-
-  beforeAll(async (done) => {
-    let profileRepository = await getRepository(Profile)
-    let profileDetails = {
-      email: "cool_kid@looserville.com",
-      balance: 20.59,
-      currency: "EUR",
-    }
-    profile = await profileRepository.save(profileDetails)
-    category = await createCategory("Category 1", profile)
-
-    transactions = await Promise.all([
-      createTransaction(category, profile, {
-        created: new Date(`${new Date().getFullYear()}-01-01`),
-      }),
-      createTransaction(category, profile, {
-        created: new Date(`${new Date().getFullYear()}-01-01`),
-      }),
-      createTransaction(category, profile, {
-        created: new Date(`${new Date().getFullYear()}-02-01`),
-      }),
-      createTransaction(category, profile, {
-        created: new Date(`${new Date().getFullYear()}-02-01`),
-      }),
-    ])
-
-    done()
-  })
-
   describe("GET /profile/:id/transactions", () => {
     test("when no pagination provided, it returns a list of max. 10 transactions", async (done) => {
       request(server)
@@ -62,7 +60,7 @@ describe("Profile Transactions", () => {
         .expect(200)
         .then((response) => {
           expect(response.body.length).toEqual(4)
-          expect(response.body[0].category.id).toEqual(category.id)
+          expect(response.body[0].Category.id).toEqual(category.id)
           done()
         })
     })
@@ -73,7 +71,7 @@ describe("Profile Transactions", () => {
         .expect(200)
         .then((response) => {
           expect(response.body.length).toEqual(1)
-          expect(response.body[0].id).toEqual(5)
+          expect(response.body[0].id).toEqual(transactions[3].id)
           done()
         })
     })
@@ -88,7 +86,7 @@ describe("Profile Transactions", () => {
         .expect(200)
         .then((response) => {
           expect(response.body.length).toEqual(2)
-          expect(response.body[0].id).toEqual(5)
+          expect(response.body[0].id).toEqual(transactions[1].id)
           done()
         })
     })
@@ -104,7 +102,6 @@ describe("Profile Transactions", () => {
         currency: "EUR",
         categoryId: category.id,
       }
-
       request(server)
         .post(`/profile/${profile.id}/transactions`)
         .send(payload)
@@ -129,7 +126,6 @@ describe("Profile Transactions", () => {
         currency: "EUR",
         categoryId: category.id,
       }
-
       request(server)
         .post(`/profile/${profile.id}/transactions`)
         .send(payload)
@@ -150,14 +146,6 @@ describe("Profile Transactions", () => {
     })
 
     test("it creates a transaction", async (done) => {
-      let profileDetails = {
-        balance: 20.59,
-        email: "cool_kid@looserville.com",
-        currency: "EUR",
-      }
-      let profileRepository = getRepository(Profile)
-      let profile = await profileRepository.save(profileDetails)
-
       let payload: any = {
         amount: 10,
         description: "This is a awesome purchase",
@@ -167,44 +155,17 @@ describe("Profile Transactions", () => {
         currency: "EUR",
         categoryId: category.id,
       }
-
       request(server)
         .post(`/profile/${profile.id}/transactions`)
         .send(payload)
         .expect(200)
         .then(async (response) => {
-          let lastTransactionQuery: Transaction[] = await getRepository(
-            Transaction
-          ).find({
-            order: {
-              id: "DESC",
-            },
-            take: 1,
-          })
-          let lastTransaction: Transaction = lastTransactionQuery[0]
+          let latestTransactions: any = await getTransactions(prisma)
+          let lastTransaction: any = latestTransactions[0]
 
-          expect(response.body).toEqual({
-            id: lastTransaction.id,
-            profile: {
-              id: profile.id,
-              email: "cool_kid@looserville.com",
-              balance: 20.59,
-              currency: "EUR",
-            },
-            categoryId: category.id,
-            category: {
-              id: category.id,
-              name: "Category 1",
-            },
-            description: "This is a awesome purchase",
-            day: 2,
-            amount: 10,
-            recurring: true,
-            recurringType: "monthly",
-            currency: "EUR",
-            created: lastTransaction.created.toISOString(),
-            updated: lastTransaction.updated.toISOString(),
-          })
+          expect(response.body.id).toEqual(lastTransaction.id)
+          expect(response.body.categoryId).toEqual(category.id)
+          expect(response.body.profileId).toEqual(profile.id)
           done()
         })
     })

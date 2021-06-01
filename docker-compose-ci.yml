@@ -6,14 +6,20 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
   app:
-    image: "finanzer:0.0.37"
-    environment:
-      NODE_ENV: "production"
-      PORT: "3000"
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/finanzer_production?schema=public"
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      target: ci
+    volumes:
+      - "app:/usr/src/app"
+    env_file:
+      - .env.sample
     ports:
       - 3000:3000
     depends_on:
       - db
+
+volumes:
+  app:

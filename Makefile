@@ -1,11 +1,14 @@
-image=finanzer:0.0.37
+image=finanzer:0.0.38
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
 deploy_auth=${DEPLOY_AUTH}
 deploy_action_url=${DEPLOY_ACTION_URL}
 
-setup: build dependencies
+setup: build dependencies migrate
+
+migrate:
+	docker-compose run --rm app npx prisma migrate dev
 
 dependencies:
 	docker-compose run --rm app npm install --include=dev
@@ -27,21 +30,21 @@ rmdocs:
 	echo {} > api-docs/server.json
 
 spec:
-	rm -f db/test.sqlite
 	rm -f uploads/*
-	docker-compose run --rm app npm test
+	docker-compose -f docker-compose.yml run --rm app npm test
 
-prod_spec:
-	rm -f test.sqlite
+ci_spec:
 	rm -f uploads/*
 	cp .env.sample .env
-	docker-compose run --rm app npm test
+	docker-compose -f docker-compose-ci.yml build app
+	docker-compose -f docker-compose-ci.yml run --rm app npx prisma migrate dev
+	docker-compose -f docker-compose-ci.yml run --rm app npm test
 
 prod_shell:
 	docker-compose -f docker-compose-prod.yml run --rm app ash
 
 prod_run:
-	docker-compose -f docker-compose-prod.yml up
+	docker-compose -f docker-compose-prod.yml up -d && docker-compose logs -f app
 
 prod_deploy: prod_build prod_push
 

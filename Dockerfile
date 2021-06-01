@@ -1,26 +1,23 @@
-FROM node:15.13-alpine as base
-
-RUN npm install -g npm@7.11.2
-
-RUN apk add sqlite
+FROM node:14.17-alpine as base
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-FROM base as dev
+FROM base as dependencies
 
-RUN npm install -g typescript tslint
+RUN npm install -g jest prisma ts-node nodemon
+RUN npm install -D typescript tslint ts-jest typeorm
 
 RUN mkdir -p uploads
 
-RUN npm install -g ts-jest typeorm ts-node
+FROM dependencies as ci
 
-RUN npm install --save-dev sqlite3 jest nodemon
+COPY . .
+
+RUN npm install
 
 FROM base as builder
-
-RUN npm install -g typescript tslint
 
 COPY . .
 
@@ -30,9 +27,12 @@ RUN npm run build
 
 FROM base as prod
 
+RUN npm install -g prisma
+
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=builder /usr/src/app/dist /usr/src/app/dist
 COPY --from=builder /usr/src/app/api-docs /usr/src/app/api-docs
+COPY --from=builder /usr/src/app/prisma /usr/src/app/prisma
 
 RUN mkdir -p dist/uploads
 

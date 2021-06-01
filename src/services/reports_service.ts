@@ -1,5 +1,4 @@
-import { getRepository } from "typeorm"
-import { Transaction } from "../entity/Transaction"
+import { filterTransactions, transactionsFromDate } from "./transaction_service"
 
 interface IDictionary<TValue> {
   [id: string]: TValue
@@ -12,7 +11,7 @@ type TransactionSummary = {
   expenses: number
 }
 
-export const expensesByCategory = async (profileId: number) => {
+export const expensesByCategory = async (prisma: any, profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
     .toISOString()
     .split("T")[0]
@@ -24,47 +23,41 @@ export const expensesByCategory = async (profileId: number) => {
     .toISOString()
     .split("T")[0]
 
-  const transactions = await getRepository(Transaction)
-    .createQueryBuilder("transaction")
-    .where(
-      "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
-      { profileId, startDate, endDate }
-    )
-    .leftJoinAndSelect("transaction.category", "categories")
-    .getMany()
+  const transactions = await filterTransactions(
+    prisma,
+    profileId,
+    startDate,
+    endDate,
+    0,
+    1000
+  )
 
   const result: IDictionary<any> = {}
 
-  transactions.forEach((transaction) => {
-    if (transaction.amount < 0 && transaction.category != null) {
-      if (result[transaction.category.name.toLowerCase()] === undefined) {
-        result[transaction.category.name.toLowerCase()] = 0
+  transactions.forEach((transaction: any) => {
+    if (transaction.amount < 0 && transaction.Category != null) {
+      if (result[transaction.Category.name.toLowerCase()] === undefined) {
+        result[transaction.Category.name.toLowerCase()] = 0
       }
-      result[transaction.category.name.toLowerCase()] += transaction.amount / -1
+      result[transaction.Category.name.toLowerCase()] += transaction.amount / -1
     }
   })
 
   return result
 }
 
-export const incomeExpenses = async (profileId: number) => {
+export const incomeExpenses = async (prisma: any, profileId: string) => {
   const startDate = new Date(new Date().getFullYear(), 0, 1)
     .toISOString()
     .split("T")[0]
 
-  const transactions = await getRepository(Transaction)
-    .createQueryBuilder("transaction")
-    .where(
-      "transaction.profileId = :profileId AND transaction.created >= :startDate",
-      { profileId, startDate }
-    )
-    .getMany()
+  const transactions = await transactionsFromDate(prisma, profileId, startDate)
 
   const summarized: TransactionSummary[] = []
 
-  transactions.forEach((transaction) => {
-    const transactionYear = transaction.created.getFullYear()
-    const transactionMonth = transaction.created.getMonth() + 1
+  transactions.forEach((transaction: any) => {
+    const transactionYear = transaction.createdAt.getFullYear()
+    const transactionMonth = transaction.createdAt.getMonth() + 1
     const summaryIndex: number = summarized.findIndex(
       (summary: TransactionSummary) => {
         return (

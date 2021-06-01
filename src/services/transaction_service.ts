@@ -1,56 +1,96 @@
-import { getRepository } from "typeorm"
-
-import { Profile } from "../entity/Profile"
-import { Transaction } from "../entity/Transaction"
-import { Category } from "../entity/Category"
-
-export interface TransactionDetails {
-  amount?: number
-  day?: number
-  recurring?: boolean
-  description?: string
-  recurringType?: string
-  currency?: string
-  created?: Date
-  updated?: Date
-  profile?: Profile
-  category?: Category
-}
-const repository = () => {
-  return getRepository(Transaction)
-}
-
 export const filterTransactions = (
-  profileId: number,
+  prisma: any,
+  profileId: string,
   startDate: string,
   endDate: string,
   offset: number,
   limit: number
 ) => {
-  return repository()
-    .createQueryBuilder("transaction")
-    .where(
-      "transaction.profileId = :profileId AND transaction.created >= :startDate AND transaction.created <= :endDate",
-      { profileId, startDate, endDate }
-    )
-    .leftJoinAndSelect("transaction.category", "categories")
-    .limit(limit)
-    .offset(offset * limit)
-    .getMany()
+  return prisma.transaction.findMany({
+    where: {
+      profileId,
+      createdAt: {
+        gte: new Date(startDate),
+        lte: new Date(endDate),
+      },
+    },
+    include: {
+      Category: true,
+    },
+    orderBy: [{ createdAt: "desc" }],
+    take: limit,
+    skip: offset * limit,
+  })
 }
 
-export const newTransaction = (transactionDetails: TransactionDetails) => {
-  return repository().create(transactionDetails)
+export const transactionsFromDate = (
+  prisma: any,
+  profileId: string,
+  startDate: string
+) => {
+  return prisma.transaction.findMany({
+    where: {
+      profileId,
+      createdAt: {
+        gt: new Date(startDate),
+      },
+    },
+  })
 }
 
-export const createTransaction = (transactionDetails: TransactionDetails) => {
-  return repository()
-    .save(transactionDetails)
-    .then((transaction: Transaction) => {
-      return transaction
-    })
+export const getTransactions = (prisma: any) => {
+  return prisma.transaction.findMany({ orderBy: [{ createdAt: "desc" }] })
 }
 
-export const bulkSaveTransactions = async (transactions: Transaction[]) => {
-  return repository().save(transactions)
+export const getTransaction = (prisma: any, transactionId: string) => {
+  return prisma.transaction.findFirst({ where: { id: transactionId } })
+}
+
+export const newTransaction = (prisma: any, transactionDetails: any) => {
+  return prisma.transaction.create({ data: transactionDetails })
+}
+
+export const createTransaction = (
+  prisma: any,
+  profileId: any,
+  categoryId: any,
+  transactionDetails: any
+) => {
+  transactionDetails.Profile = { connect: { id: profileId } }
+  if (categoryId) {
+    transactionDetails.Category = { connect: { id: categoryId } }
+  }
+  return prisma.transaction.create({
+    data: transactionDetails,
+  })
+}
+
+export const updateTransaction = (
+  prisma: any,
+  profileId: string,
+  categoryId: string,
+  transactionId: string,
+  transactionDetails: any
+) => {
+  transactionDetails.Profile = { connect: { id: profileId } }
+  if (categoryId) {
+    transactionDetails.Category = { connect: { id: categoryId } }
+  }
+
+  return prisma.transaction.update({
+    where: { id: transactionId },
+    data: transactionDetails,
+  })
+}
+
+export const deleteTransaction = (prisma: any, transactionId: string) => {
+  return prisma.transaction.delete({ where: { id: transactionId } })
+}
+
+export const deleteManyTransactions = (prisma: any) => {
+  return prisma.transaction.deleteMany()
+}
+
+export const bulkSaveTransactions = async (prisma: any, transactions: any) => {
+  return prisma.transaction.createMany({ data: transactions })
 }
