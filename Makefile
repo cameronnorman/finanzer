@@ -1,4 +1,4 @@
-image=finanzer:0.0.37
+image=finanzer:0.0.38
 docker_repo=${DOCKER_REPO}
 docker_repo_username=${DOCKER_REPO_USERNAME}
 docker_repo_password=${DOCKER_REPO_PASSWORD}
