@@ -1,12 +1,19 @@
 version: "3.7"
 
 services:
+  db:
+    image: "postgres:13-alpine"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "db:/var/lib/postgresql/data"
   app:
     stdin_open: true
     tty: true
     build:
       context: .
-      target: dev
+      target: dependencies
     volumes:
       - "./:/usr/src/app"
       - "node_modules:/usr/src/app/node_modules"
@@ -15,6 +22,9 @@ services:
     ports:
       - 3000:3000
     command: "npm run watch-dev"
+    depends_on:
+      - db
 
 volumes:
   node_modules:
+  db:

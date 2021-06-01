@@ -1,54 +1,47 @@
-import { Profile } from "../entity/Profile"
-import { Category } from "../entity/Category"
-import { getRepository } from "typeorm"
-
-export interface CategoryDetails {
-  name: string
-  profile: Profile
+export const getAllCategories = async (prisma: any, profileId: string) => {
+  const categories = await prisma.category.findMany({
+    where: { profileId },
+  })
+  return categories
 }
 
-export const getAll = async (profileId: string) => {
-  const profileRepository = await getRepository(Profile)
-  const profile = await profileRepository.findOne({
-    where: { id: profileId },
-    relations: ["categories"],
+export const getCategory = async (prisma: any, categoryId: string) => {
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId },
   })
 
-  if (!profile) {
-    throw new Error("Profile not found")
-  }
-
-  return profile.categories
-}
-
-export const getCategory = async (categoryId: string) => {
-  const categoryRepository = await getRepository(Category)
-  const category = await categoryRepository.findOne(categoryId)
   return category
 }
 
-export const create = async (profileId: string, categoryParams: any) => {
-  const profileRepository = await getRepository(Profile)
-  const profile = await profileRepository.findOne(profileId)
-
-  const categoryRepository = await getRepository(Category)
-  const categoryDetails: CategoryDetails = {
-    name: categoryParams.name,
-    profile,
-  }
-  const category = categoryRepository.save(categoryDetails)
+export const createCategory = async (
+  prisma: any,
+  profileId: string,
+  categoryParams: any
+) => {
+  const category = await prisma.category.create({
+    data: { ...categoryParams, Profile: { connect: { id: profileId } } },
+  })
 
   return category
 }
 
-export const update = async (categoryId: string, categoryDetails: any) => {
-  const categoryRepository = await getRepository(Category)
-  await categoryRepository.update(categoryId, { name: categoryDetails.name })
+export const updateCategory = async (
+  prisma: any,
+  categoryId: string,
+  categoryDetails: any
+) => {
+  const updatedCategory = prisma.category.update({
+    where: { id: categoryId },
+    data: categoryDetails,
+  })
 
-  return categoryRepository.findOne({ where: { id: categoryId } })
+  return updatedCategory
 }
 
-export const destroy = async (categoryId: string) => {
-  const categoryRepository = await getRepository(Category)
-  return categoryRepository.delete(categoryId)
+export const destroyCategory = async (prisma: any, categoryId: string) => {
+  await prisma.category.delete({ where: { id: categoryId } })
+}
+
+export const deleteManyCategories = (prisma: any) => {
+  return prisma.category.deleteMany()
 }

@@ -13,8 +13,19 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
       }
     },
     "/profile/{id}": {
@@ -30,8 +41,51 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "e5f7169a-5ed7-4b43-8b0f-909baae90ab3"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>UnauthorizedError: jwt expired<br> &nbsp; &nbsp;at /usr/src/app/node_modules/express-jwt/lib/index.js:105:22<br> &nbsp; &nbsp;at /usr/src/app/node_modules/jsonwebtoken/verify.js:152:16<br> &nbsp; &nbsp;at getSecret (/usr/src/app/node_modules/jsonwebtoken/verify.js:90:14)<br> &nbsp; &nbsp;at Object.module.exports [as verify] (/usr/src/app/node_modules/jsonwebtoken/verify.js:94:10)<br> &nbsp; &nbsp;at verifyToken (/usr/src/app/node_modules/express-jwt/lib/index.js:103:13)<br> &nbsp; &nbsp;at nextTask (/usr/src/app/node_modules/async/dist/async.js:4576:27)<br> &nbsp; &nbsp;at next (/usr/src/app/node_modules/async/dist/async.js:4584:13)<br> &nbsp; &nbsp;at /usr/src/app/node_modules/async/dist/async.js:321:20<br> &nbsp; &nbsp;at /usr/src/app/node_modules/jwks-rsa/src/integrations/express.js:32:9<br> &nbsp; &nbsp;at processTicksAndRejections (node:internal/process/task_queues:94:5)</pre>\n</body>\n</html>\n"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html",
+          "application/json"
+        ]
       },
       "put": {
         "summary": "/profile/{id}",
@@ -45,8 +99,72 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "6f0ce235-5fe0-40e3-9baa-1f3ccbc4e886"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 50
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string"
+                      },
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "value": "euros",
+                      "msg": "Invalid value",
+                      "param": "currency",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/profile": {
@@ -56,8 +174,48 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "e5f7169a-5ed7-4b43-8b0f-909baae90ab3"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Unable to create profile. Profile already exists"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/profile/by_email/{email}": {
@@ -73,8 +231,36 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "a768fec8-e55b-4b25-86e3-66fd17fcaf84"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "cameronrossnorman@gmail.com"
+                },
+                "balance": {
+                  "type": "number",
+                  "example": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/profile/{id}/categories": {
@@ -87,11 +273,58 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "1d3353a7-e882-4bb0-9bd5-489e571b3df9"
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "profileId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  },
+                  "updatedAt": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Connection \"default\" was not found.",
+              "type": "undefined"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
+        ]
       },
       "post": {
         "summary": "/profile/{id}/categories",
@@ -102,11 +335,111 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "1d3353a7-e882-4bb0-9bd5-489e571b3df9"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Subscriptions"
+                }
+              }
+            }
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "6eabf04d-e7e0-4b01-bf61-c0d88ae62c33"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Subscriptions"
+                },
+                "profileId": {
+                  "type": "string",
+                  "example": "6f0ce235-5fe0-40e3-9baa-1f3ccbc4e886"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2021-05-14T09:03:02.763Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-05-14T09:03:02.763Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "name",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Unable to create profile. Profile already exists"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
+        ]
       }
     },
     "/profile/{id}/categories/{category_id}": {
@@ -139,16 +472,56 @@
           {
             "name": "id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "1d3353a7-e882-4bb0-9bd5-489e571b3df9"
           },
           {
             "name": "category_id",
             "in": "path",
-            "required": true
+            "required": true,
+            "type": "string",
+            "example": "6d3a2b89-006b-47c5-bcbf-e584eb9ca7c3"
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Category successfully deleted"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Category not found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "authorization": []
+          }
+        ]
       }
     },
     "/profile/{id}/transactions/bulk": {
@@ -181,8 +554,19 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       },
       "post": {
         "summary": "/profile/{id}/transactions",
@@ -196,8 +580,114 @@
             "required": true
           }
         ],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "03a140ff-686a-44e8-afa0-298805bd9c7b"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "On That Ass - Underwear subscription"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": -10.99
+                },
+                "recurring": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "recurringType": {
+                  "type": "string",
+                  "example": "monthly"
+                },
+                "day": {
+                  "type": "number",
+                  "example": 12
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "EUR"
+                },
+                "profileId": {
+                  "type": "string",
+                  "example": "6f0ce235-5fe0-40e3-9baa-1f3ccbc4e886"
+                },
+                "categoryId": {
+                  "type": "string",
+                  "example": "6eabf04d-e7e0-4b01-bf61-c0d88ae62c33"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2021-05-14T09:05:43.622Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-05-14T09:05:43.622Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "msg": {
+                        "type": "string"
+                      },
+                      "param": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "msg",
+                      "param",
+                      "location"
+                    ]
+                  },
+                  "example": [
+                    {
+                      "msg": "Invalid value",
+                      "param": "recurring",
+                      "location": "body"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Category not found"
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json",
+          "text/html"
+        ]
       }
     },
     "/profile/{id}/reports/expenses_by_category": {
@@ -228,6 +718,13 @@
                   "example": 300
                 }
               }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
             }
           }
         },
@@ -277,6 +774,13 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "title": "Profile not found",
+              "type": "undefined"
+            }
           }
         },
         "tags": [],
@@ -287,5 +791,16 @@
     }
   },
   "swagger": "2.0",
-  "tags": []
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "securityDefinitions": {
+    "authorization": {
+      "name": "authorization",
+      "in": "header",
+      "type": "apiKey"
+    }
+  }
 }
