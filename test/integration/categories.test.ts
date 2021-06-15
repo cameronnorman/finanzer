@@ -3,11 +3,11 @@ import { createServer } from "../../src/app"
 import prisma from "../../src/client"
 import {
   createCategory,
-  deleteManyCategories,
+  deleteManyCategories
 } from "../../src/services/category_service"
 import {
   createProfile,
-  deleteManyProfiles,
+  deleteManyProfiles
 } from "../../src/services/profile_service"
 
 let profile: any

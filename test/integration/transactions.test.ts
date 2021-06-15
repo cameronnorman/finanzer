@@ -4,11 +4,11 @@ import prisma from "../../src/client"
 import { createCategory } from "../../src/services/category_service"
 import {
   createProfile,
-  deleteManyProfiles,
+  deleteManyProfiles
 } from "../../src/services/profile_service"
 import {
   deleteManyTransactions,
-  getTransactions,
+  getTransactions
 } from "../../src/services/transaction_service"
 import { createTransactionFactory } from "../factories/transaction"
 let server: any

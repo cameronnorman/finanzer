@@ -7,9 +7,11 @@ import {
   getProfileByEmail,
   updateProfile,
 } from "../services/profile_service"
+import { createSettings } from "../services/settings_service"
 import initializeBulkTransactionRoutes from "./bulk_transactions"
 import initializeCategoriesRoutes from "./categories"
 import initializeReportsRoutes from "./reports"
+import initializeSettingsRoutes from "./settings"
 import initializeTransactionsRoutes from "./transactions"
 
 export const createProfilesRouter = (prisma: any) => {
@@ -19,7 +21,12 @@ export const createProfilesRouter = (prisma: any) => {
     "/:id",
     async (req: express.Request, res: express.Response, next: any) => {
       const profileId = req.params.id
-      const profile = await getProfile(prisma, profileId)
+      const includeWithProfile = {
+        transactions: false,
+        categories: false,
+        settings: true,
+      }
+      const profile = await getProfile(prisma, profileId, includeWithProfile)
       if (!profile) {
         return res.status(404).json("Profile not found")
       }
@@ -58,8 +65,9 @@ export const createProfilesRouter = (prisma: any) => {
 
       try {
         const profile = await createProfile(prisma, newProfile)
+        await createSettings(prisma, profile.id)
         return res.status(201).json(profile)
-      } catch {
+      } catch (e) {
         return res
           .status(422)
           .json({ error: "Unable to create profile. Profile already exists" })
@@ -97,6 +105,7 @@ export const createProfilesRouter = (prisma: any) => {
   router = initializeTransactionsRoutes(prisma, router)
   router = initializeReportsRoutes(prisma, router)
   router = initializeBulkTransactionRoutes(prisma, router)
+  router = initializeSettingsRoutes(prisma, router)
 
   return router
 }

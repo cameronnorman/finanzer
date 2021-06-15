@@ -6,12 +6,17 @@ import {
   deleteManyProfiles,
 } from "../../../src/services/profile_service"
 import {
+  createSettings,
+  deleteManySettings,
+} from "../../../src/services/settings_service"
+import {
   createTransaction,
   deleteManyTransactions,
 } from "../../../src/services/transaction_service"
 
 let server: any
 let profile: any
+let settings: any
 beforeAll(async (done) => {
   server = createServer(prisma)
   let profileDetails = {
@@ -20,6 +25,8 @@ beforeAll(async (done) => {
     currency: "EUR",
   }
   profile = await createProfile(prisma, profileDetails)
+  settings = await createSettings(prisma, profile.id)
+
   let transactions = [
     {
       description: "This is a awesome purchase",
@@ -55,8 +62,13 @@ beforeAll(async (done) => {
 afterAll(async (done) => {
   const deleteProfiles = deleteManyProfiles(prisma)
   const deleteTransactions = deleteManyTransactions(prisma)
+  const deleteSettings = deleteManySettings(prisma)
 
-  await prisma.$transaction([deleteProfiles, deleteTransactions])
+  await prisma.$transaction([
+    deleteProfiles,
+    deleteTransactions,
+    deleteSettings,
+  ])
   await prisma.$disconnect()
 
   done()
@@ -71,6 +83,7 @@ describe("GET /profile/:id", () => {
         expect(response.body.email).toEqual("cool_kid@looserville.com")
         expect(response.body.balance).toEqual(20.59)
         expect(response.body.currency).toEqual("EUR")
+        expect(response.body.settings.data).toEqual({ payment_day: 28 })
         done()
       })
   })

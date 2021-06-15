@@ -7,7 +7,7 @@ export interface ProfileDetails {
 export const getProfile = async (
   prisma: any,
   profileId: string,
-  include = { transactions: false, categories: false },
+  include = { transactions: false, categories: false, settings: false },
   getNetBalance = false
 ) => {
   const profile = await prisma.profile.findFirst({
