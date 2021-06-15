@@ -1,6 +1,6 @@
 import request from "supertest"
-import prisma from "../../client"
 import { createServer } from "../../src/app"
+import prisma from "../../src/client"
 import { createCategory } from "../../src/services/category_service"
 import {
   createProfile,

@@ -1,16 +1,14 @@
 import request from "supertest"
 import { createServer } from "../../../src/app"
-
+import prisma from "../../../src/client"
 import {
   createProfile,
   deleteManyProfiles,
 } from "../../../src/services/profile_service"
 import {
-  getTransactions,
-  deleteManyTransactions,
   createTransaction,
+  deleteManyTransactions,
 } from "../../../src/services/transaction_service"
-import prisma from "../../../client"
 
 let server: any
 let profile: any

@@ -1,9 +1,10 @@
-import prisma from "../../../client"
-import { createProfile } from "../../../src/services/profile_service"
-
 import request from "supertest"
 import { createServer } from "../../../src/app"
-import { deleteManyProfiles } from "../../../src/services/profile_service"
+import prisma from "../../../src/client"
+import {
+  createProfile,
+  deleteManyProfiles,
+} from "../../../src/services/profile_service"
 
 let server: any
 let profile: any
